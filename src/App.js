@@ -41,104 +41,112 @@ import { useEffect } from 'react';// This needs to be present in order to use th
 function App() {
 
 	/* Use the 'useState' hook to set initial state. */
-	const [name, setName] = useState('Barney Stinson');
-	const [meat, setMeat] = useState('');// Set a piece of state named 'meat' to a blank string.  To update that piece of state, run the 'setMeat()' function.
+	const [name, setName] = useState('Rusty Venture');
+	// const [meat, setMeat] = useState('');// Set a piece of state named 'meat' to a blank string.  To update that piece of state, run the 'setMeat()' function.
+	// const [data, setData] = useState('');// Set a piece of state named 'meat' to a blank string.  To update that piece of state, run the 'setMeat()' function.
 
 	/* Begin the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this runs only once (at startup). */
-	useEffect(() => {
+	// useEffect(() => {
 		
-		/* This is a simple test function, simply to print a message to the console. */
-		function handleStatusChange() {
-			console.log("Here is the API data:");
-		}
-		handleStatusChange();
+	// 	/* This is a simple test function, simply to print a message to the console. */
+	// 	function handleStatusChange() {
+	// 		// console.log("Here is the API data:");
+	// 	}
+	// 	handleStatusChange();
 	
-		/* Begin code to fetch API data. */
-		const proxyurl =
-			"https://cors-anywhere.herokuapp.com/";
-		var url =
-			"https://circular.giantfood.com/flyer_data/2545113?locale=en-US"; // site that doesn’t send Access-Control-*
+	// 	/* Begin code to fetch API data. */
+	// 	const proxyurl =
+	// 		"https://cors-anywhere.herokuapp.com/";
+	// 	var url =
+	// 		"https://circular.giantfood.com/flyer_data/2545113?locale=en-US"; // site that doesn’t send Access-Control-*
 
 
-		const url_api =
-			// "https://circular.giantfood.com/flyers/giantfood?type=2&use_requested_domain=true&show_shopping_list_integration=1"
-			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
+	// 	const url_api =
+	// 		// "https://circular.giantfood.com/flyers/giantfood?type=2&use_requested_domain=true&show_shopping_list_integration=1"
+	// 		"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
 
-		fetch(proxyurl + url_api) // https://cors-anywhere.herokuapp.com/https://example.com
-			.then(response => response.text())
-			.then(htmlStr => {
-				var str = htmlStr;
-				var pos = str.search("current_flyer_id");
-				var res = str.slice(pos + 18, pos + 25);
-				// console.log(res)
-				return res;
-			})
-			.then(id => {
-				// console.log(id);
+	// 	fetch(proxyurl + url_api) // https://cors-anywhere.herokuapp.com/https://example.com
+	// 		.then(response => response.text())
+	// 		.then(htmlStr => {
+	// 			var str = htmlStr;
+	// 			var pos = str.search("current_flyer_id");
+	// 			var res = str.slice(pos + 18, pos + 25);
+	// 			return res;
+	// 		})
+	// 		.then(id => {
 
-				url = "https://circular.giantfood.com/flyer_data/" + id + "?locale=en-US"
+	// 			url = "https://circular.giantfood.com/flyer_data/" + id + "?locale=en-US"
 
-				fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
-					// fetch("https://circular.giantfood.com/flyer_data/2505221?locale=en-US")
-					.then(function (response) {
-						return response.json();
-					})
-					.then(function (myJson) {
-						// for (const key of Object.keys(myJson.items)) {
-						// 	if (
-						// 		myJson.items[key][
-						// 		"category_names"
-						// 		][0] === "Meat" ||
-						// 		myJson.items[key][
-						// 		"category_names"
-						// 		][0] === "Deli"
-						// 	) {
-						// 		// var str =myJson.items[key]["display_name"];
-						// 		// var pos = str.search("hicken");
-						// 		// var pos = str.search(mymeat);
+	// 			fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
+	// 				// fetch("https://circular.giantfood.com/flyer_data/2505221?locale=en-US")
+	// 				.then(function (response) {
+	// 					return response.json();
+	// 				})
+	// 				.then(function (myJson) {
+	// 					// for (const key of Object.keys(myJson.items)) {
+	// 					// 	if (
+	// 					// 		myJson.items[key][
+	// 					// 		"category_names"
+	// 					// 		][0] === "Meat" ||
+	// 					// 		myJson.items[key][
+	// 					// 		"category_names"
+	// 					// 		][0] === "Deli"
+	// 					// 	) {
+	// 					// 		// var str =myJson.items[key]["display_name"];
+	// 					// 		// var pos = str.search("hicken");
+	// 					// 		// var pos = str.search(mymeat);
 
-						// 		// if (pos >= 0) {
-						// 			// console.log(key, myJson.items[key]);
-						// 		// }
-						// 	}
-						// }
-						var test = myJson;
-						console.log(myJson);
-						// return test;
-					})
-					.catch(() => console.log("Message from Carl's code:  can’t access " + url + " response. Blocked by browser?"));
-			});
+	// 					// 		// if (pos >= 0) {
+	// 					// 			// console.log(key, myJson.items[key]);
+	// 					// 		// }
+	// 					// 	}
+	// 					// }
+	// 					// console.log("testy");
+	// 					setData(myJson);
+	// 				})
+	// 				.catch(() => console.log("Message from Carl's code:  can’t access " + url + " response. Blocked by browser?"));
+	// 		});
 
 
-	/* End code to fetch API data. */
+	// /* End code to fetch API data. */
 	
-	},[]);//Note the empty array passed as the second input parameter.  This ensures everything inside 'useEffect' is executed only once.  If this second parameter is omitted, everything in 'useEffect' will be executed every time state is updated.
+	// },[]);//Note the empty array passed as the second input parameter.  This ensures everything inside 'useEffect' is executed only once.  If this second parameter is omitted, everything in 'useEffect' will be executed every time state is updated.
 
 	/* End the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this runs only once (at startup). */
-	
-	/* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes.*/
-	function handleInput(event) {
-		setMeat(event.target.value);
+
+
+	// function printData(namey) {
+	function printData() {
+		// setMeat(event.target.value);
+		console.log("test");
+		// console.log(namey);
 	}
+
+
+
+
+	/* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes.*/
+	// function handleInput(event) {
+	// 	setMeat(event.target.value);
+	// }
 
 
 	/* Everything inside this return() statement is executied whenever state is updated. */
 	return (
 		<div>
-			<p>Howdy, {name}</p>
-			{/* <MeatSelector /> */}
+			{/* <p>Howdy, {name}</p> */}
+			{/* {printData(data)} */}
+			{printData()}
 
-			<div>
+
+			{/* <div>
 				<label htmlFor="size-options">Select Meat: </label>
-				{/* <select name="sizeOptions" id="size-options" onChange={onMeatChange}> */}
-				{/* <select name="sizeOptions" id="size-options" > */}
-				{/* <select name="sizeOptions" id="size-options" onChange={() => setCount(count + 1)}> */}
 				<select name="sizeOptions" id="size-options" onChange={handleInput}>
 					<option>Beef</option>
 					<option>Chicken</option>
 					<option>Pork</option>
 				</select>
-			</div>
+			</div> */}
 		</div>
 	)
 }
