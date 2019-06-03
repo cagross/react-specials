@@ -134,19 +134,7 @@ function App() {
 	/* Everything inside this return() statement is executied whenever state is updated. */
 	return (
 		<div>
-			{/* <p>Howdy, {name}</p> */}
-			{/* {printData(data)} */}
 			{printData()}
-
-
-			{/* <div>
-				<label htmlFor="size-options">Select Meat: </label>
-				<select name="sizeOptions" id="size-options" onChange={handleInput}>
-					<option>Beef</option>
-					<option>Chicken</option>
-					<option>Pork</option>
-				</select>
-			</div> */}
 		</div>
 	)
 }
