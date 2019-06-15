@@ -1,9 +1,11 @@
-import React, { Component } from 'react';//This needs to be present in order to use React class components.  As of 3/5/19, I probably do not need it, since I plan to re-factor everything to use React hooks and functional components, instead of classes.
+// import React, { Component } from 'react';//This needs to be present in order to use React class components.  As of 3/5/19, I probably do not need it, since I plan to re-factor everything to use React hooks and functional components, instead of classes.
+
+import React from 'react';
 // import logo from './logo.svg';
 // import './App.css';
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
-const { useRef, useLayoutEffect } = React;
+// const { useRef, useLayoutEffect } = React;
 
 /* Begin example of a functional component--one that displays the meat selector and updates state.  ~28/4/19 I moved this functionality to the parent component.*/
 
@@ -62,7 +64,7 @@ function OutSpec(props) {
 		// if (Object.entries(sizes).length !== 0 && sizes.constructor === Object) {// Check if the sizes object has data.  If so, execute code.
 		if (typeof sizes.items == 'object') {// Check if  sizes.items has been set.  If so, execute code.
 
-			console.log("Print this");
+			// console.log("Print this");
 
 		
 			// console.log(typeof sizes.items);
@@ -90,16 +92,16 @@ function OutSpec(props) {
 							var pos = str.search(props.meat);
 
 							if (pos >= 0) {
-								console.log(key, sizes.items[key]["display_name"]);
+								// console.log(key, sizes.items[key]["display_name"]);
 								return (
-									<div>
+									<div key={key}>
 										<div>{myObject[key]['name']}</div>
 										<div>{myObject[key]['current_price']}</div>
 									</div>
 								);
-							}
+							} else return null;
 
-			}
+			} else return null;
 		});
 	}
 
@@ -182,9 +184,8 @@ function App(props) {
 
 
 	/* Use the 'useState' hook to set initial state. */
-	const [name, setName] = useState('Rusty Venture');
 	const [data, setData] = useState({});
-	const [meat, setMeat] = useState('default meat');// Set a piece of state named 'meat' to a blank string.  To update that piece of state, run the 'setMeat()' function.
+	const [meat, setMeat] = useState('');// Set a piece of state named 'meat' to a blank string.  To update that piece of state, run the 'setMeat()' function.
 
 	/* Begin the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this runs only once (at startup). */
 	useEffect(() => {
@@ -292,8 +293,6 @@ function App(props) {
 	/* Everything inside this return() statement is executed whenever state is updated. */
 	return (
 		<div>
-			<p>Howdy, {name}</p>
-			{/* <MeatSelector /> */}
 
 			<div>
 				<label htmlFor="size-options">Select Meat: </label>
