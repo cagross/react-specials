@@ -1,7 +1,7 @@
 // import React, { Component } from 'react';//This needs to be present in order to use React class components.  As of 3/5/19, I probably do not need it, since I plan to re-factor everything to use React hooks and functional components, instead of classes.
 import React from 'react';
 // import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
 
@@ -26,10 +26,29 @@ function OutSpec(props) {
 
 					if (pos >= 0) {
 						return (
-							<div key={key}>
-								<img alt = "product image not found" src={myObject[key]['dist_coupon_image_url']}></img>
-								<div>{myObject[key]['name']}</div>
-								<div>{myObject[key]['current_price']}</div>
+							<div className="item_row" key={key}>
+								{/* <img className="item_thumb" alt = "" src={myObject[key]['dist_coupon_image_url']}></img> */}
+								<img className="item_thumb" alt="" src={myObject[key]['x_large_image_url']}></img>
+								{/* <span className="item_name">{myObject[key]['name']}</span> */}
+								<div>
+									<span className="item_name">
+										{myObject[key]['name']}
+									</span>
+									<br />
+									<span className="item_desc">
+										{myObject[key]['description']}
+									</span>
+									<br />
+									<div className="item_disc">
+										{myObject[key]['disclaimer_text']}
+									</div>
+								</div>
+
+								<span className="item_price">
+									{/* {Number(myObject[key]['current_price'])}{myObject[key]['price_text']} */}
+									{myObject[key]['current_price']}{myObject[key]['price_text']}
+
+								</span>
 							</div>
 						);
 					} else return null;
@@ -104,20 +123,52 @@ function App(props) {
 
 	/* Everything inside this return() statement is executed whenever state is updated. */
 	return (
-		<div>
-			<div>
-				<label htmlFor="size-options">Select Meat: </label>
+		<div id="content">
+			<div className="filter">
+				{/* <label htmlFor="size-options">Select Meat: </label> */}
 				{/* <select name="sizeOptions" id="size-options" onChange={onMeatChange}> */}
 				{/* <select name="sizeOptions" id="size-options" > */}
 				{/* <select name="sizeOptions" id="size-options" onChange={() => setCount(count + 1)}> */}
-				<select name="sizeOptions" id="size-options" onChange={handleInput}>
+
+
+
+
+
+
+				{/* <select id="size-options" onChange={handleInput}>
 					<option>Beef</option>
 					<option>Chicken</option>
 					<option>Pork</option>
-				</select>
+				</select> */}
+
+
+				{/* <input type="radio" name="meaty" id="size-options" value="Beef" onChange={handleInput} /> Beef<br />
+				<input type="radio" name="meaty" id="size-options" value="Chicken" onChange={handleInput} /> Chicken<br />
+				<input type="radio" name="meaty" id="size-options" value="Pork" onChange={handleInput} /> Pork<br /> */}
+
+						
+				<label htmlFor="meatChoice1">
+					Beef<br />
+					<input type="radio" id="meatChoice1" name="meaty" value="Beef" onChange={handleInput} />
+				</label>
+				<label htmlFor="meatChoice2">
+					Chicken<br />
+					<input type="radio" id="meatChoice2" name="meaty" value="Chicken" onChange={handleInput} />
+				</label>
+				<label htmlFor="meatChoice3">
+					Pork<br />
+					<input type="radio" id="meatChoice3" name="meaty" value="Pork" onChange={handleInput} />
+				</label>
+						
+						
+						
+						
+						
+						
+						
 			</div>
 
-			<div id="output">
+			<div id="items_container">
 				<OutSpec meat={meat} data={data} />
 			</div>
 		</div>
