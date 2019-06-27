@@ -1,59 +1,149 @@
 // import React, { Component } from 'react';//This needs to be present in order to use React class components.  As of 3/5/19, I probably do not need it, since I plan to re-factor everything to use React hooks and functional components, instead of classes.
 import React from 'react';
 // import logo from './logo.svg';
+import img_beef from './images/beef-250.jpg';
+import img_chicken from './images/chicken-250.jpg';
+import img_ribs from './images/ribs-250.jpg';
+
 import './App.css';
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
 
 function OutSpec(props) {
 
+	
+	function form_price(unform_price) {
+		// console.log(Number(unform_price).toFixed(2));
+		return Number(unform_price).toFixed(2);
+		// return +unform_price.toFixed(2);
+
+
+	}
+	
 	function sizeOptions() {
 		var sizes = props.data;	
+
+		var j = 0;
+
+		var data_poultry = [
+			"chicken",
+			"roaster",
+			"turkey",
+			"duck",
+			"hen",
+			"goose"
+		];
+
+		var data_beef = [
+			"beef",
+			"steak",
+			"round",
+			"chuck",
+			"rump",
+			"mignon",
+			"frank",
+			// "bologna",
+			// "lunch meat",
+			"veal",
+			// "ground",
+			"roast",
+			"porterhouse",
+			"90 % lean"
+		];
+
+		var data_pork = [
+			"butt",
+			"ham",
+			"bacon",
+			// "rib",
+			"sausage",
+			"pork"
+		];
 
 		// if (Object.entries(sizes).length !== 0 && sizes.constructor === Object) {// Check if the sizes object is empty or not.  If it is not empty, execute code.
 		if (typeof sizes.items == 'object') {// Check if  sizes.items has been set.  If so, execute code.
 
-			console.log(sizes.items[0]);
+			console.log(sizes.items);
 
 			var myObject = sizes.items;
+			
 
 			return Object.keys(myObject).map(function (key, index) {
-			if (sizes.items[key]["category_names"][0] === "Meat" || 
-				sizes.items[key]["category_names"][0] === "Deli") {
-				
-					var str = sizes.items[key]["display_name"];
-					var pos = str.search(props.meat);
+				if (sizes.items[key]["category_names"][0] === "Meat" || 
+					sizes.items[key]["category_names"][0] === "Deli") {
+					
+						var str = sizes.items[key]["display_name"].toLowerCase();
+						
+						var pos;
+						var i;
+						
+						if (props.meat === "Poultry") {
+							// console.log(str);
+							for (i = 0;i < data_poultry.length;i++) {
+								pos = str.search(data_poultry[i]);
+								if (pos >= 0) {
+									// console.log(poultry[i]);
+									break;
+								}
+							}
+						} else if(props.meat === "Beef") {
+							// console.log(str);
+							for (i = 0; i < data_beef.length; i++) {
+								pos = str.search(data_beef[i]);
+								if (pos >= 0) {
+									break;
+								}
+							}
+						} else if (props.meat === "Pork") {
+							// console.log(str);
+							for (i = 0; i < data_pork.length; i++) {
+								pos = str.search(data_pork[i]);
+								if (pos >= 0) {
+									break;
+								}
+							}
+						} else {
+							pos = str.search(props.meat);
+							// console.log(props.meat + " " + pos);
+						}
+						
+						
+						// var pos = str.search(props.meat);
 
-					if (pos >= 0) {
-						return (
-							<div className="item_row" key={key}>
-								{/* <img className="item_thumb" alt = "" src={myObject[key]['dist_coupon_image_url']}></img> */}
-								<img className="item_thumb" alt="" src={myObject[key]['x_large_image_url']}></img>
-								{/* <span className="item_name">{myObject[key]['name']}</span> */}
-								<div>
-									<span className="item_name">
-										{myObject[key]['name']}
-									</span>
-									<br />
-									<span className="item_desc">
-										{myObject[key]['description']}
-									</span>
-									<br />
-									<div className="item_disc">
-										{myObject[key]['disclaimer_text']}
+						if (pos >= 0) {
+							j++;
+							// console.log(j);
+
+							return (
+								<div className="item_row" key={key}>
+									{/* <img className="item_thumb" alt = "" src={myObject[key]['dist_coupon_image_url']}></img> */}
+									<img className="item_thumb" alt="" src={myObject[key]['x_large_image_url']}></img>
+									{/* <span className="item_name">{myObject[key]['name']}</span> */}
+									<div>
+										<span className="item_name">
+											{myObject[key]['name']}
+										</span>
+										<br />
+										<span className="item_desc">
+											{myObject[key]['description']}
+										</span>
+										<br />
+										<div className="item_disc">
+											{myObject[key]['disclaimer_text']}
+										</div>
+										<div className="item_ss">
+											{myObject[key]['sale_story']}
+										</div>
 									</div>
+
+									<span className="item_price">
+										${form_price(myObject[key]['current_price'])}{myObject[key]['price_text']}
+									</span>
 								</div>
-
-								<span className="item_price">
-									{/* {Number(myObject[key]['current_price'])}{myObject[key]['price_text']} */}
-									{myObject[key]['current_price']}{myObject[key]['price_text']}
-
-								</span>
-							</div>
-						);
+							);
+						} else return null;
 					} else return null;
-				} else return null;
-			});
+				});
 		}
 	}
 
@@ -125,41 +215,58 @@ function App(props) {
 	return (
 		<div id="content">
 			<div className="filter">
-				{/* <label htmlFor="size-options">Select Meat: </label> */}
-				{/* <select name="sizeOptions" id="size-options" onChange={onMeatChange}> */}
-				{/* <select name="sizeOptions" id="size-options" > */}
-				{/* <select name="sizeOptions" id="size-options" onChange={() => setCount(count + 1)}> */}
 
-
-
-
-
-
-				{/* <select id="size-options" onChange={handleInput}>
-					<option>Beef</option>
-					<option>Chicken</option>
-					<option>Pork</option>
-				</select> */}
-
-
-				{/* <input type="radio" name="meaty" id="size-options" value="Beef" onChange={handleInput} /> Beef<br />
-				<input type="radio" name="meaty" id="size-options" value="Chicken" onChange={handleInput} /> Chicken<br />
-				<input type="radio" name="meaty" id="size-options" value="Pork" onChange={handleInput} /> Pork<br /> */}
-
-						
-				<label htmlFor="meatChoice1">
+					
+				{/* <label htmlFor="meatChoice1">
 					Beef<br />
-					<input type="radio" id="meatChoice1" name="meaty" value="Beef" onChange={handleInput} />
+					<input type="radio" id="meatChoice1" name="meaty" value="Beef" className="radio" onChange={handleInput} />
 				</label>
+			
 				<label htmlFor="meatChoice2">
-					Chicken<br />
-					<input type="radio" id="meatChoice2" name="meaty" value="Chicken" onChange={handleInput} />
+					Poultry<br />
+					<input type="radio" id="meatChoice2" name="meaty" value="Poultry" className="radio" onChange={handleInput} />
 				</label>
+
 				<label htmlFor="meatChoice3">
 					Pork<br />
-					<input type="radio" id="meatChoice3" name="meaty" value="Pork" onChange={handleInput} />
-				</label>
+					<input type="radio" id="meatChoice3" name="meaty" value="Pork" className="radio" onChange={handleInput} />
+				</label> */}
 						
+
+
+
+
+
+				<div className="rad-lab" >
+					<label htmlFor="meatChoice1">
+						<img className="rad-lab-img" src={img_beef}>
+						</img>
+					</label>
+					<input type="radio" id="meatChoice1" name="meaty" value="Beef" className="radio" onChange={handleInput} />
+					<label className="rad-lab-txt" htmlFor="meatChoice1">
+						Beef
+					</label>
+				</div>
+				<div className="rad-lab" >
+					<label htmlFor="meatChoice2">
+						<img className="rad-lab-img" src={img_chicken}>
+						</img>
+					</label>
+					<input type="radio" id="meatChoice2" name="meaty" value="Poultry" className="radio" onChange={handleInput} />
+					<label className="rad-lab-txt" htmlFor="meatChoice2">
+						Chicken
+					</label>
+				</div>
+				<div className="rad-lab" >
+					<label htmlFor="meatChoice3">
+						<img className="rad-lab-img" src={img_ribs}>
+						</img>
+					</label>
+					<input type="radio" id="meatChoice3" name="meaty" value="Pork" className="radio" onChange={handleInput} />
+					<label className="rad-lab-txt" htmlFor="meatChoice3">
+						Pork
+					</label>
+				</div>
 						
 						
 						
