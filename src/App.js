@@ -1,5 +1,9 @@
+// import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
+// var ReactCSSTransitionGroup = require('react-addons-css-transition-group'); // ES5 with npm
 // import React, { Component } from 'react';//This needs to be present in order to use React class components.  As of 3/5/19, I probably do not need it, since I plan to re-factor everything to use React hooks and functional components, instead of classes.
 import React from 'react';
+import {CSSTransition} from 'react-transition-group'
+
 // import logo from './logo.svg';
 import img_meat from './images/all-meat-250.jpg';
 import img_beef from './images/beef-250.jpg';
@@ -9,6 +13,8 @@ import img_ribs from './images/ribs-250.jpg';
 
 
 import './App.css';
+import './animate.css';
+
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
 
@@ -87,108 +93,131 @@ function OutSpec(props) {
 /* End code to create a new object containing only 'meat' and 'deli' items. */
 
 			return Object.keys(myObject).map(function (key, index) {
-				if (myObject[key]["category_names"][0] === "Meat" || 
-					myObject[key]["category_names"][0] === "Deli") {
+				// if (myObject[key]["category_names"][0] === "Meat" || myObject[key]["category_names"][0] === "Deli") {
+					var str = myObject[key]["display_name"].toLowerCase();
 					
-						var str = myObject[key]["display_name"].toLowerCase();
-						
-						var pos;
-						var i
-						// var j = 0;
-						j++;
-						// console.log(j);
+					var pos;
+					var i
+					// var j = 0;
+					j++;
+					// console.log(j);
 
 						
-						if (props.meat === "Poultry") {
-							// console.log(str);
-							for (i = 0;i < data_poultry.length;i++) {
-								pos = str.search(data_poultry[i]);
-								if (pos >= 0) {
-									// console.log(poultry[i]);
-									break;
-								}
+					if (props.meat === "Poultry") {
+						// console.log(str);
+						for (i = 0;i < data_poultry.length;i++) {
+							pos = str.search(data_poultry[i]);
+							if (pos >= 0) {
+								// console.log(poultry[i]);
+								break;
 							}
-						} else if(props.meat === "Beef") {
-							// console.log(str);
-							for (i = 0; i < data_beef.length; i++) {
-								pos = str.search(data_beef[i]);
-								if (pos >= 0) {
-									break;
-								}
-							}
-						} else if (props.meat === "Pork") {
-							// console.log(str);
-							for (i = 0; i < data_pork.length; i++) {
-								pos = str.search(data_pork[i]);
-								if (pos >= 0) {
-									break;
-								}
-							}
-						} else {
-							pos = str.search(props.meat);
-							// console.log(props.meat + " " + pos);
 						}
+					} else if(props.meat === "Beef") {
+						// console.log(str);
+						for (i = 0; i < data_beef.length; i++) {
+							pos = str.search(data_beef[i]);
+							if (pos >= 0) {
+								break;
+							}
+						}
+					} else if (props.meat === "Pork") {
+						// console.log(str);
+						for (i = 0; i < data_pork.length; i++) {
+							pos = str.search(data_pork[i]);
+							if (pos >= 0) {
+								break;
+							}
+						}
+					} else {
+						pos = str.search(props.meat);
+						// console.log(props.meat + " " + pos);
+					}
 						
 						
-						// var pos = str.search(props.meat);
+					// var pos = str.search(props.meat);
 
-						if (pos >= 0) {
-							// j++;
-							// console.log(j);
-							// <ReactTransitionGroup.TransitionGroup>
-
-
-							return (
-								
-
-								<div className="item_row" key={key}>
+					if (pos >= 0) {
+						// j++;
+						// console.log(j);
+						// <ReactTransitionGroup.TransitionGroup>
 
 
-									{/* <ReactTransitionGroup.CSSTransition
-										key={person.id}
-										classNames={{
-											enter: "animated",
-											enterActive: "zoomIn",
-											exit: "animated",
-											exitActive: "zoomOut"
-										}} */}
-
-									<img className="item_thumb" alt="" src={myObject[key]['x_large_image_url']}></img>
-
-{/* </ReactTransitionGroup.CSSTransition> */}
+						return (
+							
 
 
 
-									<div>
-										<span className="item_name">
-											{myObject[key]['name']}
-										</span>
-										<br />
-										<span className="item_desc">
-											{myObject[key]['description']}
-										</span>
-										<br />
-										<div className="item_disc">
-											{myObject[key]['disclaimer_text']}
-										</div>
-										<div className="item_ss">
-											{myObject[key]['sale_story']}
-										</div>
-									</div>
 
-									<span className="item_price">
-										${form_price(myObject[key]['current_price'])}{myObject[key]['price_text']}
+							<CSSTransition
+								in={true}
+								appear={true}
+								timeout={1300}
+								classNames="fade"
+								key={key}
+							>
+
+
+
+
+
+
+
+							{/* <div className="item_row" key={key}> */}
+								<div className="item_row" >
+
+
+								<img className="item_thumb" alt="" src={myObject[key]['x_large_image_url']}></img>
+
+
+
+
+
+								<div>
+									<span className="item_name">
+										{myObject[key]['name']}
 									</span>
+									<br />
+									<span className="item_desc">
+										{myObject[key]['description']}
+									</span>
+									<br />
+									<div className="item_disc">
+										{myObject[key]['disclaimer_text']}
+									</div>
+									<div className="item_ss">
+										{myObject[key]['sale_story']}
+									</div>
 								</div>
-								
-							);
-							{/* </ReactTransitionGroup.TransitionGroup> */}
-						} else return null;
-					// } else return null;
+
+								<span className="item_price">
+									${form_price(myObject[key]['current_price'])}{myObject[key]['price_text']}
+								</span>
+							</div>
+						
+						
+
+
+
+
+
+
+
+</CSSTransition>
+
+
+
+
+
+
+
+
+						);
+						{/* </ReactTransitionGroup.TransitionGroup> */}
 					} else return null;
+				// } else return null;
 
 
-				});
+			});
 		}
 	}
 
@@ -268,7 +297,9 @@ function App(props) {
 
 				console.log(testy);
 
-				return stuffy;
+				// return stuffy;
+				return testy;
+
 			})
 			.then(function (myJson) {
 				console.log("API data loaded.");
@@ -299,6 +330,7 @@ function App(props) {
 
 	/* Everything inside this return() statement is executed whenever state is updated. */
 	return (
+
 		<div id="content">
 			<div className="filter">
 
@@ -353,10 +385,21 @@ function App(props) {
 						
 			</div>
 
+
+			
+
 			<div id="items_container">
+
+
+
 				<OutSpec meat={meat} data={data} />
+			
+			
+			
 			</div>
+		
 		</div>
+	
 	)
 }
 

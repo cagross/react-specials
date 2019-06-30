@@ -46,10 +46,28 @@ body {
     margin: auto;
 }
 
+.tb-wrapper {
+  width: 75%;
+  margin: auto;
+}
+
 #header {
     height: 150px;
-    background-color: yellowgreen;
+    /* background-color: yellowgreen; */
+    margin-top: 20px;
     margin-bottom: 20px;
+    /* border-radius: 15px; */
+    background-image: url("images/header-1-1428.jpg");
+    background-repeat: no-repeat;
+    /* filter:blur(5px); */
+    /* filter:brightness(50%) blur(5px); */
+
+
+}
+
+.topbar{
+  height: 50px;
+  background-color: aliceblue;
 }
 
 .filter {
@@ -232,4 +250,14 @@ body {
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
+}
+
+.fade-appear {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity 1300ms linear;
 }
