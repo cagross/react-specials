@@ -9,6 +9,8 @@ import img_meat from './images/all-meat-250.jpg';
 import img_beef from './images/beef-250.jpg';
 import img_chicken from './images/chicken-250.jpg';
 import img_ribs from './images/ribs-250.jpg';
+import logo_giant from './images/logo-Giant-50.png';
+
 
 
 
@@ -19,19 +21,15 @@ import { useState } from 'react';// This needs to be present in order to use the
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
 
 function OutSpec(props) {
+	// console.log("Initial data is:  ");
+	// console.log(props.data);
 
-	
 	function form_price(unform_price) {
-		// console.log(Number(unform_price).toFixed(2));
 		return Number(unform_price).toFixed(2);
-		// return +unform_price.toFixed(2);
-
-
 	}
 	
 	function sizeOptions() {
 		var sizes = props.data;	
-
 		var j = 0;
 
 		var data_poultry = [
@@ -42,7 +40,6 @@ function OutSpec(props) {
 			"hen",
 			"goose"
 		];
-
 		var data_beef = [
 			"beef",
 			"steak",
@@ -59,7 +56,6 @@ function OutSpec(props) {
 			"porterhouse",
 			"90 % lean"
 		];
-
 		var data_pork = [
 			"butt",
 			"ham",
@@ -68,17 +64,13 @@ function OutSpec(props) {
 			"sausage",
 			"pork"
 		];
-
 		// if (Object.entries(sizes).length !== 0 && sizes.constructor === Object) {// Check if the sizes object is empty or not.  If it is not empty, execute code.
-		// if (typeof sizes.items == 'object') {// Check if  sizes.items has been set.  If so, execute code.
 		if (typeof sizes == 'object') {// Check if  sizes.items has been set.  If so, execute code.
 
-			// var myObject = sizes.items;
 			var myObject = sizes;
+			// console.log(typeof(myObject[0]['valid_from']));
 
-			console.log(myObject);
-
-/* Begin code to create a new object containing only 'meat' and 'deli' items. */
+			/* Begin code to create a new object containing only 'meat' and 'deli' items. */
 			const filteredObjects = Object.keys(myObject).filter(key => {
 				if ((myObject[key]["category_names"][0] === "Meat") ||
 					myObject[key]["category_names"][0] === "Deli") {
@@ -89,90 +81,67 @@ function OutSpec(props) {
 			function myFunction(item) {
 				return myObject[item];
 			}
-			// console.log(test);
-/* End code to create a new object containing only 'meat' and 'deli' items. */
+			/* End code to create a new object containing only 'meat' and 'deli' items. */
 
+			console.log(test);
+			// console.log(typeof(test[0]['valid_from']));
+
+			// return Object.keys(test).map(function (key, index) {
+			
 			return Object.keys(myObject).map(function (key, index) {
-				// if (myObject[key]["category_names"][0] === "Meat" || myObject[key]["category_names"][0] === "Deli") {
-					var str = myObject[key]["display_name"].toLowerCase();
+				var str = myObject[key]["display_name"].toLowerCase();
+				// console.log(str);
+				
+				var pos;
+				var i
+
+				j++;
 					
-					var pos;
-					var i
-					// var j = 0;
-					j++;
-					// console.log(j);
-
-						
-					if (props.meat === "Poultry") {
-						// console.log(str);
-						for (i = 0;i < data_poultry.length;i++) {
-							pos = str.search(data_poultry[i]);
-							if (pos >= 0) {
-								// console.log(poultry[i]);
-								break;
-							}
+				if (props.meat === "Poultry") {
+					// console.log(str);
+					for (i = 0;i < data_poultry.length;i++) {
+						pos = str.search(data_poultry[i]);
+						if (pos >= 0) {
+							// console.log(poultry[i]);
+							break;
 						}
-					} else if(props.meat === "Beef") {
-						// console.log(str);
-						for (i = 0; i < data_beef.length; i++) {
-							pos = str.search(data_beef[i]);
-							if (pos >= 0) {
-								break;
-							}
-						}
-					} else if (props.meat === "Pork") {
-						// console.log(str);
-						for (i = 0; i < data_pork.length; i++) {
-							pos = str.search(data_pork[i]);
-							if (pos >= 0) {
-								break;
-							}
-						}
-					} else {
-						pos = str.search(props.meat);
-						// console.log(props.meat + " " + pos);
 					}
-						
-						
-					// var pos = str.search(props.meat);
+				} else if(props.meat === "Beef") {
+					// console.log(str);
+					for (i = 0; i < data_beef.length; i++) {
+						pos = str.search(data_beef[i]);
+						if (pos >= 0) {
+							// console.log(key);
+							// console.log('beef found');
+							break;
+						}
+					}
+				} else if (props.meat === "Pork") {
+					// console.log(str);
+					for (i = 0; i < data_pork.length; i++) {
+						pos = str.search(data_pork[i]);
+						if (pos >= 0) {
+							break;
+						}
+					}
+				} else {
+					pos = str.search(props.meat);
+					// console.log(props.meat + " " + pos);
+				}
+				if (pos >= 0) {
+					return (
 
-					if (pos >= 0) {
-						// j++;
-						// console.log(j);
-						// <ReactTransitionGroup.TransitionGroup>
+						<CSSTransition
+							in={true}
+							appear={true}
+							timeout={1300}
+							classNames="fade"
+							key={key}
+						>
 
-
-						return (
-							
-
-
-
-
-							<CSSTransition
-								in={true}
-								appear={true}
-								timeout={1300}
-								classNames="fade"
-								key={key}
-							>
-
-
-
-
-
-
-
-							{/* <div className="item_row" key={key}> */}
-								<div className="item_row" >
-
-
-								<img className="item_thumb" alt="" src={myObject[key]['x_large_image_url']}></img>
-
-
-
-
-
-								<div>
+							<div className="item_row" >
+								<img className="item_thumb" alt={myObject[key]['name']} src={myObject[key]['x_large_image_url']}></img>
+								<div className="item_details">
 									<span className="item_name">
 										{myObject[key]['name']}
 									</span>
@@ -188,41 +157,39 @@ function OutSpec(props) {
 										{myObject[key]['sale_story']}
 									</div>
 								</div>
+								<div className="item_dates">
+									<div className="store_info">
+										<img className="store_logo" alt="Logo: Giant Food." src={logo_giant}></img>
+										<div className="store_address">
+											Giant Food<br />
+											2501 S. 9th Rd.<br />
+											Arlington, VA 22204
+										</div>
+									</div>
+									<div className="item_dates_text">
+										<i>
+											<span className="item_dates_prefix">
+												valid:
+											</span>
+											{myObject[key]['valid_from']} - {myObject[key]['valid_to']}
+										</i>
+									</div>
+								</div>
 
 								<span className="item_price">
 									${form_price(myObject[key]['current_price'])}{myObject[key]['price_text']}
 								</span>
+								<span className="item_price">
+									${form_price(myObject[key]['unit_price'])}/lb.
+								</span>								
 							</div>
-						
-						
-
-
-
-
-
-
-
-</CSSTransition>
-
-
-
-
-
-
-
-
-						);
-						{/* </ReactTransitionGroup.TransitionGroup> */}
-					} else return null;
-				// } else return null;
-
-
+						</CSSTransition>
+					);
+				}
 			});
 		}
 	}
-
 	console.log("meat changed to " + props.meat);
-
 	return (
 		<div>
 			{sizeOptions()}
@@ -273,18 +240,9 @@ function App(props) {
 			.then(function(stuff) {
 				var stuffy;
 				stuffy = stuff.items;
-				
-				
-				
-				console.log("stuffy is");
-				// console.log(stuffy);
+
 				var testy;
-
-
-
-
-
-				var testy = Object.keys(stuffy).filter(key => {
+				testy = Object.keys(stuffy).filter(key => {
 					if ((stuffy[key]["category_names"][0] === "Meat") ||
 						stuffy[key]["category_names"][0] === "Deli") {
 						return true;
@@ -292,19 +250,26 @@ function App(props) {
 				});
 
 				testy = testy.map(function (key, index) {
-					return stuffy[key]
+					
+					
+					var part = stuffy[key];
+					part['unit_price'] = 0;
+
+
+					part['unit_price'] = 5.55;
+
+
+
+
+
+					return part;
+					// return stuffy[key]
 				});
-
-				console.log(testy);
-
-				// return stuffy;
 				return testy;
-
 			})
 			.then(function (myJson) {
-				console.log("API data loaded.");
-				console.log(myJson);
-
+				// console.log("API data loaded.");
+				// console.log(myJson);
 				setData(myJson);
 			})
 			.catch(() => console.log("Message from Carl's code:  can’t access " + url + " response. Blocked by browser?"));
@@ -320,7 +285,7 @@ function App(props) {
 		var i;
 		var rbs = document.getElementsByTagName("input") 
 		for (i = 0; i < rbs.length; i++) {
-			if (rbs[i].value == event.target.value) {
+			if (rbs[i].value === event.target.value) {
 				rbs[i].className = "radio animated heartBeat";	
 			} else {
 				rbs[i].className = "radio";	
@@ -338,7 +303,7 @@ function App(props) {
 
 				<div className="rad-lab" >
 					<label htmlFor="allmeat">
-						<img className="rad-lab-img" src={img_meat}>
+						<img className="rad-lab-img" alt = "Various barbecued meats." src={img_meat}>
 						</img>
 					</label>
 					<input type="radio" id="allmeat" name="meaty" value="" className="radio" onChange={handleInput} defaultChecked/>
@@ -349,7 +314,7 @@ function App(props) {
 
 				<div className="rad-lab" >
 					<label htmlFor="Beef">
-						<img className="rad-lab-img" src={img_beef}>
+						<img className="rad-lab-img" alt = "Cooked and sliced steak." src={img_beef}>
 						</img>
 					</label>
 					<input type="radio" id="Beef" name="meaty" value="Beef" className="radio" onChange={handleInput} />
@@ -359,7 +324,7 @@ function App(props) {
 				</div>
 				<div className="rad-lab" >
 					<label htmlFor="Poultry">
-						<img className="rad-lab-img" src={img_chicken}>
+						<img className="rad-lab-img" alt = "Lemon herb roast chicken." src={img_chicken}>
 						</img>
 					</label>
 					<input type="radio" id="Poultry" name="meaty" value="Poultry" className="radio" onChange={handleInput} />
@@ -369,7 +334,7 @@ function App(props) {
 				</div>
 				<div className="rad-lab" >
 					<label htmlFor="Pork">
-						<img className="rad-lab-img" src={img_ribs}>
+						<img className="rad-lab-img" alt = "BBQ ribs." src={img_ribs}>
 						</img>
 					</label>
 					<input type="radio" id="Pork" name="meaty" value="Pork" className="radio" onChange={handleInput} />

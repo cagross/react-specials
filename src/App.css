@@ -36,7 +36,6 @@
 
 
 
-
 body {
     font-family: 'Montserrat', sans-serif;
 }
@@ -116,11 +115,61 @@ body {
 }
 
 .item_disc, .item_ss {
-  margin-top: 30px;
+
   font-size: 12px;
   font-style: italic;
 }
 
+.item_disc {
+    margin-top: 30px;
+}
+.item_ss {
+    margin-top: 10px;
+}
+
+.item_details {
+  /* min-width:500px; */
+  width: 700px;
+  white-space: nowrap;
+  /* overflow: hidden; */
+
+  overflow: visible;
+}
+
+.item_dates {
+  /* align-self: flex-end; */
+    display: flex;
+  flex-direction: column;
+  /* font-style: italic; */
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+
+}
+
+.item_dates_prefix {
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.store_logo {
+  height: 40px;
+  /* width: auto; */
+  /* max-height: 50px; */
+  /* max-width: 200px; */
+  /* align-items: flex-start; */
+  /* align-items: center; */
+  padding-right: 10px;
+
+}
+.store_info {
+  display: flex;
+  justify-content: space-around;
+}
+
+.store_address {
+  font-size: 11px;
+}
 
 /* Style radio buttons */
 /* :focus{
