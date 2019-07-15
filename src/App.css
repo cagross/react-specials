@@ -52,39 +52,45 @@ body {
 
 #header {
     height: 150px;
-    /* background-color: yellowgreen; */
-
-  
-    /* background-image: url("images/header-1-1428.jpg"); */
-    /* background-image: url("images/header-1-1428-b.jpg"); */
-    /* background-repeat: no-repeat; */
+    border-radius: 15px;
     border: 5px solid #406C1C;
-    /* filter:blur(5px); */
+    margin-top: 20px;
+    margin-bottom: 20px;    
+}
+.header-text {
+    color: #333333;
+    font-size: 120px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+
+/*
+/~ Display header version 2 with this (background image). ~/
+#header {
+    height: 150px;
+    /~ background-image: url("images/header-1-1428.jpg"); ~/
+    background-image: url("images/header-1-1428-b.jpg");
     border-radius: 15px;
     margin-top: 20px;
     margin-bottom: 20px;    
-    
-    /* filter:brightness(50%) blur(5px); */
+    /~ filter:brightness(50%) blur(5px); ~/
 }
 .header-text {
-    /* color: white; */
-    color: #333333;
-    /* color: green; */
-
-    font-size: 120px;
-    /* text-shadow: 2px 2px #000; */
-    /* text-shadow: 2px 2px #2bd12b; */
-
-    /* margin-top: 20px; */
-    /* padding-top: 30px; */
-    /* padding-left: 20px; */
+    color: white;
+    font-size: 95px;
+    text-shadow: 2px 2px #000;
+    line-height: 150px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+*/
 
-.test {
-  overflow: hidden;
 
-}
+
+
+
+
+
 
 .topbar{
   height: 50px;
