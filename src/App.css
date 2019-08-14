@@ -32,7 +32,13 @@
   }
 }
 
-
+.header-desc {
+  font-size: 20px;
+  padding-left: 150px;
+  padding-right: 150px;
+  padding-bottom:10px;
+  line-height: 30px;
+}
 
 
 
@@ -51,7 +57,7 @@ body {
 }
 
 #header {
-    height: 150px;
+    /* height: 150px; */
     border-radius: 15px;
     border: 5px solid #406C1C;
     margin-top: 20px;
