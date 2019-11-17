@@ -164,7 +164,7 @@ body {
 .item_details {
   /* min-width:500px; */
   width: 700px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   /* overflow: hidden; */
 
   overflow: visible;
