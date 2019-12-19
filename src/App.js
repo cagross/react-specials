@@ -180,6 +180,9 @@ function App(props) {
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
 
+		// fetch('http://localhost:8000/');
+		fetch('https://cors-anywhere.herokuapp.com/http://localhost:8000/');
+		
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
 		const proxyurl = "https://cors-anywhere.herokuapp.com/";
 		const url_api1 =
