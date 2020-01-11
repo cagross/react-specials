@@ -101,6 +101,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 
 				/* Begin code to render a row of item information to the page. */
 				if (pos >= 0) {
+					// console.log(meatData[key]['valid_from']);
 					return (
 
 						<CSSTransition //Ensure each row appears with a CSS fade transition.
@@ -144,7 +145,10 @@ function Results(props) {// Filter the list of specials based on the user's meat
 											<span className="item_dates_prefix">
 												valid:
 											</span>
-											{formDate(meatData[key]['valid_from'])} - {formDate(meatData[key]['valid_to'])}
+											{/* {formDate(meatData[key]['valid_from'])} - {formDate(meatData[key]['valid_to'])} */}
+											{/* <time datetime="2020-01-10T00:00-0500">{formDate(meatData[key]['valid_from'])}</time> - <time datetime="2020-01-17T00:00-0500">{formDate(meatData[key]['valid_to'])}</time> */}
+											<time datetime={meatData[key]['valid_from']}>{formDate(meatData[key]['valid_from'])}</time> - <time datetime="2020-01-17T00:00-0500">{formDate(meatData[key]['valid_to'])}</time>
+
 										</i>
 									</div>
 								</div>
@@ -180,19 +184,30 @@ function App(props) {
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
 
-		// fetch('http://localhost:8000/');
-		fetch('https://cors-anywhere.herokuapp.com/http://localhost:8000/');
+		// fetch('http://localhost:8000/')
+		// .then(response => response.json())
+		// .then(responsy => {
+		// 	console.log(responsy);
+		// 	setData(responsy);
+		// })
 		
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
 		const proxyurl = "https://cors-anywhere.herokuapp.com/";
 		const url_api1 =
 			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
 
+		// fetch(url_api1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		fetch(proxyurl + url_api1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		//Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
+		// .then(response => {
+		// 	console.log(response.text);
+		// })
+		
 		.then(response => response.text())
 		.then(infoAPI2 => {
+			// console.log(infoAPI2);
 			const pos = infoAPI2.search("current_flyer_id");
+			// console.log(pos);
 			const id_api2 = infoAPI2.slice(pos + 18, pos + 25);
 			return id_api2;// This is the flyer ID that we will use with a second fetch() to obtain actual weekly specials data.
 		})		
@@ -212,26 +227,32 @@ function App(props) {
 				dataMeatItems = dataMeatItems.map(function (key, index) {
 					
 					let part = dataItems[key];
-					part['unit_price'] = 5.55;
+					part['unit_price'] = 55.55;
 
-					const pos_lb = part['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
+					if (part['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
+						part['unit_price'] = 'unknown';
+						part['current_price'] = part['unit_price'];
+					} else {
 
-					if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
-						part['unit_price'] = part['current_price'];
-					} else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
+						const pos_lb = part['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
 
-						const patt_ea = /\/ea/;
-						const has_ea = patt_ea.test(part['price_text']);// Check if the string 'ea' exists in the 'price text.'
-						// If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
-						if (has_ea || part['price_text'] === "") {
+						if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
+							part['unit_price'] = part['current_price'];
+						} else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
 
-							if (part['description'] != null) {
-								const pos_oz = part['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
+							const patt_ea = /\/ea/;
+							const has_ea = patt_ea.test(part['price_text']);// Check if the string 'ea' exists in the 'price text.'
+							// If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
+							if (has_ea || part['price_text'] === "") {
 
-								if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item.
-									const partial_oz = part['description'].substring(0, pos_oz);
-									const weight_oz = partial_oz.match(/[0-9]+/);
-									part['unit_price'] = 16*part['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
+								if (part['description'] != null) {
+									const pos_oz = part['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
+
+									if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
+										const partial_oz = part['description'].substring(0, pos_oz);
+										const weight_oz = partial_oz.match(/[0-9]+/);
+										part['unit_price'] = 16*part['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
+									}
 								}
 							}
 						}
@@ -239,6 +260,7 @@ function App(props) {
 
 					return part;
 				});
+				// console.log(dataMeatItems)
 				setData(dataMeatItems);
 			})
 		.catch(() => console.log("Message from Carl's code:  can’t access " + url_api2 + " response. Possibly blocked by browser"));
@@ -265,7 +287,7 @@ function App(props) {
 	return (
 		<div id="content">
 			{/* Add the radio button filter. */}
-			<div className="filter">
+			<section className="filter">
 				<div className="rad-lab" >
 					<label htmlFor="allmeat">
 						<img className="rad-lab-img" alt = "Various barbecued meats." src={img_meat}>
@@ -307,12 +329,12 @@ function App(props) {
 						Pork
 					</label>
 				</div>
-			</div>
+			</section>
 
 			{/* Render the list of items. */}
-			<div id="items_container">
+			<section id="items_container">
 				<Results meat={meat} data={data} />
-			</div>
+			</section>
 		</div>
 	)
 }
