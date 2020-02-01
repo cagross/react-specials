@@ -145,9 +145,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 											<span className="item_dates_prefix">
 												valid:
 											</span>
-											{/* {formDate(meatData[key]['valid_from'])} - {formDate(meatData[key]['valid_to'])} */}
-											{/* <time datetime="2020-01-10T00:00-0500">{formDate(meatData[key]['valid_from'])}</time> - <time datetime="2020-01-17T00:00-0500">{formDate(meatData[key]['valid_to'])}</time> */}
-											<time datetime={meatData[key]['valid_from']}>{formDate(meatData[key]['valid_from'])}</time> - <time datetime="2020-01-17T00:00-0500">{formDate(meatData[key]['valid_to'])}</time>
+											{formDate(meatData[key]['valid_from'])} - {formDate(meatData[key]['valid_to'])}
 
 										</i>
 									</div>
