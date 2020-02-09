@@ -70,11 +70,11 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		}
 
 		// Assign the appropriate search terms based on the user's selected meat.
-		if (props.meat === "poultry") {
+		if (props.currMeat === "poultry") {
 			meatTerms = searchTerms['poultry'];
-		} else if (props.meat === "beef") {
+		} else if (props.currMeat === "beef") {
 			meatTerms = searchTerms['beef'];
-		} else if(props.meat === "pork") {
+		} else if(props.currMeat === "pork") {
 			meatTerms = searchTerms['pork'];
 		}
 
@@ -86,7 +86,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 				let pos;
 				const str = meatData[key]["display_name"].toLowerCase();
 					
-				if (props.meat === "") {
+				if (props.currMeat === "") {
 					pos = -1;
 				} else {
 					for (let i = 0; i < meatTerms.length; i++) {
@@ -119,6 +119,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 									<div className="item_desc">
 										{meatData[key]['description']}
 									</div>
+
 									<div className="item_disc">
 										{meatData[key]['disclaimer_text']}
 									</div>
@@ -160,7 +161,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 			});
 		}
 	}
-	console.log("meat changed to " + props.meat);
+	console.log("meat changed to " + props.currMeat);
 	return (
 		<div>
 			{meatList()}
@@ -173,32 +174,31 @@ function App(props) {
 
 	/* Use the 'useState' hook to set initial state. */
 	const [data, setData] = useState({});// Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
-	const [meat, setMeat] = useState('');// Set a piece of state named 'meat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
+	const [currentMeat, setMeat] = useState('');// Set a piece of state named 'meat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
 
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
 	
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
-		const proxyurl = "https://cors-anywhere.herokuapp.com/";
-		const url_api1 =
+		const proxyURL = "https://cors-anywhere.herokuapp.com/";
+		const urlAPI1 =
 			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
 
-		// fetch(url_api1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		fetch(proxyurl + url_api1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		//Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
+		fetch(proxyURL + urlAPI1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		
 		.then(response => response.text())
-		.then(infoAPI2 => {
-			// console.log(infoAPI2);
-			const pos = infoAPI2.search("current_flyer_id");
-			// console.log(pos);
-			const id_api2 = infoAPI2.slice(pos + 18, pos + 25);
-			return id_api2;// This is the flyer ID that we will use with a second fetch() to obtain actual weekly specials data.
-		})		
-		.then(id => {
-			const url_api2 = "https://circular.giantfood.com/flyer_data/" + id + "?locale=en-US"
-			fetch(proxyurl + url_api2)//This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
+
+		.then(flyerInfo => {
+
+			const posFlyerID = flyerInfo.search("current_flyer_id");
+			const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
+			const urlAPI2 = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
+
+			fetch(proxyURL + urlAPI2)//This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
+
 			.then(response => response.json())
+
 			.then(dataAll => {
 				//Filter the weekly specials to return only the specials on meat.
 				const dataItems = dataAll.items;
@@ -244,10 +244,10 @@ function App(props) {
 
 					return part;
 				});
-				// console.log(dataMeatItems)
+
 				setData(dataMeatItems);
 			})
-		.catch(() => console.log("Message from Carl's code:  can’t access " + url_api2 + " response. Possibly blocked by browser"));
+		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPI2 + " response. Possibly blocked by browser"));
 		});
 		/* End code to fetch API data. */
 
@@ -317,7 +317,7 @@ function App(props) {
 
 			{/* Render the list of items. */}
 			<section id="items_container">
-				<Results meat={meat} data={data} />
+				<Results currMeat={currentMeat} data={data} />
 			</section>
 		</div>
 	)
