@@ -22,7 +22,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		return Number(unform_price).toFixed(2);
 	}
 
-	// Function to formate date.
+	// Function to format date.
 	function formDate(unform_date) {
 		return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date(unform_date));
 	}
@@ -32,7 +32,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		const meatData = props.data;
 		let meatTerms;
 
-		//Definie all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult part.  This ia also  something that will eventually be moved to a database.
+		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult part.  This ia also  something that will eventually be moved to a database.
 		const searchTerms = {
 			poultry: [
 				"chicken",
@@ -181,14 +181,7 @@ function App(props) {
 
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
-
-		// fetch('http://localhost:8000/')
-		// .then(response => response.json())
-		// .then(responsy => {
-		// 	console.log(responsy);
-		// 	setData(responsy);
-		// })
-		
+	
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
 		const proxyurl = "https://cors-anywhere.herokuapp.com/";
 		const url_api1 =
