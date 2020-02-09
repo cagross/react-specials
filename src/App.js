@@ -113,14 +113,12 @@ function Results(props) {// Filter the list of specials based on the user's meat
 							<div className="item_row" >
 								<img className="item_thumb" alt={meatData[key]['name']} src={meatData[key]['x_large_image_url']}></img>
 								<div className="item_details">
-									<span className="item_name">
+									<div className="item_name">
 										{meatData[key]['name']}
-									</span>
-									<br />
-									<span className="item_desc">
+									</div>
+									<div className="item_desc">
 										{meatData[key]['description']}
-									</span>
-									<br />
+									</div>
 									<div className="item_disc">
 										{meatData[key]['disclaimer_text']}
 									</div>
