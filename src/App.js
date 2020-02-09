@@ -15,24 +15,24 @@ import img_chicken from './images/chicken-250.jpg';
 import img_ribs from './images/ribs-250.jpg';
 import logo_giant from './images/logo-Giant-50.png';
 
+// Function to format price.
+function formPrice(unform_price) {
+	return Number(unform_price).toFixed(2);
+}
+
+// Function to format date.
+function formDate(unform_date) {
+	return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date(unform_date));
+}
+
 function Results(props) {// Filter the list of specials based on the user's meat selection, and render that list onto the page.
 
-	// Function to format price.
-	function formPrice(unform_price) {
-		return Number(unform_price).toFixed(2);
-	}
-
-	// Function to format date.
-	function formDate(unform_date) {
-		return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date(unform_date));
-	}
-	
 	function meatList() {
 
 		const meatData = props.data;
 		let meatTerms;
 
-		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult part.  This ia also  something that will eventually be moved to a database.
+		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult part.  This data should eventually be moved to a database.
 		const searchTerms = {
 			poultry: [
 				"chicken",
@@ -40,7 +40,8 @@ function Results(props) {// Filter the list of specials based on the user's meat
 				"turkey",
 				"duck",
 				"hen",
-				"goose"
+				"goose",
+				"turducken"
 			],
 			beef: [
 				"beef",
@@ -77,18 +78,16 @@ function Results(props) {// Filter the list of specials based on the user's meat
 			meatTerms = searchTerms['pork'];
 		}
 
-		// if (Object.entries(sizes).length !== 0 && sizes.constructor === Object) {// Check if the sizes object is empty or not.  If it is not empty, execute code.
 		if (Object.entries(meatData).length) {// Check if the weekly specials object is empty or not.  If it is not empty, execute code.
 
-			return Object.keys(meatData).map(function (key, index) {// Loop over every key in the weekly specials object and check if its name contains any of the meat search terms.  If so, render a row of information to the page.
+			return Object.keys(meatData).map(function (key, index) {// Loop over every key in the weekly specials object and check if it's contains any of the meat search terms.  If so, render a row of information to the page.
 
 				/* Begin code to check if item name contains any meat terms. */
 				let pos;
-				// var i;
 				const str = meatData[key]["display_name"].toLowerCase();
 					
 				if (props.meat === "") {
-					pos = str.search(props.meat);
+					pos = -1;
 				} else {
 					for (let i = 0; i < meatTerms.length; i++) {
 						pos = str.search(meatTerms[i]);
@@ -100,8 +99,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 				/* End code to check if item name contains any meat terms. */
 
 				/* Begin code to render a row of item information to the page. */
-				if (pos >= 0) {
-					// console.log(meatData[key]['valid_from']);
+				if (pos >= -1) {
 					return (
 
 						<CSSTransition //Ensure each row appears with a CSS fade transition.
@@ -190,9 +188,6 @@ function App(props) {
 		// fetch(url_api1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		fetch(proxyurl + url_api1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		//Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
-		// .then(response => {
-		// 	console.log(response.text);
-		// })
 		
 		.then(response => response.text())
 		.then(infoAPI2 => {
