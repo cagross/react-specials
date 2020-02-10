@@ -32,7 +32,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		const meatData = props.data;
 		let meatTerms;
 
-		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult part.  This data should eventually be moved to a database.
+		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult item.  This data should eventually be moved to a database.
 		const searchTerms = {
 			poultry: [
 				"chicken",
@@ -82,15 +82,15 @@ function Results(props) {// Filter the list of specials based on the user's meat
 
 			return Object.keys(meatData).map(function (key, index) {// Loop over every key in the weekly specials object and check if it's contains any of the meat search terms.  If so, render a row of information to the page.
 
-				/* Begin code to check if item name contains any meat terms. */
+				/* Begin code to check if item name contains any search terms. */
 				let pos;
-				const str = meatData[key]["display_name"].toLowerCase();
+				const itemName = meatData[key]["display_name"].toLowerCase();
 					
 				if (props.currMeat === "") {
 					pos = -1;
 				} else {
 					for (let i = 0; i < meatTerms.length; i++) {
-						pos = str.search(meatTerms[i]);
+						pos = itemName.search(meatTerms[i]);
 						if (pos >= 0) {
 							break;
 						}
@@ -195,26 +195,26 @@ function testy(dataItems, filter) {
 }
 
 //Unit price
-function unitPrice(part) {
+function unitPrice(item) {
 	/* Begin code to calculate unit price for each item and add it as a new property to the object. */
-		const pos_lb = part['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
+		const pos_lb = item['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
 
 		if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
-			part['unit_price'] = part['current_price'];
+			item['unit_price'] = item['current_price'];
 		} else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
-			part['unit_price'] = 55.55;
+			item['unit_price'] = 55.55;
 			const patt_ea = /\/ea/;
-			const has_ea = patt_ea.test(part['price_text']);// Check if the string 'ea' exists in the 'price text.'
+			const has_ea = patt_ea.test(item['price_text']);// Check if the string 'ea' exists in the 'price text.'
 			// If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
-			if (has_ea || part['price_text'] === "") {
+			if (has_ea || item['price_text'] === "") {
 
-				if (part['description'] != null) {
-					const pos_oz = part['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
+				if (item['description'] != null) {
+					const pos_oz = item['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
 
 					if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
-						const partial_oz = part['description'].substring(0, pos_oz);
+						const partial_oz = item['description'].substring(0, pos_oz);
 						const weight_oz = partial_oz.match(/[0-9]+/);
-						part['unit_price'] = 16*part['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
+						item['unit_price'] = 16*item['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
 					}
 				}
 			}
@@ -227,18 +227,18 @@ function App(props) {
 
 	/* Use the 'useState' hook to set initial state. */
 	const [data, setData] = useState({});// Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
-	const [currentMeat, setMeat] = useState('');// Set a piece of state named 'meat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
+	const [currentMeat, setMeat] = useState('');// Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
 
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
 	
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
 		const proxyURL = "https://cors-anywhere.herokuapp.com/";
-		const urlAPI1 =
+		const urlAPIFlyer =
 			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
 
 		//Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
-		fetch(proxyURL + urlAPI1) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
+		fetch(proxyURL + urlAPIFlyer) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		
 		.then(response => response.text())
 
@@ -246,39 +246,37 @@ function App(props) {
 
 			const posFlyerID = flyerInfo.search("current_flyer_id");
 			const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
-			const urlAPI2 = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
+			const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
 
-			fetch(proxyURL + urlAPI2)//This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
+			fetch(proxyURL + urlAPIData)//This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
 
 			.then(response => response.json())
 
 			.then(dataAll => {
 
-
-
-				const dataItems = dataAll.items;// Filter all data into only data related to products.
+				const dataItems = dataAll.items;// Filter all data into only data related to items.
 				var dataMeatItems;
 				const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
-				dataMeatItems = testy(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
+				const dataMeatItemsKeys = testy(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
 
-				dataMeatItems = dataMeatItems.map(function (key, index) {// Create a new object containing only filtered items.  In addition, calculate and add a unit price property to the object.
+				dataMeatItems = dataMeatItemsKeys.map(function (key, index) {// Create a new object containing only filtered items.  In addition, calculate and add a unit price property to the object.
 		
-					let part = dataItems[key];
+					let item = dataItems[key];
 
-					if (part['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
-						part['unit_price'] = 'unknown';
-						part['current_price'] = part['unit_price'];
+					if (item['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
+						item['unit_price'] = 'unknown';
+						item['current_price'] = item['unit_price'];
 					} else {
-						unitPrice(part);
+						unitPrice(item);//Calculate the unit price of the item and add it to the items object.
 					}
 
-					return part;
+					return item;
 				});
 
 
-				setData(dataMeatItems);
+				setData(dataMeatItems);//Assign this object (the object containing all desired items and information) to the value of the data variable.
 			})
-		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPI2 + " response. Possibly blocked by browser"));
+		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
 		});
 		/* End code to fetch API data. */
 
