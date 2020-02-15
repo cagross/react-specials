@@ -83,15 +83,16 @@ function Results(props) {// Filter the list of specials based on the user's meat
 			return Object.keys(meatData).map(function (key, index) {// Loop over every key in the weekly specials object and check if it's contains any of the meat search terms.  If so, render a row of information to the page.
 
 				/* Begin code to check if item name contains any search terms. */
-				let pos;
 				const itemName = meatData[key]["display_name"].toLowerCase();
 					
+				let match = false;
 				if (props.currMeat === "") {
-					pos = -1;
+					match = true;
 				} else {
 					for (let i = 0; i < meatTerms.length; i++) {
-						pos = itemName.search(meatTerms[i]);
+						const pos = itemName.search(meatTerms[i]);
 						if (pos >= 0) {
+							match = true;
 							break;
 						}
 					}
@@ -99,7 +100,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 				/* End code to check if item name contains any meat terms. */
 
 				/* Begin code to render a row of item information to the page. */
-				if (pos >= -1) {
+				if (match) {
 					return (
 
 						<CSSTransition //Ensure each row appears with a CSS fade transition.
