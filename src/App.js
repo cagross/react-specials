@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import './App.css';// Import the main CSS file.
-
 import {CSSTransition} from 'react-transition-group'// Required only for CSS transitions.
 import './animate.css';// Needed to for the specific CSS transition I'm using ('fade' in this case).
+
+import './App.css';// Import the main CSS file.
 
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
