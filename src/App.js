@@ -1,19 +1,23 @@
-//App.js fetches grocery meat specials from an API, and renders them onto the page using React JS.
+//App.js fetches grocery meat specials from an API, and renders them onto the page using ReactJS.
 
 import React from 'react';
-import {CSSTransition} from 'react-transition-group'
 
 import './App.css';// Import the main CSS file.
-import './animate.css';// Needed to fade transition to function.
+
+import {CSSTransition} from 'react-transition-group'// Required only for CSS transitions.
+import './animate.css';// Needed to for the specific CSS transition I'm using ('fade' in this case).
 
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
 
+// Import my images.
 import img_meat from './images/all-meat-250.jpg';
 import img_beef from './images/beef-250.jpg';
 import img_chicken from './images/chicken-250.jpg';
 import img_ribs from './images/ribs-250.jpg';
 import logo_giant from './images/logo-Giant-50.png';
+
+import PropTypes from 'prop-types';// Required to add data type validation on props.
 
 // Function to format price.
 function formPrice(unform_price) {
@@ -27,12 +31,12 @@ function formDate(unform_date) {
 
 function Results(props) {// Filter the list of specials based on the user's meat selection, and render that list onto the page.
 
-	function meatList() {
+	function meatList() {// Filter the list of specials based on the user's meat selection and render it into a list.
 
 		const meatData = props.data;
 		let meatTerms;
 
-		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  This is very incomplete, as determining accurate terms is the difficult item.  This data should eventually be moved to a database.
+		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  These terms are requried to determine which meat category each items belongs.  This is very incomplete and inexact, as determining accurate and complete search terms is difficult.  Also, this data should eventually be moved to a database.
 		const searchTerms = {
 			poultry: [
 				"chicken",
@@ -69,7 +73,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 			]
 		}
 
-		// Assign the appropriate search terms based on the user's selected meat.
+		// Determine which terms should be used to filter products, baed on the user's selected meat.
 		if (props.currMeat === "poultry") {
 			meatTerms = searchTerms['poultry'];
 		} else if (props.currMeat === "beef") {
@@ -78,9 +82,9 @@ function Results(props) {// Filter the list of specials based on the user's meat
 			meatTerms = searchTerms['pork'];
 		}
 
-		if (Object.entries(meatData).length) {// Check if the weekly specials object is empty or not.  If it is not empty, execute code.
+		if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
 
-			return Object.keys(meatData).map(function (key, index) {// Loop over every key in the weekly specials object and check if it's contains any of the meat search terms.  If so, render a row of information to the page.
+			return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
 
 				/* Begin code to check if item name contains any search terms. */
 				const itemName = meatData[key]["display_name"].toLowerCase();
@@ -170,15 +174,11 @@ function Results(props) {// Filter the list of specials based on the user's meat
 	);
 }
 
-
-// Function to filter all data into meat/deli items only, then then calculate/add unit prices to each item.
-function testy(dataItems, filter) {
-
-
+// Function to filter all data into items from specific departments, e.g. meat, deli, etc.
+function productFilter(dataItems, filter) {
 	let myArray;
 
 	let dataMeatItems = Object.keys(dataItems).filter(key => {
-
 		switch (filter) {
 			case 1:
 				myArray = ['Meat', 'Deli'];
@@ -189,15 +189,13 @@ function testy(dataItems, filter) {
 			default:
 				return true;
 			}
-
 	});
-
 	return dataMeatItems;
 }
 
-//Unit price
+// Function to calculate the unit price of an item, and insert it into the main product array.
 function unitPrice(item) {
-	/* Begin code to calculate unit price for each item and add it as a new property to the object. */
+	/* Begin code to calculate unit price for each item and add it as a new element in the array. */
 		const pos_lb = item['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
 
 		if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
@@ -220,14 +218,20 @@ function unitPrice(item) {
 				}
 			}
 		}
-	/* End code to calculate unit price for each item and add it as a new property to the object. */
+	/* End code to calculate unit price for each item and add it as a new element in the array. */
 }
 
-//App() is the top level functional component.
-function App(props) {
+// Ensure each prop has its type defined.  With these types defined, if code tries to pass a prop with a different type, a JS console error will occur.
+Results.propTypes = {
+	currMeat: PropTypes.string,
+	data: PropTypes.array,
+  };
+
+// App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
+function App() {
 
 	/* Use the 'useState' hook to set initial state. */
-	const [data, setData] = useState({});// Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
+	const [data, setData] = useState([]);// Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
 	const [currentMeat, setMeat] = useState('');// Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
 
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
@@ -238,8 +242,8 @@ function App(props) {
 		const urlAPIFlyer =
 			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
 
-		//Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
-		fetch(proxyURL + urlAPIFlyer) // https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
+		// Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
+		fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 		
 		.then(response => response.text())
 
@@ -249,18 +253,19 @@ function App(props) {
 			const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
 			const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
 
-			fetch(proxyURL + urlAPIData)//This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
+			fetch(proxyURL + urlAPIData)// This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
 
 			.then(response => response.json())
 
 			.then(dataAll => {
-
+			
 				const dataItems = dataAll.items;// Filter all data into only data related to items.
 				var dataMeatItems;
-				const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
-				const dataMeatItemsKeys = testy(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
 
-				dataMeatItems = dataMeatItemsKeys.map(function (key, index) {// Create a new object containing only filtered items.  In addition, calculate and add a unit price property to the object.
+				const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
+				const dataMeatItemsKeys = productFilter(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
+
+				dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
 		
 					let item = dataItems[key];
 
@@ -268,14 +273,13 @@ function App(props) {
 						item['unit_price'] = 'unknown';
 						item['current_price'] = item['unit_price'];
 					} else {
-						unitPrice(item);//Calculate the unit price of the item and add it to the items object.
+						unitPrice(item);//Calculate the unit price of the item and add it to the items array.
 					}
 
 					return item;
 				});
 
-
-				setData(dataMeatItems);//Assign this object (the object containing all desired items and information) to the value of the data variable.
+				setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
 			})
 		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
 		});
@@ -344,7 +348,7 @@ function App(props) {
 					</label>
 				</div>
 			</section>
-
+			
 			{/* Render the list of items. */}
 			<section id="items_container">
 				<Results currMeat={currentMeat} data={data} />
@@ -353,5 +357,5 @@ function App(props) {
 	)
 }
 
-// Ensure App() is executed whenever index.js renders App.
+// Ensure the function App() is executed whenever index.js renders App.
 export default App;
