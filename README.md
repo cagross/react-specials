@@ -1,17 +1,16 @@
-<p align="center">
- <img src="https://i.imgur.com/TcRdgaI.jpg" alt="Images of various prepared meats.">
-</p>
+![Images of various prepared meats.](images-readme/sp-readme-banner.png "Meat Specials screenshot")
 
 <h1 align="center">Meat Specials Web App</h1>
 
-<!-- <div align="center"> -->
+<div align="center">
 
   <!-- [![Status](https://img.shields.io/badge/status-active-success.svg)]() 
-  [![GitHub Issues](https://img.shields.io/github/issues/cagross/react-specials.svg)](https://github.com/cagross/react-specials/issues)
-  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/cagross/react-specials.svg)](https://github.com/cagross/react-specials/pulls) -->
+  [![GitHub Issues](https://img.shields.io/github/issues/cagross/react-specials.svg)](https://github.com/cagross/react-specials/issues) -->
   <!-- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE) -->
-
-<!-- </div> -->
+  ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/cagross/react-specials)
+  <!-- ![GitHub top language](https://img.shields.io/github/languages/top/cagross/react-specials) -->
+  
+</div>
 
 This app displays the weekly specials in the meat/deli department, for one specific grocery store (with more to come).
 
@@ -22,23 +21,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## 📝 Table of Contents
 - [About](#about)
+- [Built Using](#built_using)
 - [To Do](#todo)
 - [Authors](#authors)
 <!-- - [Getting Started](#getting_started) -->
 <!-- - [Deployment](#deployment) -->
 <!-- - [Usage](#usage) -->
-<!-- - [Built Using](#built_using) -->
-<!-- - [TODO](../TODO.md) -->
 <!-- - [Contributing](../CONTRIBUTING.md) -->
 <!-- - [Acknowledgments](#acknowledgement) -->
 
 ## 🧐 About <a name = "about"></a>
-Eating frugally is a goal for many people.  For those that cook at home, a good strategy is to wait for your favorite food items to go on sale at a local grocery store, then stock up on those items.  But how do you know when your favorite items are on sale?  The only way is to visit the store's website and look through the weekly circular for your favorite item--which may or may not be present--then repeat the process for <i>all other</i> area stores.  This is quite tedious.  The objective of this app is to help alleviate this by:
+Eating frugally is a goal for many people.  For those that cook at home, a good strategy is to wait for your favorite food items to go on sale at a local grocery store, then stock up on those items.  But how do you know when your favorite items are on sale?  The only way is to visit the store's website and look through the [weekly circular](https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535) for your favorite item--which may or may not be present--then repeat the process for <i>all other</i> area stores.  This is quite tedious.  The objective of this app is to help alleviate this by:
 
 * Combining the weekly specials for mutliple stores into a single list, which is easily searchable and easily sortable.
 * Automatically emailing you when your favorite items go on sale for below a threshold price.  For example, you'll receive an email whenever ribeye steaks go on sale for less than $5.00/lb.
-
-
+___
 <!-- ## 🏁 Getting Started <a name = "getting_started"></a> -->
 <!-- These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system. -->
 <!-- 
@@ -92,16 +89,14 @@ Add notes about how to use the system. -->
 * Display specials for other grocery store departments.
 * Automatically email results to registered users.  e.g. email notification when PRODUCT A is on sale for less than $X per pound.
 * Ensure app is fully responsive.
-
+___
 <!-- ## 🚀 Deployment <a name = "deployment"></a>
 Add additional notes about how to deploy this on a live system. -->
 
-<!-- ## ⛏️ Built Using <a name = "built_using"></a>
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment -->
-
+## ⛏️ Built Using <a name = "built_using"></a>
+- [ReactJS](https://reactjs.org/) - Web Framework
+- [NodeJs](https://nodejs.org/) - Server Environment
+___
 ## ✍️ Authors <a name = "authors"></a>
 - [@cagross](https://github.com/cagross)
 
