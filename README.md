@@ -1,23 +1,21 @@
 <p align="center">
-  <a href="" rel="noopener">
- <img src="https://i.imgur.com/TcRdgaI.jpg" alt="Images of various prepared meats."></a>
+ <img src="https://i.imgur.com/TcRdgaI.jpg" alt="Images of various prepared meats.">
 </p>
 
-<h1 align="center">Meat Specials Web App</h1	>
+<h1 align="center">Meat Specials Web App</h1>
 
-<div align="center">
+<!-- <div align="center"> -->
 
-  [![Status](https://img.shields.io/badge/status-active-success.svg)]() 
+  <!-- [![Status](https://img.shields.io/badge/status-active-success.svg)]() 
   [![GitHub Issues](https://img.shields.io/github/issues/cagross/react-specials.svg)](https://github.com/cagross/react-specials/issues)
-  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/cagross/react-specials.svg)](https://github.com/cagross/react-specials/pulls)
+  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/cagross/react-specials.svg)](https://github.com/cagross/react-specials/pulls) -->
   <!-- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE) -->
 
-</div>
+<!-- </div> -->
 
----
-This app displays the weekly specials for the meat/deli department, for one specific grocery store (with more to come).
+This app displays the weekly specials in the meat/deli department, for one specific grocery store (with more to come).
 
-This is a passion project of mine, built with ReactJS (for now).  It is a work in-progress, and is by no means complete.  See the [To Do section](#todo) below.
+This is a passion project of mine, built with ReactJS (for now).  It is by no means complete, or even that useful in its current version.  See the [To Do section](#todo) below for future plans.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
