@@ -308,7 +308,7 @@ function App() {
 			<section className="filter">
 				<div className="rad-lab" >
 					<label htmlFor="allmeat">
-						<img className="rad-lab-img" alt = "Various barbecued meats." src={img_meat}>
+						<img className="rad-lab-img" alt = "" src={img_meat}>
 						</img>
 					</label>
 					<input type="radio" id="allmeat" name="meaty" value="" className="radio" onChange={handleInput} defaultChecked/>
@@ -319,7 +319,7 @@ function App() {
 
 				<div className="rad-lab" >
 					<label htmlFor="beef">
-						<img className="rad-lab-img" alt = "Cooked and sliced steak." src={img_beef}>
+						<img className="rad-lab-img" alt = "" src={img_beef}>
 						</img>
 					</label>
 					<input type="radio" id="beef" name="meaty" value="beef" className="radio" onChange={handleInput} />
@@ -329,7 +329,7 @@ function App() {
 				</div>
 				<div className="rad-lab" >
 					<label htmlFor="poultry">
-						<img className="rad-lab-img" alt = "Lemon herb roast chicken." src={img_chicken}>
+						<img className="rad-lab-img" alt = "" src={img_chicken}>
 						</img>
 					</label>
 					<input type="radio" id="poultry" name="meaty" value="poultry" className="radio" onChange={handleInput} />
@@ -339,7 +339,7 @@ function App() {
 				</div>
 				<div className="rad-lab" >
 					<label htmlFor="pork">
-						<img className="rad-lab-img" alt = "BBQ ribs." src={img_ribs}>
+						<img className="rad-lab-img" alt = "" src={img_ribs}>
 						</img>
 					</label>
 					<input type="radio" id="pork" name="meaty" value="pork" className="radio" onChange={handleInput} />
