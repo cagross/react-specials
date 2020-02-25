@@ -306,47 +306,26 @@ function App() {
 		<div id="content">
 			{/* Add the radio button filter. */}
 			<section className="filter">
-				<div className="rad-lab" >
-					<label htmlFor="allmeat">
-						<img className="rad-lab-img" alt = "" src={img_meat}>
-						</img>
+					<label className="rad-lab" htmlFor="allmeat">
+						<img className="rad-lab-img" alt = "" src={img_meat}></img>
+						<input type="radio" id="allmeat" name="meaty" value="" className="radio" onChange={handleInput} defaultChecked/>
+						<div className="rad-lab-txt">All Meat</div>
 					</label>
-					<input type="radio" id="allmeat" name="meaty" value="" className="radio" onChange={handleInput} defaultChecked/>
-					<label className="rad-lab-txt" htmlFor="allmeat">
-						All Meat
+					<label className="rad-lab" htmlFor="beef">
+						<img className="rad-lab-img" alt = "" src={img_beef}></img>
+						<input type="radio" id="beef" name="meaty" value="beef" className="radio" onChange={handleInput} />
+						<div className="rad-lab-txt">Beef</div>
 					</label>
-				</div>
-
-				<div className="rad-lab" >
-					<label htmlFor="beef">
-						<img className="rad-lab-img" alt = "" src={img_beef}>
-						</img>
+					<label className="rad-lab" htmlFor="poultry">
+						<img className="rad-lab-img" alt = "" src={img_chicken}></img>
+						<input type="radio" id="poultry" name="meaty" value="poultry" className="radio" onChange={handleInput} />
+						<div className="rad-lab-txt">Poultry</div>
 					</label>
-					<input type="radio" id="beef" name="meaty" value="beef" className="radio" onChange={handleInput} />
-					<label className="rad-lab-txt" htmlFor="beef">
-						Beef
+					<label className="rad-lab" htmlFor="pork">
+						<img className="rad-lab-img" alt = "" src={img_ribs}></img>
+						<input type="radio" id="pork" name="meaty" value="pork" className="radio" onChange={handleInput} />
+						<div className="rad-lab-txt">Pork</div>
 					</label>
-				</div>
-				<div className="rad-lab" >
-					<label htmlFor="poultry">
-						<img className="rad-lab-img" alt = "" src={img_chicken}>
-						</img>
-					</label>
-					<input type="radio" id="poultry" name="meaty" value="poultry" className="radio" onChange={handleInput} />
-					<label className="rad-lab-txt" htmlFor="poultry">
-						Poultry
-					</label>
-				</div>
-				<div className="rad-lab" >
-					<label htmlFor="pork">
-						<img className="rad-lab-img" alt = "" src={img_ribs}>
-						</img>
-					</label>
-					<input type="radio" id="pork" name="meaty" value="pork" className="radio" onChange={handleInput} />
-					<label className="rad-lab-txt" htmlFor="pork">
-						Pork
-					</label>
-				</div>
 			</section>
 			
 			{/* Render the list of items. */}
