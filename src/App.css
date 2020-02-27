@@ -237,9 +237,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: space-between; */
   justify-content: space-around;
-
+  font-size: 40px;
 }
 
 .rad-lab-img {
@@ -248,7 +247,7 @@ body {
 }
 
 .rad-lab-txt {
-  font-size: 40px;
+  /* font-size: 40px; */
 }
 
 :focus{
@@ -349,3 +348,4 @@ body {
   opacity: 1;
   transition: opacity 1300ms linear;
 }
+
