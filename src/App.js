@@ -309,22 +309,22 @@ function App() {
 					<label className="rad-lab" htmlFor="allmeat">
 						<img className="rad-lab-img" alt = "" src={img_meat}></img>
 						<input type="radio" id="allmeat" name="meaty" value="" className="radio" onChange={handleInput} defaultChecked/>
-						<div className="rad-lab-txt">All Meat</div>
+						All Meat
 					</label>
 					<label className="rad-lab" htmlFor="beef">
 						<img className="rad-lab-img" alt = "" src={img_beef}></img>
 						<input type="radio" id="beef" name="meaty" value="beef" className="radio" onChange={handleInput} />
-						<div className="rad-lab-txt">Beef</div>
+						Beef
 					</label>
 					<label className="rad-lab" htmlFor="poultry">
 						<img className="rad-lab-img" alt = "" src={img_chicken}></img>
 						<input type="radio" id="poultry" name="meaty" value="poultry" className="radio" onChange={handleInput} />
-						<div className="rad-lab-txt">Poultry</div>
+						Poultry
 					</label>
 					<label className="rad-lab" htmlFor="pork">
 						<img className="rad-lab-img" alt = "" src={img_ribs}></img>
 						<input type="radio" id="pork" name="meaty" value="pork" className="radio" onChange={handleInput} />
-						<div className="rad-lab-txt">Pork</div>
+						Pork
 					</label>
 			</section>
 			

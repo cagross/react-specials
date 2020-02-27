@@ -238,6 +238,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  font-size: 40px;
 }
 
 .rad-lab-img {
@@ -246,7 +247,7 @@ body {
 }
 
 .rad-lab-txt {
-  font-size: 40px;
+  /* font-size: 40px; */
 }
 
 :focus{
