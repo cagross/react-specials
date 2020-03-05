@@ -295,9 +295,7 @@ function App() {
 		const radButtons = document.getElementsByTagName("input") 
 		for (let i = 0; i < radButtons.length; i++) {
 			if (radButtons[i].value === event.target.value) {
-				// radButtons[i].className = "radio animated heartBeat";	
-				radButtons[i].className = "radio";	
-
+				radButtons[i].className = "radio animated heartBeat";	
 			} else {
 				radButtons[i].className = "radio";	
 			}
