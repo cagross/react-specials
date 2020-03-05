@@ -254,9 +254,10 @@ body {
   outline:none;
 }
 .radio{
-  -webkit-appearance:button;
-  -moz-appearance:button;
-  appearance:button;
+  appearance: none;
+  -webkit-appearance:  none;
+  -moz-appearance: none;
+
   border:4px solid #ccc;
   border-top-color:#bbb;
   border-left-color:#bbb;
