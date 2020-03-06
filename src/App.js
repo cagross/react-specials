@@ -328,6 +328,24 @@ function App() {
 					</label>
 			</section>
 			
+			<div className="header_row" >
+				<div className="item_thumb">
+					Image
+				</div>
+				<div className="item_details">
+					Name/Description
+				</div>
+				<div className="header_dates">
+					Sale Info
+				</div>
+				<div className="header_price">
+					Price
+				</div>
+				<div className="header_price">
+					Unit Price
+				</div>
+			</div>
+
 			{/* Render the list of items. */}
 			<section id="items_container">
 				<Results currMeat={currentMeat} data={data} />
