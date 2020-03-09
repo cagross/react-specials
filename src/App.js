@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {CSSTransition} from 'react-transition-group'// Required only for CSS transitions.
-import './animate.css';// Needed to for the specific CSS transition I'm using ('fade' in this case).
+// import './animate.css';// Needed to for the specific CSS transition I'm using ('fade' in this case).
 
 import './App.css';// Import the main CSS file.
 
