@@ -27,28 +27,26 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React Specials App</title>
+    <title>Meat Specials App</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     
 	<div class="topbar">
-		<div class="tb-wrapper" align='right'>
+	<div class="topbar__inner" align='right'>
 		User login goes here.
-		</div>
 	</div>
-    <div id="wrapper">
-        <header id="header">
-          <div class="header-text">
-            <div>
-              Meat Specials
-            </div>
-            <div class="header-desc">
-              Select a type of meat and the page will display which items from your selection are on sale this week.<br />
-			  The app currently displays specials from one single grocery store, in Arlington, Virginia, USA.<br />
-			  For questions, comments, concerns, <a href = 'https://github.com/cagross/react-specials/tree/master'>visit this repo on GitHub</a>.
-            </div>
-          </div>
+	</div>
+    <div class="wrapper">
+        <header class="header">
+			<div>
+				Meat Specials
+			</div>
+			<div class="header__desc">
+				Select a type of meat and the page will display which items from your selection are on sale this week.<br />
+				The app currently displays specials from one single grocery store, in Arlington, Virginia, USA.<br />
+				For questions, comments, concerns, <a href = 'https://github.com/cagross/react-specials/tree/master'>visit this repo on GitHub</a>.
+			</div>
         </header>
 		<main>
 		<div id="root"></div>

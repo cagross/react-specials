@@ -115,36 +115,36 @@ function Results(props) {// Filter the list of specials based on the user's meat
 							key={key}
 						>
 
-							<div className="item_row" >
-								<img className="item_thumb" alt={meatData[key]['name']} src={meatData[key]['x_large_image_url']}></img>
-								<div className="item_details">
-									<div className="item_name">
+							<div className="row" >
+								<img className="row__thumb" alt={meatData[key]['name']} src={meatData[key]['x_large_image_url']}></img>
+								<div className="row__details">
+									<div className="row__name">
 										{meatData[key]['name']}
 									</div>
-									<div className="item_desc">
+									<div className="row__desc">
 										{meatData[key]['description']}
 									</div>
 
-									<div className="item_disc">
+									<div className="row__disc">
 										{meatData[key]['disclaimer_text']}
 									</div>
-									<div className="item_ss">
+									<div className="row__ss">
 										{meatData[key]['sale_story']}
 									</div>
 								</div>
-								<div className="item_dates">
-									<div className="store_info">
-										<img className="store_logo" alt="Logo: Giant Food." src={logo_giant}></img>
+								<div className="row__dates">
+									<div className="row__storinfo">
+										<img className="row__storlogo" alt="Logo: Giant Food." src={logo_giant}></img>
 										{/* 15/7/19 The store name/address is hard coded for now.  Once more stores are added, this will be dynamic. */}
-										<div className="store_address">
+										<div className="row__storaddress">
 											Giant Food<br />
 											2501 S. 9th Rd.<br />
 											Arlington, VA 22204
 										</div>
 									</div>
-									<div className="item_dates_text">
+									<div className="row__datetext">
 										<i>
-											<span className="item_dates_prefix">
+											<span className="row__dateprefix">
 												valid:
 											</span>
 											<time dateTime={meatData[key]['valid_from']}>{formDate(meatData[key]['valid_from'])}</time> - <time dateTime={meatData[key]['valid_to']}>{formDate(meatData[key]['valid_to'])}</time>
@@ -152,10 +152,10 @@ function Results(props) {// Filter the list of specials based on the user's meat
 										</i>
 									</div>
 								</div>
-								<span className="item_price">
+								<span className="row__price">
 									${formPrice(meatData[key]['current_price'])}{meatData[key]['price_text']}
 								</span>
-								<span className="item_price">
+								<span className="row__price">
 									${formPrice(meatData[key]['unit_price'])}/lb.
 								</span>
 							</div>
@@ -328,20 +328,20 @@ function App() {
 					</label>
 			</section>
 			
-			<div className="header_row" >
-				<div className="item_thumb">
+			<div className="tabhead" >
+				<div className="row__thumb">
 					Image
 				</div>
-				<div className="item_details">
+				<div className="row__details">
 					Name/Description
 				</div>
-				<div className="header_dates">
+				<div className="tabhead__info">
 					Sale Info
 				</div>
-				<div className="header_price">
+				<div className="tabhead__price">
 					Price
 				</div>
-				<div className="header_price">
+				<div className="tabhead__price">
 					Unit Price
 				</div>
 			</div>
