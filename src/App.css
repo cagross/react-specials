@@ -7,11 +7,22 @@
 	--thumb-text-align: center;
 	--details-width: 700px;
 	--details-overflow: visible;
-  }
+	--main-width: 75%;
+	--main-min-width: 768px;
+	--main-margin: auto;
+	--radio-side: 50px;
+	--price-margin-left: auto;
+	--row-display: flex;
+	--row-align-items: flex-start;
+}
 
+html {
+	/* font-size: 22px; */
+}
 body {
     font-family: 'Montserrat', sans-serif;
 }
+/* This ensures that when an image, or radio button, is clicked, an outline does not appear over it.  */
 :focus {
 	outline:none;
 }
@@ -20,20 +31,19 @@ body {
 	background-color: aliceblue;
 }
 .topbar__inner {
-	width: 75%;
-	margin: auto;
-	min-width: 768px;
-  }
+	width: var(--main-width);
+	min-width: var(--main-min-width);
+	margin: var(--main-margin);
+}
 .wrapper {
-    width: 75%;
-	margin: auto;
-	min-width: 768px;
+    width: var(--main-width);
+	min-width: var(--main-min-width);
+	margin: var(--main-margin);
 }
 .header {
     border-radius: 15px;
     border: 5px solid #406C1C;
-    margin-top: 20px;
-	margin-bottom: 20px;
+	margin: 20px 0;
 	color: #333333;
     font-size: 120px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -49,9 +59,7 @@ body {
 } */
 .header__desc {
   font-size: 20px;
-  padding-left: 150px;
-  padding-right: 150px;
-  padding-bottom:10px;
+  padding: 0 150px 10px 150px;
   line-height: 30px;
 }
 .filter {
@@ -81,9 +89,9 @@ body {
 	border-top-color:#bbb;
 	border-left-color:#bbb;
 	background:#fff;
-	width:50px;
-	height:50px;
-	border-radius:50%;
+	width: var(--radio-side);
+	height: var(--radio-side);
+	border-radius: 50%;
 }
 .radio__input:checked {
 	border:20px solid #4099ff;
@@ -149,8 +157,8 @@ body {
 /* End radio button style. */
 
 .tabhead {
-	display: flex;
-	align-items: flex-start;
+	display: var(--row-display);
+	align-items: var(--row-align-items);
 	margin-top: 60px;
 	font-weight: 600;
 }
@@ -171,11 +179,11 @@ body {
 	text-align: center;
 }
 .tabhead__price {
-	margin-left: auto;
+	margin-left: var(--price-margin-left);
 }
 .row {
-    display: flex;
-    align-items: flex-start;
+	display: var(--row-display);
+	align-items: var(--row-align-items);
     padding: 30px 0;
     border-bottom: 1px solid #f4eff1;
     border-top: 1px solid #f4eff1;
@@ -231,7 +239,7 @@ body {
 }
 .row__price {
     align-self: flex-end;
-    margin-left: auto;
+    margin-left: var(--price-margin-left);
     font-size: 25px;
 }
 .fade-appear {
