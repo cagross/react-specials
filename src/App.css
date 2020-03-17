@@ -17,10 +17,11 @@
 }
 
 html {
-	/* font-size: 22px; */
+	font-size: 22px;
+    /* font-family: 'Montserrat', sans-serif; */
 }
 body {
-    font-family: 'Montserrat', sans-serif;
+    /* font-family: 'Montserrat', sans-serif; */
 }
 /* This ensures that when an image, or radio button, is clicked, an outline does not appear over it.  */
 :focus {
@@ -34,6 +35,9 @@ body {
 	width: var(--main-width);
 	min-width: var(--main-min-width);
 	margin: var(--main-margin);
+	/* font-size: 16px; */
+	font-size: 0.75rem;
+
 }
 .wrapper {
     width: var(--main-width);
@@ -45,7 +49,8 @@ body {
     border: 5px solid #406C1C;
 	margin: 20px 0;
 	color: #333333;
-    font-size: 120px;
+	/* font-size: 120px; */
+    font-size: 5.5rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
 }
@@ -58,7 +63,7 @@ body {
     margin-bottom: 20px;    
 } */
 .header__desc {
-  font-size: 20px;
+  font-size: 0.9rem;
   padding: 0 150px 10px 150px;
   line-height: 30px;
 }
@@ -75,8 +80,8 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
-	font-size: 40px;
-  }
+	font-size: 1.8rem;
+}
 .radio__img {
 	width: 200px;
 	border-radius: 15px;
@@ -160,6 +165,7 @@ body {
 	display: var(--row-display);
 	align-items: var(--row-align-items);
 	margin-top: 60px;
+	font-size: 0.75rem;
 	font-weight: 600;
 }
 .tabhead__thumb {
@@ -199,10 +205,13 @@ body {
 }
 .row__name {
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 0.9rem;
+}
+.row__desc {
+	font-size: 0.7rem;
 }
 .row__disc, .row_ss {
-	font-size: 12px;
+	font-size: 0.55rem;
 	font-style: italic;
 }
 .row__disc {
@@ -222,6 +231,9 @@ body {
 	align-items: center;
 	justify-content: space-between;
 }
+.row__datetext {
+	font-size: 0.70rem;
+}
 .row__storinfo {
 	display: flex;
 	justify-content: space-around;
@@ -231,16 +243,16 @@ body {
 	padding-right: 10px;
 }
 .row__storaddress {
-	font-size: 11px;
+	font-size: 0.50rem;
 }
 .row__dateprefix {
-	font-size: 12px;
+	font-size: 0.50rem;
 	margin-right: 5px;
 }
 .row__price {
     align-self: flex-end;
     margin-left: var(--price-margin-left);
-    font-size: 25px;
+    font-size: 1.13rem;
 }
 .fade-appear {
 	opacity: 0;
