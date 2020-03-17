@@ -210,7 +210,7 @@ body {
 .row__desc {
 	font-size: 0.7rem;
 }
-.row__disc, .row_ss {
+.row__disc, .row__ss {
 	font-size: 0.55rem;
 	font-style: italic;
 }
