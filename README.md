@@ -103,5 +103,4 @@ ___
 
 <!-- See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project. -->
 
-<!-- ## 🎉 Acknowledgements <a name = "acknowledgements"></a>
-Thanks to [@noffle](https://github.com/noffle) for assistance with building this README.  Not only is his repo [Art of README](https://github.com/noffle/art-of-readme) a great starting point for beginners, he personally gave me some valuable notes. -->
+<!-- ## 🎉 Acknowledgements <a name = "acknowledgements"></a>-->
