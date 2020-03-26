@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-// const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 // const mongoose = require('mongoose');
 // const fetch = require('node-fetch');
 
@@ -155,45 +155,49 @@ console.log('Here is the output.');
 
 // // Function to prepare an email and send it.
 // async function main(email) {// async..await is not allowed in global scope, must use a wrapper
+async function main() {// async..await is not allowed in global scope, must use a wrapper
 
-// 	// Generate test SMTP service account from ethereal.email
-// 	// Only needed if you don't have a real mail account for testing
-// 	// let testAccount = await nodemailer.createTestAccount();
 
-// 	// create reusable transporter object using the default SMTP transport
-// 	let transporter = nodemailer.createTransport({
-// 		// host: 'smtp.ethereal.email',
-// 		host: 'smtp.dreamhost.com',
-// 		// host: 'everlooksolutions.com',
-// 		// host: 'mail.everlooksolutions.com',
 
-// 		// port: 587,
-// 		// secure: false, // true for 465, false for other ports
-// 		port: 465,
-// 		secure: true, // true for 465, false for other ports
+	// Generate test SMTP service account from ethereal.email
+	// Only needed if you don't have a real mail account for testing
+	// let testAccount = await nodemailer.createTestAccount();
 
-// 		auth: {
-// 			// user: testAccount.user, // generated ethereal user
-// 			// pass: testAccount.pass // generated ethereal password
-// 			user: 'admin@kabultec.org', // generated ethereal user
-// 			pass: 'KQqDu_47EL' // generated ethereal password
-// 			// user: 'cagross@everlooksolutions.com', // generated ethereal user
-// 			// pass: 'blood74pen' // generated ethereal password
-// 		}
-// 	});
+	// create reusable transporter object using the default SMTP transport
+	let transporter = nodemailer.createTransport({
+		// host: 'smtp.ethereal.email',
+		host: 'smtp.dreamhost.com',
+		// host: 'everlooksolutions.com',
+		// host: 'mail.everlooksolutions.com',
 
-// 	// send mail with defined transport object
-// 	let info = await transporter.sendMail({
-// 		from: '"Carl Gross" <admin@kabultec.org>', // sender address
-// 		// to: 'cagross@gmail.com', // list of receivers
-// 		to: email, // list of receivers
-// 		subject: 'Testing messages', // Subject line
-// 		text: 'Hello world?', // plain text body
-// 		html: '<b>Hello world?</b>' // html body
-// 	});
-// 	console.log('Message sent: %s', info.messageId);
-// 	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+		// port: 587,
+		// secure: false, // true for 465, false for other ports
+		port: 465,
+		secure: true, // true for 465, false for other ports
 
-// }
+		auth: {
+			// user: testAccount.user, // generated ethereal user
+			// pass: testAccount.pass // generated ethereal password
+			user: 'admin@kabultec.org', // generated ethereal user
+			pass: 'KQqDu_47EL' // generated ethereal password
+			// user: 'cagross@everlooksolutions.com', // generated ethereal user
+			// pass: 'blood74pen' // generated ethereal password
+		}
+	});
 
-// // main().catch(console.error);
+	// send mail with defined transport object
+	let info = await transporter.sendMail({
+		from: '"Carl Gross" <admin@kabultec.org>', // sender address
+		to: 'cagross@gmail.com', // list of receivers
+		// to: email, // list of receivers
+		subject: 'Testing messages', // Subject line
+		text: 'Hello world?', // plain text body
+		html: '<b>Hello world?</b>' // html body
+	});
+	console.log('Message sent: %s', info.messageId);
+	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+}
+
+// main().catch(console.error);
+main();
