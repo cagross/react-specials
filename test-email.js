@@ -1,43 +1,45 @@
 #! /usr/bin/env node
 
 const nodemailer = require('nodemailer');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 // const fetch = require('node-fetch');
 
 //Set up mongoose connection
-// const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
-// mongoose.connect(mongoDB, { useNewUrlParser: true });
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 console.log('Here is the output.');
 
-// //Define a schema.  
-// const Schema = mongoose.Schema;
-// //Create an instance of schema Schema.
-// const SomeModelSchema = new Schema({
-// 	email: String,
+//Define a schema.  
+const Schema = mongoose.Schema;
+//Create an instance of schema Schema.
+const SomeModelSchema = new Schema({
+	email: String,
+});
+
+// Compile model from schema object.
+const SomeModel = mongoose.model('somemodel', SomeModelSchema );
+
+// Create a new record in the database.  Create an instance of model SomeModel, and assign a value of 'cagross@gmail.com' to 'email'.
+// var awesome_instance = new SomeModel({ email: 'cag8f@yahoo.com' });
+// Save the new record in the database.  Save new model instance, with the new data, passing a call back
+// awesome_instance.save(function (err) {
+//   if (err) return handleError(err);
 // });
 
-// // Compile model from schema object.
-// const SomeModel = mongoose.model('somemodel', SomeModelSchema );
+// Search the model for a particular record.  findOne() will find one single record, and execute a call back function.
+// SomeModel.findOne({ 'email': 'cagross@gmail.com' }, 'email', function (err, match) {
+SomeModel.find({}, 'email', function (err, match) {
 
-// // Create a new record in the database.  Create an instance of model SomeModel, and assign a value of 'cagross@gmail.com' to 'email'.
-// // var awesome_instance = new SomeModel({ email: 'cag8f@yahoo.com' });
-// // Save the new record in the database.  Save new model instance, with the new data, passing a call back
-// // awesome_instance.save(function (err) {
-// //   if (err) return handleError(err);
-// // });
+	if (err) {
+		// return handleError(err);
+		return console.log('error:  ' + err);
 
-// // Search the model for a particular record.  findOne() will find one single record, and execute a call back function.
-// // SomeModel.findOne({ 'email': 'cagross@gmail.com' }, 'email', function (err, match) {
-// SomeModel.find({}, 'email', function (err, match) {
 
-// 	if (err) {
-// 		return handleError(err);
-// 	} else {
-
+	} else {
 
 
 
@@ -94,14 +96,17 @@ console.log('Here is the output.');
 
 
 
-// 		// console.log(match);
-// 		var len = match.length;
-// 		for (i = 0; i < len; i++) {
-// 			main(match[i].email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
-// 		}
-// 		// main(match.email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
-// 	}
-// })
+		console.log(match);
+		var len = match.length;
+		let i;
+		for (i = 0; i < len; i++) {
+			main(match[i].email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+		}
+		// main(match.email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+		mongoose.connection.close();
+
+	}
+})
 
 // // Function to filter all data into items from specific departments, e.g. meat, deli, etc.
 // function productFilter(dataItems, filter) {
@@ -186,16 +191,16 @@ async function main() {// async..await is not allowed in global scope, must use 
 	});
 
 	// send mail with defined transport object
-	let info = await transporter.sendMail({
-		from: '"Carl Gross" <admin@kabultec.org>', // sender address
-		to: 'cagross@gmail.com', // list of receivers
-		// to: email, // list of receivers
-		subject: 'Testing messages', // Subject line
-		text: 'Hello world?', // plain text body
-		html: '<b>Hello world?</b>' // html body
-	});
-	console.log('Message sent: %s', info.messageId);
-	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+	// let info = await transporter.sendMail({
+	// 	from: '"Carl Gross" <admin@kabultec.org>', // sender address
+	// 	to: 'cagross@gmail.com', // list of receivers
+	// 	// to: email, // list of receivers
+	// 	subject: 'Testing messages', // Subject line
+	// 	text: 'Hello world?', // plain text body
+	// 	html: '<b>Hello world?</b>' // html body
+	// });
+	// console.log('Message sent: %s', info.messageId);
+	// console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
 }
 
