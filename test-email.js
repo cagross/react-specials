@@ -35,11 +35,9 @@ const SomeModel = mongoose.model('somemodel', SomeModelSchema );
 SomeModel.find({}, 'email', function (err, match) {
 
 	if (err) {
-		// return handleError(err);
 		return console.log('error:  ' + err);
-
-
 	} else {
+
 
 
 
@@ -96,10 +94,10 @@ SomeModel.find({}, 'email', function (err, match) {
 
 
 
-		console.log(match);
+		// console.log(match);
 		var len = match.length;
-		let i;
-		for (i = 0; i < len; i++) {
+		for (let i = 0; i < len; i++) {
+			console.log(len + ' ' + i + ' ' + match[i].email);
 			main(match[i].email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		// main(match.email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
@@ -159,11 +157,11 @@ SomeModel.find({}, 'email', function (err, match) {
 // // console.log(awesome_instance.email); //should log 'also_awesome'
 
 // // Function to prepare an email and send it.
-// async function main(email) {// async..await is not allowed in global scope, must use a wrapper
-async function main() {// async..await is not allowed in global scope, must use a wrapper
+async function main(email) {// async..await is not allowed in global scope, must use a wrapper
+// async function main() {// async..await is not allowed in global scope, must use a wrapper
 
 
-
+	console.log(email);
 	// Generate test SMTP service account from ethereal.email
 	// Only needed if you don't have a real mail account for testing
 	// let testAccount = await nodemailer.createTestAccount();
@@ -191,18 +189,18 @@ async function main() {// async..await is not allowed in global scope, must use 
 	});
 
 	// send mail with defined transport object
-	// let info = await transporter.sendMail({
-	// 	from: '"Carl Gross" <admin@kabultec.org>', // sender address
-	// 	to: 'cagross@gmail.com', // list of receivers
-	// 	// to: email, // list of receivers
-	// 	subject: 'Testing messages', // Subject line
-	// 	text: 'Hello world?', // plain text body
-	// 	html: '<b>Hello world?</b>' // html body
-	// });
-	// console.log('Message sent: %s', info.messageId);
-	// console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+	let info = await transporter.sendMail({
+		from: '"Carl Gross" <admin@kabultec.org>', // sender address
+		// to: 'cagross@gmail.com', // list of receivers
+		to: email, // list of receivers
+		subject: 'Testing messages', // Subject line
+		text: 'Hello world?', // plain text body
+		html: '<b>Hello world?</b>' // html body
+	});
+	console.log('Message sent: %s', info.messageId);
+	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
 }
 
 // main().catch(console.error);
-main();
+// main();
