@@ -1,5 +1,9 @@
 #! /usr/bin/env node
 
+import { hello } from './module.mjs';
+let val = hello();  // val is "Hello";
+console.log(val);
+
 const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
 const fetch = require('node-fetch');
@@ -85,7 +89,7 @@ SomeModel.find({}, 'email', function (err, match) {
 
 					return item;
 				});
-				console.log(dataMeatItems);
+				console.log('fetched');
 		// 		setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
 			})
 		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
@@ -201,3 +205,4 @@ async function main(email) {// async..await is not allowed in global scope, must
 
 // main().catch(console.error);
 // main();
+
