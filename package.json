@@ -1,6 +1,9 @@
 {
   "name": "reactinterface",
   "version": "0.1.0",
+  "engines": {
+    "node": "13.x"
+  }, 
   "private": true,
   "dependencies": {
     "mongoose": "^5.9.6",

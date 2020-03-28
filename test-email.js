@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
-import { hello } from './module.mjs';
-let val = hello();  // val is "Hello";
-console.log(val);
+// import { hello } from './module.mjs';
+// let val = hello();  // val is "Hello";
+// console.log(val);
 
 const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
@@ -190,16 +190,16 @@ async function main(email) {// async..await is not allowed in global scope, must
 	});
 
 	// send mail with defined transport object
-	// let info = await transporter.sendMail({
-	// 	from: '"Carl Gross" <admin@kabultec.org>', // sender address
-	// 	// to: 'cagross@gmail.com', // list of receivers
-	// 	to: email, // list of receivers
-	// 	subject: 'Testing messages', // Subject line
-	// 	text: 'Hello world?', // plain text body
-	// 	html: '<b>Hello world?</b>' // html body
-	// });
-	// console.log('Message sent: %s', info.messageId);
-	// console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+	let info = await transporter.sendMail({
+		from: '"Carl Gross" <admin@kabultec.org>', // sender address
+		// to: 'cagross@gmail.com', // list of receivers
+		to: email, // list of receivers
+		subject: 'Testing messages', // Subject line
+		text: 'Hello world?', // plain text body
+		html: '<b>Hello world?</b>' // html body
+	});
+	console.log('Message sent: %s', info.messageId);
+	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
 }
 
