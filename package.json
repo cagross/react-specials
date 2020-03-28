@@ -1,6 +1,7 @@
 {
   "name": "reactinterface",
   "version": "0.1.0",
+  "type": "module",
   "engines": {
     "node": "13.x"
   }, 

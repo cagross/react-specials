@@ -1,12 +1,15 @@
 #! /usr/bin/env node
 
-// import { hello } from './module.mjs';
-// let val = hello();  // val is "Hello";
-// console.log(val);
+import { hello } from './module.js';
+let val = hello();  // val is "Hello";
+console.log(val);
 
-const nodemailer = require('nodemailer');
-const mongoose = require('mongoose');
-const fetch = require('node-fetch');
+// const nodemailer = require('nodemailer');
+// const mongoose = require('mongoose');
+// const fetch = require('node-fetch');
+import nodemailer from 'nodemailer';
+import mongoose from 'mongoose';
+import fetch from 'node-fetch';
 
 //Set up mongoose connection
 const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
