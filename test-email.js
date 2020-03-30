@@ -1,8 +1,61 @@
 #! /usr/bin/env node
 
-import { hello } from './module.js';
-let val = hello();  // val is "Hello";
-console.log(val);
+
+
+
+
+
+
+// /* ES5, using Bluebird */
+// var isMomHappy = true;
+// // var isMomHappy = false;
+
+
+// // Promise
+// var willIGetNewPhone = new Promise(
+//     function (resolve, reject) {
+//         if (isMomHappy) {
+//             var phone = {
+//                 brand: 'Samsung',
+//                 color: 'black'
+//             };
+//             resolve(phone);
+//         } else {
+// 			var reason = new Error('mom is not happy');
+//             // var reason = 123;
+			
+//             reject(reason);
+//         }
+
+//     }
+// );
+
+
+// // call our promise
+// var askMom = function () {
+//     willIGetNewPhone
+//         .then(function (fulfilled) {
+//             // yay, you got a new phone
+//             console.log(fulfilled);
+//         })
+//         .catch(function (error) {
+//             // ops, mom don't buy it
+// 			console.log(error.message);
+//             // console.log(error);
+			
+//         });
+// }
+
+// askMom();
+
+
+
+
+
+
+
+
+
 
 // const nodemailer = require('nodemailer');
 // const mongoose = require('mongoose');
@@ -10,6 +63,15 @@ console.log(val);
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 import fetch from 'node-fetch';
+
+
+// import { hello } from './module.js';
+// let val = hello();  // val is "Hello";
+// console.log('module says ' + val);
+// console.log('module says ' + hello());
+// console.log(hello());
+console.log('Print this after Hello World.');
+
 
 //Set up mongoose connection
 const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
@@ -175,26 +237,31 @@ async function main(email) {// async..await is not allowed in global scope, must
 
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
-		host: 'smtp.dreamhost.com',
-		port: 465,
-		secure: true, // true for 465, false for other ports
-		auth: {
-			user: 'admin@kabultec.org', // generated ethereal user
-			pass: 'KQqDu_47EL' // generated ethereal password
-		}
-
-		// host: 'mail.everlooksolutions.com',
+		// host: 'smtp.dreamhost.com',
 		// port: 465,
 		// secure: true, // true for 465, false for other ports
 		// auth: {
-		// 	user: 'cagross@everlooksolutions.com',
-		// 	pass: 'blood74pen'
+		// 	user: 'admin@kabultec.org',
+		// 	pass: 'KQqDu_47EL'
 		// }
+
+		// host: 'mail.everlooksolutions.com',
+		// host: 'everlooksolutions.com',
+		host: 'sg2plcpnl0174.prod.sin2.secureserver.net',
+		port: 465,
+		secure: true, // true for 465, false for other ports
+		auth: {
+			user: 'cagross@everlooksolutions.com',
+			pass: 'blood74pen'
+		}
+
 	});
 
 	// send mail with defined transport object
 	let info = await transporter.sendMail({
-		from: '"Carl Gross" <admin@kabultec.org>', // sender address
+		// from: '"Carl Gross" <admin@kabultec.org>', // sender address
+		// from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+		from: '"Carl Gross" <cagross@gmail.com>', // sender address
 		// to: 'cagross@gmail.com', // list of receivers
 		to: email, // list of receivers
 		subject: 'Testing messages', // Subject line
