@@ -1,62 +1,5 @@
 #! /usr/bin/env node
 
-
-
-
-
-
-
-// /* ES5, using Bluebird */
-// var isMomHappy = true;
-// // var isMomHappy = false;
-
-
-// // Promise
-// var willIGetNewPhone = new Promise(
-//     function (resolve, reject) {
-//         if (isMomHappy) {
-//             var phone = {
-//                 brand: 'Samsung',
-//                 color: 'black'
-//             };
-//             resolve(phone);
-//         } else {
-// 			var reason = new Error('mom is not happy');
-//             // var reason = 123;
-			
-//             reject(reason);
-//         }
-
-//     }
-// );
-
-
-// // call our promise
-// var askMom = function () {
-//     willIGetNewPhone
-//         .then(function (fulfilled) {
-//             // yay, you got a new phone
-//             console.log(fulfilled);
-//         })
-//         .catch(function (error) {
-//             // ops, mom don't buy it
-// 			console.log(error.message);
-//             // console.log(error);
-			
-//         });
-// }
-
-// askMom();
-
-
-
-
-
-
-
-
-
-
 // const nodemailer = require('nodemailer');
 // const mongoose = require('mongoose');
 // const fetch = require('node-fetch');
@@ -71,7 +14,7 @@ import fetch from 'node-fetch';
 
 
 
-import { hello } from './module.js';
+import { hello } from './src/module.js';
 // async function update() {
 // 	// const data = await getData('name=tristan');
 // 	const data = await hello();

@@ -19,6 +19,8 @@ import logo_giant from './images/logo-Giant-50.png';
 
 import PropTypes from 'prop-types';// Required to add data type validation on props.
 
+import { hello } from './module.js';
+
 // Function to format price.
 function formPrice(unform_price) {
 	return Number(unform_price).toFixed(2);
@@ -228,6 +230,11 @@ Results.propTypes = {
   };
 
 // App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
+
+
+
+
+
 function App() {
 
 	/* Use the 'useState' hook to set initial state. */
@@ -237,55 +244,26 @@ function App() {
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
 	
-		/* Begin code to fetch all weekly special data from the Giant Food API. */
-		const proxyURL = "https://cors-anywhere.herokuapp.com/";
-		const urlAPIFlyer =
-			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
+		// const testy = hello();
+		// setData(testy);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
 
-		// Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
-		fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
+
+		(async () => {
+			const testy  = await hello();
+			// await hello();
+			// console.log('hello');
+			// console.log('data is: ' + data);
+			// console.log('Print this after data.');
+			setData(testy);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
+
+		})();
 		
-		.then(response => response.text())
-
-		.then(flyerInfo => {
-
-			const posFlyerID = flyerInfo.search("current_flyer_id");
-			const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
-			const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
-
-			fetch(proxyURL + urlAPIData)// This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
-
-			.then(response => response.json())
-
-			.then(dataAll => {
-			
-				const dataItems = dataAll.items;// Filter all data into only data related to items.
-				var dataMeatItems;
-
-				const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
-				const dataMeatItemsKeys = productFilter(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
-
-				dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
 		
-					let item = dataItems[key];
+	})
 
-					if (item['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
-						item['unit_price'] = 'unknown';
-						item['current_price'] = item['unit_price'];
-					} else {
-						unitPrice(item);//Calculate the unit price of the item and add it to the items array.
-					}
-
-					return item;
-				});
-
-				setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
-			})
-		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
-		});
 		/* End code to fetch API data. */
 
-	}, []);
+
 
 	/* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as handle the functionality of the radio buttons.*/
 	function handleInput(event) {
@@ -353,6 +331,137 @@ function App() {
 		</div>
 	)
 }
+
+
+
+
+
+
+// function App() {
+
+// 	/* Use the 'useState' hook to set initial state. */
+// 	const [data, setData] = useState([]);// Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
+// 	const [currentMeat, setMeat] = useState('');// Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
+
+// 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
+// 	useEffect(() => {
+	
+// 		/* Begin code to fetch all weekly special data from the Giant Food API. */
+// 		const proxyURL = "https://cors-anywhere.herokuapp.com/";
+// 		const urlAPIFlyer =
+// 			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
+
+// 		// Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
+// 		fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
+		
+// 		.then(response => response.text())
+
+// 		.then(flyerInfo => {
+
+// 			const posFlyerID = flyerInfo.search("current_flyer_id");
+// 			const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
+// 			const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
+
+// 			fetch(proxyURL + urlAPIData)// This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
+
+// 			.then(response => response.json())
+
+// 			.then(dataAll => {
+			
+// 				const dataItems = dataAll.items;// Filter all data into only data related to items.
+// 				var dataMeatItems;
+
+// 				const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
+// 				const dataMeatItemsKeys = productFilter(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
+
+// 				dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
+		
+// 					let item = dataItems[key];
+
+// 					if (item['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
+// 						item['unit_price'] = 'unknown';
+// 						item['current_price'] = item['unit_price'];
+// 					} else {
+// 						unitPrice(item);//Calculate the unit price of the item and add it to the items array.
+// 					}
+
+// 					return item;
+// 				});
+
+// 				setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
+// 			})
+// 		.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
+// 		});
+// 		/* End code to fetch API data. */
+
+// 	}, []);
+
+// 	/* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as handle the functionality of the radio buttons.*/
+// 	function handleInput(event) {
+// 		setMeat(event.target.value);
+
+// 		// Add necessary CSS classes to radio button elements, ensuring their animations function as expected.
+// 		const radButtons = document.getElementsByTagName("input") 
+// 		for (let i = 0; i < radButtons.length; i++) {
+// 			if (radButtons[i].value === event.target.value) {
+// 				radButtons[i].className = "radio__input animated heartBeat";	
+// 			} else {
+// 				radButtons[i].className = "radio__input";	
+// 			}
+// 		}
+// 	}
+
+// 	return (
+// 		<div id="content">
+// 			{/* Add the radio button filter. */}
+// 			<section className="filter">
+// 					<label className="radio" htmlFor="allmeat">
+// 						<img className="radio__img" alt = "" src={img_meat}></img>
+// 						<input type="radio" id="allmeat" name="meaty" value="" className="radio__input" onChange={handleInput} defaultChecked/>
+// 						All Meat
+// 					</label>
+// 					<label className="radio" htmlFor="beef">
+// 						<img className="radio__img" alt = "" src={img_beef}></img>
+// 						<input type="radio" id="beef" name="meaty" value="beef" className="radio__input" onChange={handleInput} />
+// 						Beef
+// 					</label>
+// 					<label className="radio" htmlFor="poultry">
+// 						<img className="radio__img" alt = "" src={img_chicken}></img>
+// 						<input type="radio" id="poultry" name="meaty" value="poultry" className="radio__input" onChange={handleInput} />
+// 						Poultry
+// 					</label>
+// 					<label className="radio" htmlFor="pork">
+// 						<img className="radio__img" alt = "" src={img_ribs}></img>
+// 						<input type="radio" id="pork" name="meaty" value="pork" className="radio__input" onChange={handleInput} />
+// 						Pork
+// 					</label>
+// 			</section>
+			
+// 			<div className="tabhead" >
+// 				<div className="tabhead__thumb">
+// 					Image
+// 				</div>
+// 				<div className="tabhead__details">
+// 					Name/Description
+// 				</div>
+// 				<div className="tabhead__info">
+// 					Sale Info
+// 				</div>
+// 				<div className="tabhead__price">
+// 					Price
+// 				</div>
+// 				<div className="tabhead__price">
+// 					Unit Price
+// 				</div>
+// 			</div>
+
+// 			{/* Render the list of items. */}
+// 			<section id="items_container">
+// 				<Results currMeat={currentMeat} data={data} />
+// 			</section>
+// 		</div>
+// 	)
+// }
 
 // Ensure the function App() is executed whenever index.js renders App.
 export default App;
