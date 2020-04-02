@@ -65,12 +65,34 @@ import mongoose from 'mongoose';
 import fetch from 'node-fetch';
 
 
-// import { hello } from './module.js';
-// let val = hello();  // val is "Hello";
-// console.log('module says ' + val);
-// console.log('module says ' + hello());
-// console.log(hello());
-console.log('Print this after Hello World.');
+// const name = 'Gary';
+// const movie = 'garyMovie';
+
+import { hello } from './module.js';
+async function update() {
+	// const data = await getData('name=tristan');
+	const data = await hello();
+    // return await hello();
+	
+	console.log('data is: ' + data);
+	console.log('Print this after data.');
+
+}
+update();
+// console.log('data is: ' + hello());
+
+
+// // let val = hello();  // val is "Hello";
+// // console.log('module says ' + val);
+// // console.log('module says ' + hello());
+// // console.log(hello());
+// console.log('Print this after Hello World.');
+// console.log('Print this after data.');
+
+
+
+// const moviePrice = hello(movie).ticketPrice;
+// console.log('One ticket for this movie is ' + moviePrice);
 
 
 //Set up mongoose connection
@@ -236,7 +258,7 @@ async function main(email) {// async..await is not allowed in global scope, must
 	// let testAccount = await nodemailer.createTestAccount();
 
 	// create reusable transporter object using the default SMTP transport
-	let transporter = nodemailer.createTransport({
+	// let transporter = nodemailer.createTransport({
 		// host: 'smtp.dreamhost.com',
 		// port: 465,
 		// secure: true, // true for 465, false for other ports
@@ -247,29 +269,29 @@ async function main(email) {// async..await is not allowed in global scope, must
 
 		// host: 'mail.everlooksolutions.com',
 		// host: 'everlooksolutions.com',
-		host: 'sg2plcpnl0174.prod.sin2.secureserver.net',
-		port: 465,
-		secure: true, // true for 465, false for other ports
-		auth: {
-			user: 'cagross@everlooksolutions.com',
-			pass: 'blood74pen'
-		}
+	// 	host: 'sg2plcpnl0174.prod.sin2.secureserver.net',
+	// 	port: 465,
+	// 	secure: true, // true for 465, false for other ports
+	// 	auth: {
+	// 		user: 'cagross@everlooksolutions.com',
+	// 		pass: 'blood74pen'
+	// 	}
 
-	});
+	// });
 
 	// send mail with defined transport object
-	let info = await transporter.sendMail({
-		// from: '"Carl Gross" <admin@kabultec.org>', // sender address
-		// from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
-		from: '"Carl Gross" <cagross@gmail.com>', // sender address
-		// to: 'cagross@gmail.com', // list of receivers
-		to: email, // list of receivers
-		subject: 'Testing messages', // Subject line
-		text: 'Hello world?', // plain text body
-		html: '<b>Hello world?</b>' // html body
-	});
-	console.log('Message sent: %s', info.messageId);
-	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+	// let info = await transporter.sendMail({
+	// 	// from: '"Carl Gross" <admin@kabultec.org>', // sender address
+	// 	// from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+	// 	from: '"Carl Gross" <cagross@gmail.com>', // sender address
+	// 	// to: 'cagross@gmail.com', // list of receivers
+	// 	to: email, // list of receivers
+	// 	subject: 'Testing messages', // Subject line
+	// 	text: 'Hello world?', // plain text body
+	// 	html: '<b>Hello world?</b>' // html body
+	// });
+	// console.log('Message sent: %s', info.messageId);
+	// console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
 }
 
