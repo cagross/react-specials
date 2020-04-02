@@ -20,6 +20,7 @@ import logo_giant from './images/logo-Giant-50.png';
 import PropTypes from 'prop-types';// Required to add data type validation on props.
 
 import { hello } from './module.js';
+import { terms } from './module-terms.js';
 
 // Function to format price.
 function formPrice(unform_price) {
@@ -38,42 +39,8 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		const meatData = props.data;
 		let meatTerms;
 
-		//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  These terms are requried to determine which meat category each items belongs.  This is very incomplete and inexact, as determining accurate and complete search terms is difficult.  Also, this data should eventually be moved to a database.
-		const searchTerms = {
-			poultry: [
-				"chicken",
-				"roaster",
-				"turkey",
-				"duck",
-				"hen",
-				"goose",
-				"turducken"
-			],
-			beef: [
-				"beef",
-				"steak",
-				"round",
-				"chuck",
-				"rump",
-				"mignon",
-				"frank",
-				// "bologna",
-				// "lunch meat",
-				"veal",
-				// "ground",
-				"roast",
-				"porterhouse",
-				"90 % lean"
-			],
-			pork: [
-				"butt",
-				"ham",
-				"bacon",
-				// "rib",
-				"sausage",
-				"pork"
-			]
-		}
+		//Define search terms.
+		const searchTerms = terms();
 
 		// Determine which terms should be used to filter products, baed on the user's selected meat.
 		if (props.currMeat === "poultry") {
@@ -176,52 +143,52 @@ function Results(props) {// Filter the list of specials based on the user's meat
 	);
 }
 
-// Function to filter all data into items from specific departments, e.g. meat, deli, etc.
-function productFilter(dataItems, filter) {
-	let myArray;
+// // Function to filter all data into items from specific departments, e.g. meat, deli, etc.
+// function productFilter(dataItems, filter) {
+// 	let myArray;
 
-	let dataMeatItems = Object.keys(dataItems).filter(key => {
-		switch (filter) {
-			case 1:
-				myArray = ['Meat', 'Deli'];
-				if (myArray.includes(dataItems[key]["category_names"][0])) {
-					return true;
-				}
-				break;
-			default:
-				return true;
-			}
-	});
-	return dataMeatItems;
-}
+// 	let dataMeatItems = Object.keys(dataItems).filter(key => {
+// 		switch (filter) {
+// 			case 1:
+// 				myArray = ['Meat', 'Deli'];
+// 				if (myArray.includes(dataItems[key]["category_names"][0])) {
+// 					return true;
+// 				}
+// 				break;
+// 			default:
+// 				return true;
+// 			}
+// 	});
+// 	return dataMeatItems;
+// }
 
-// Function to calculate the unit price of an item, and insert it into the main product array.
-function unitPrice(item) {
-	/* Begin code to calculate unit price for each item and add it as a new element in the array. */
-		const pos_lb = item['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
+// // Function to calculate the unit price of an item, and insert it into the main product array.
+// function unitPrice(item) {
+// 	/* Begin code to calculate unit price for each item and add it as a new element in the array. */
+// 		const pos_lb = item['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
 
-		if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
-			item['unit_price'] = item['current_price'];
-		} else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
-			item['unit_price'] = 55.55;
-			const patt_ea = /\/ea/;
-			const has_ea = patt_ea.test(item['price_text']);// Check if the string 'ea' exists in the 'price text.'
-			// If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
-			if (has_ea || item['price_text'] === "") {
+// 		if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
+// 			item['unit_price'] = item['current_price'];
+// 		} else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
+// 			item['unit_price'] = 55.55;
+// 			const patt_ea = /\/ea/;
+// 			const has_ea = patt_ea.test(item['price_text']);// Check if the string 'ea' exists in the 'price text.'
+// 			// If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
+// 			if (has_ea || item['price_text'] === "") {
 
-				if (item['description'] != null) {
-					const pos_oz = item['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
+// 				if (item['description'] != null) {
+// 					const pos_oz = item['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
 
-					if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
-						const partial_oz = item['description'].substring(0, pos_oz);
-						const weight_oz = partial_oz.match(/[0-9]+/);
-						item['unit_price'] = 16*item['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
-					}
-				}
-			}
-		}
-	/* End code to calculate unit price for each item and add it as a new element in the array. */
-}
+// 					if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
+// 						const partial_oz = item['description'].substring(0, pos_oz);
+// 						const weight_oz = partial_oz.match(/[0-9]+/);
+// 						item['unit_price'] = 16*item['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
+// 					}
+// 				}
+// 			}
+// 		}
+// 	/* End code to calculate unit price for each item and add it as a new element in the array. */
+// }
 
 // Ensure each prop has its type defined.  With these types defined, if code tries to pass a prop with a different type, a JS console error will occur.
 Results.propTypes = {

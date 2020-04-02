@@ -5,39 +5,12 @@
 // const fetch = require('node-fetch');
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-import fetch from 'node-fetch';
-
-
-// const name = 'Gary';
-// const movie = 'garyMovie';
-
-
-
+// import fetch from 'node-fetch';
 
 import { hello } from './src/module.js';
-// async function update() {
-// 	// const data = await getData('name=tristan');
-// 	const data = await hello();
-//     // return await hello();
-	
-// 	console.log('data is: ' + data);
-// 	console.log('Print this after data.');
 
-// }
-// update();
-
-
-
-(async () => {
-	const data = await hello();
-	// await hello();
-	// console.log('hello');
-	console.log('data is: ' + data);
-	console.log('Print this after data.');
-})();
-
-
-
+import { terms } from './src/module-terms.js';
+const searchTerms = terms();
 
 
 //Set up mongoose connection
@@ -53,7 +26,10 @@ console.log('Here is the output.');
 const Schema = mongoose.Schema;
 //Create an instance of schema Schema.
 const SomeModelSchema = new Schema({
+	name: String,
 	email: String,
+	meat: String,
+	th_price: Number,
 });
 
 // Compile model from schema object.
@@ -68,72 +44,29 @@ const SomeModel = mongoose.model('somemodel', SomeModelSchema );
 
 // Search the model for a particular record.  findOne() will find one single record, and execute a call back function.
 // SomeModel.findOne({ 'email': 'cagross@gmail.com' }, 'email', function (err, match) {
-SomeModel.find({}, 'email', function (err, match) {
+// SomeModel.find({}, 'email', function (err, match) {
+SomeModel.find({}, 'name email meat th_price', function (err, match) {
+
 
 	if (err) {
 		return console.log('error:  ' + err);
 	} else {
 
 
-
-
-
-		// /* Begin code to fetch all weekly special data from the Giant Food API. */
-		// // const proxyURL = "https://cors-anywhere.herokuapp.com/";
-		// const proxyURL = '';
-
-		// const urlAPIFlyer =
-		// 	"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
-
-		// // Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
-		// fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		
-		// .then(response => response.text())
-		// .then(flyerInfo => {
-
-		// 	const posFlyerID = flyerInfo.search("current_flyer_id");
-		// 	const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
-		// 	const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
-
-		// 	fetch(proxyURL + urlAPIData)// This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
-
-		// 	.then(response => response.json())
-
-		// 	.then(dataAll => {
-		// 		// console.log(dataAll);
+		(async () => {
+			const data = await hello();
+			// await hello();
+			// console.log('data is: ' + data);
 			
-		// 		const dataItems = dataAll.items;// Filter all data into only data related to items.
-		// 		var dataMeatItems;
+			console.log(Object.keys(data).length);
+			console.log('Print this after data.');
+		})();
 
-		// 		const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
-		// 		const dataMeatItemsKeys = productFilter(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
-
-		// 		dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
-		
-		// 			let item = dataItems[key];
-
-		// 			if (item['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
-		// 				item['unit_price'] = 'unknown';
-		// 				item['current_price'] = item['unit_price'];
-		// 			} else {
-		// 				unitPrice(item);//Calculate the unit price of the item and add it to the items array.
-		// 			}
-
-		// 			return item;
-		// 		});
-		// 		console.log('fetched');
-		// // 		setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
-		// 	})
-		// .catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
-		// });
-		// /* End code to fetch API data. */
-
-
-
-		// console.log(match);
 		var len = match.length;
 		for (let i = 0; i < len; i++) {
-			console.log(len + ' ' + i + ' ' + match[i].email);
+			// console.log(len + ' ' + i + ' ' + match[i].email);
+			console.log(len + ' ' + i + ' ' + match[i].meat);
+
 			// main(match[i].email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		mongoose.connection.close();
