@@ -20,7 +20,8 @@ import logo_giant from './images/logo-Giant-50.png';
 import PropTypes from 'prop-types';// Required to add data type validation on props.
 
 import { hello } from './module.js';
-import { terms } from './module-terms.js';
+// import { terms } from './module-terms.js';
+import { filter } from './module-filter.js';
 
 // Function to format price.
 function formPrice(unform_price) {
@@ -37,43 +38,129 @@ function Results(props) {// Filter the list of specials based on the user's meat
 	function meatList() {// Filter the list of specials based on the user's meat selection and render it into a list.
 
 		const meatData = props.data;
-		let meatTerms;
-
-		//Define search terms.
-		const searchTerms = terms();
+		// let meatTerms;
+		// meatTerms = filter(props);
+		let filteredData;
+		filteredData = filter(props);
+		console.log('filtered data is');
+		console.log(filteredData);
 
 		// Determine which terms should be used to filter products, baed on the user's selected meat.
-		if (props.currMeat === "poultry") {
-			meatTerms = searchTerms['poultry'];
-		} else if (props.currMeat === "beef") {
-			meatTerms = searchTerms['beef'];
-		} else if(props.currMeat === "pork") {
-			meatTerms = searchTerms['pork'];
-		}
+		// if (props.currMeat === "poultry") {
+		// 	meatTerms = searchTerms['poultry'];
+		// } else if (props.currMeat === "beef") {
+		// 	meatTerms = searchTerms['beef'];
+		// } else if(props.currMeat === "pork") {
+		// 	meatTerms = searchTerms['pork'];
+		// }
 
-		if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
+		// if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
 
-			return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
+		// 	return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
+
+		// 		/* Begin code to check if item name contains any search terms. */
+		// 		const itemName = meatData[key]["display_name"].toLowerCase();
+					
+		// 		let match = false;
+		// 		if (props.currMeat === "") {
+		// 			match = true;
+		// 		} else {
+		// 			for (let i = 0; i < meatTerms.length; i++) {
+		// 				const pos = itemName.search(meatTerms[i]);
+		// 				if (pos >= 0) {
+		// 					match = true;
+		// 					break;
+		// 				}
+		// 			}
+		// 		}
+		// 		/* End code to check if item name contains any meat terms. */
+
+		// 		/* Begin code to render a row of item information to the page. */
+		// 		if (match) {
+		// 			return (
+
+		// 				<CSSTransition //Ensure each row appears with a CSS fade transition.
+		// 					in={true}
+		// 					appear={true}
+		// 					timeout={1300}
+		// 					classNames="fade"
+		// 					key={key}
+		// 				>
+
+		// 					<div className="row" >
+		// 						<img className="row__thumb" alt={meatData[key]['name']} src={meatData[key]['x_large_image_url']}></img>
+		// 						<div className="row__details">
+		// 							<div className="row__name">
+		// 								{meatData[key]['name']}
+		// 							</div>
+		// 							<div className="row__desc">
+		// 								{meatData[key]['description']}
+		// 							</div>
+
+		// 							<div className="row__disc">
+		// 								{meatData[key]['disclaimer_text']}
+		// 							</div>
+		// 							<div className="row__ss">
+		// 								{meatData[key]['sale_story']}
+		// 							</div>
+		// 						</div>
+		// 						<div className="row__dates">
+		// 							<div className="row__storinfo">
+		// 								<img className="row__storlogo" alt="Logo: Giant Food." src={logo_giant}></img>
+		// 								{/* 15/7/19 The store name/address is hard coded for now.  Once more stores are added, this will be dynamic. */}
+		// 								<div className="row__storaddress">
+		// 									Giant Food<br />
+		// 									2501 S. 9th Rd.<br />
+		// 									Arlington, VA 22204
+		// 								</div>
+		// 							</div>
+		// 							<div className="row__datetext">
+		// 								<i>
+		// 									<span className="row__dateprefix">
+		// 										valid:
+		// 									</span>
+		// 									<time dateTime={meatData[key]['valid_from']}>{formDate(meatData[key]['valid_from'])}</time> - <time dateTime={meatData[key]['valid_to']}>{formDate(meatData[key]['valid_to'])}</time>
+
+		// 								</i>
+		// 							</div>
+		// 						</div>
+		// 						<span className="row__price">
+		// 							${formPrice(meatData[key]['current_price'])}{meatData[key]['price_text']}
+		// 						</span>
+		// 						<span className="row__price">
+		// 							${formPrice(meatData[key]['unit_price'])}/lb.
+		// 						</span>
+		// 					</div>
+		// 				</CSSTransition>
+		// 			);
+		// 		}
+		// 		/* End code to render a row of item information to the page. */
+		// 	});
+		// }
+		// if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
+		if (Object.entries(filteredData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
+			// return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
+			return Object.keys(filteredData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
 
 				/* Begin code to check if item name contains any search terms. */
-				const itemName = meatData[key]["display_name"].toLowerCase();
+				// const itemName = meatData[key]["display_name"].toLowerCase();
 					
-				let match = false;
-				if (props.currMeat === "") {
-					match = true;
-				} else {
-					for (let i = 0; i < meatTerms.length; i++) {
-						const pos = itemName.search(meatTerms[i]);
-						if (pos >= 0) {
-							match = true;
-							break;
-						}
-					}
-				}
+				// let match = false;
+				// if (props.currMeat === "") {
+				// 	match = true;
+				// } else {
+				// 	for (let i = 0; i < meatTerms.length; i++) {
+				// 		const pos = itemName.search(meatTerms[i]);
+				// 		if (pos >= 0) {
+				// 			match = true;
+				// 			break;
+				// 		}
+				// 	}
+				// }
 				/* End code to check if item name contains any meat terms. */
 
 				/* Begin code to render a row of item information to the page. */
-				if (match) {
+				// if (match) {
 					return (
 
 						<CSSTransition //Ensure each row appears with a CSS fade transition.
@@ -130,7 +217,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 							</div>
 						</CSSTransition>
 					);
-				}
+				// }
 				/* End code to render a row of item information to the page. */
 			});
 		}
@@ -143,52 +230,6 @@ function Results(props) {// Filter the list of specials based on the user's meat
 	);
 }
 
-// // Function to filter all data into items from specific departments, e.g. meat, deli, etc.
-// function productFilter(dataItems, filter) {
-// 	let myArray;
-
-// 	let dataMeatItems = Object.keys(dataItems).filter(key => {
-// 		switch (filter) {
-// 			case 1:
-// 				myArray = ['Meat', 'Deli'];
-// 				if (myArray.includes(dataItems[key]["category_names"][0])) {
-// 					return true;
-// 				}
-// 				break;
-// 			default:
-// 				return true;
-// 			}
-// 	});
-// 	return dataMeatItems;
-// }
-
-// // Function to calculate the unit price of an item, and insert it into the main product array.
-// function unitPrice(item) {
-// 	/* Begin code to calculate unit price for each item and add it as a new element in the array. */
-// 		const pos_lb = item['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
-
-// 		if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
-// 			item['unit_price'] = item['current_price'];
-// 		} else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
-// 			item['unit_price'] = 55.55;
-// 			const patt_ea = /\/ea/;
-// 			const has_ea = patt_ea.test(item['price_text']);// Check if the string 'ea' exists in the 'price text.'
-// 			// If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
-// 			if (has_ea || item['price_text'] === "") {
-
-// 				if (item['description'] != null) {
-// 					const pos_oz = item['description'].search(/oz\./i);// Search for the string 'oz' in the item 'description.'  Return the index in the string.
-
-// 					if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
-// 						const partial_oz = item['description'].substring(0, pos_oz);
-// 						const weight_oz = partial_oz.match(/[0-9]+/);
-// 						item['unit_price'] = 16*item['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
-// 					}
-// 				}
-// 			}
-// 		}
-// 	/* End code to calculate unit price for each item and add it as a new element in the array. */
-// }
 
 // Ensure each prop has its type defined.  With these types defined, if code tries to pass a prop with a different type, a JS console error will occur.
 Results.propTypes = {
@@ -197,11 +238,6 @@ Results.propTypes = {
   };
 
 // App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
-
-
-
-
-
 function App() {
 
 	/* Use the 'useState' hook to set initial state. */
@@ -210,11 +246,8 @@ function App() {
 
 	/* Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
 	useEffect(() => {
-	
 		// const testy = hello();
 		// setData(testy);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
-
-
 		(async () => {
 			const testy  = await hello();
 			// await hello();
@@ -224,9 +257,8 @@ function App() {
 			setData(testy);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
 
 		})();
-		
-		
-	})
+	}, []);
+	
 
 		/* End code to fetch API data. */
 
