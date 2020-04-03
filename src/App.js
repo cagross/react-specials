@@ -20,7 +20,7 @@ import logo_giant from './images/logo-Giant-50.png';
 import PropTypes from 'prop-types';// Required to add data type validation on props.
 
 import { hello } from './module.js';
-// import { terms } from './module-terms.js';
+import { terms } from './module-terms.js';
 import { filter } from './module-filter.js';
 
 // Function to format price.
@@ -37,15 +37,124 @@ function Results(props) {// Filter the list of specials based on the user's meat
 
 	function meatList() {// Filter the list of specials based on the user's meat selection and render it into a list.
 
-		const meatData = props.data;
-		// let meatTerms;
-		// meatTerms = filter(props);
-		let filteredData;
-		filteredData = filter(props);
-		console.log('filtered data is');
-		console.log(filteredData);
+		// const meatData = props.data;
+		const meatData = filter(props);
 
+		const searchTerms = terms();
+		let meatPref;
 		// Determine which terms should be used to filter products, baed on the user's selected meat.
+		if (props.currMeat === "poultry") {
+			meatPref = searchTerms['poultry'];
+		} else if (props.currMeat === "beef") {
+			meatPref = searchTerms['beef'];
+		} else if(props.currMeat === "pork") {
+			meatPref = searchTerms['pork'];
+		}
+
+		if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
+			return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
+
+				/* Begin code to check if item name contains any search terms. */
+				const itemName = meatData[key]["display_name"].toLowerCase();
+					
+				let match = false;
+				if (props.currMeat === "") {
+					match = true;
+				} else {
+					for (let i = 0; i < meatPref.length; i++) {
+						const pos = itemName.search(meatPref[i]);
+						if (pos >= 0) {
+							match = true;
+							break;
+						}
+					}
+				}
+				/* End code to check if item name contains any meat terms. */
+
+				/* Begin code to render a row of item information to the page. */
+				if (match) {
+					return (
+
+						<CSSTransition //Ensure each row appears with a CSS fade transition.
+							in={true}
+							appear={true}
+							timeout={1300}
+							classNames="fade"
+							key={key}
+						>
+
+							<div className="row" >
+								<img className="row__thumb" alt={meatData[key]['name']} src={meatData[key]['x_large_image_url']}></img>
+								<div className="row__details">
+									<div className="row__name">
+										{meatData[key]['name']}
+									</div>
+									<div className="row__desc">
+										{meatData[key]['description']}
+									</div>
+
+									<div className="row__disc">
+										{meatData[key]['disclaimer_text']}
+									</div>
+									<div className="row__ss">
+										{meatData[key]['sale_story']}
+									</div>
+								</div>
+								<div className="row__dates">
+									<div className="row__storinfo">
+										<img className="row__storlogo" alt="Logo: Giant Food." src={logo_giant}></img>
+										{/* 15/7/19 The store name/address is hard coded for now.  Once more stores are added, this will be dynamic. */}
+										<div className="row__storaddress">
+											Giant Food<br />
+											2501 S. 9th Rd.<br />
+											Arlington, VA 22204
+										</div>
+									</div>
+									<div className="row__datetext">
+										<i>
+											<span className="row__dateprefix">
+												valid:
+											</span>
+											<time dateTime={meatData[key]['valid_from']}>{formDate(meatData[key]['valid_from'])}</time> - <time dateTime={meatData[key]['valid_to']}>{formDate(meatData[key]['valid_to'])}</time>
+
+										</i>
+									</div>
+								</div>
+								<span className="row__price">
+									${formPrice(meatData[key]['current_price'])}{meatData[key]['price_text']}
+								</span>
+								<span className="row__price">
+									${formPrice(meatData[key]['unit_price'])}/lb.
+								</span>
+							</div>
+						</CSSTransition>
+					);
+				}
+				/* End code to render a row of item information to the page. */
+			});
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// const meatData = props.data;
+		// let meatTerms;
+		// const searchTerms = terms();
+
+		// // Determine which terms should be used to filter products, baed on the user's selected meat.
 		// if (props.currMeat === "poultry") {
 		// 	meatTerms = searchTerms['poultry'];
 		// } else if (props.currMeat === "beef") {
@@ -55,7 +164,6 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		// }
 
 		// if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
-
 		// 	return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
 
 		// 		/* Begin code to check if item name contains any search terms. */
@@ -137,90 +245,6 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		// 		/* End code to render a row of item information to the page. */
 		// 	});
 		// }
-		// if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
-		if (Object.entries(filteredData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
-			// return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
-			return Object.keys(filteredData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
-
-				/* Begin code to check if item name contains any search terms. */
-				// const itemName = meatData[key]["display_name"].toLowerCase();
-					
-				// let match = false;
-				// if (props.currMeat === "") {
-				// 	match = true;
-				// } else {
-				// 	for (let i = 0; i < meatTerms.length; i++) {
-				// 		const pos = itemName.search(meatTerms[i]);
-				// 		if (pos >= 0) {
-				// 			match = true;
-				// 			break;
-				// 		}
-				// 	}
-				// }
-				/* End code to check if item name contains any meat terms. */
-
-				/* Begin code to render a row of item information to the page. */
-				// if (match) {
-					return (
-
-						<CSSTransition //Ensure each row appears with a CSS fade transition.
-							in={true}
-							appear={true}
-							timeout={1300}
-							classNames="fade"
-							key={key}
-						>
-
-							<div className="row" >
-								<img className="row__thumb" alt={meatData[key]['name']} src={meatData[key]['x_large_image_url']}></img>
-								<div className="row__details">
-									<div className="row__name">
-										{meatData[key]['name']}
-									</div>
-									<div className="row__desc">
-										{meatData[key]['description']}
-									</div>
-
-									<div className="row__disc">
-										{meatData[key]['disclaimer_text']}
-									</div>
-									<div className="row__ss">
-										{meatData[key]['sale_story']}
-									</div>
-								</div>
-								<div className="row__dates">
-									<div className="row__storinfo">
-										<img className="row__storlogo" alt="Logo: Giant Food." src={logo_giant}></img>
-										{/* 15/7/19 The store name/address is hard coded for now.  Once more stores are added, this will be dynamic. */}
-										<div className="row__storaddress">
-											Giant Food<br />
-											2501 S. 9th Rd.<br />
-											Arlington, VA 22204
-										</div>
-									</div>
-									<div className="row__datetext">
-										<i>
-											<span className="row__dateprefix">
-												valid:
-											</span>
-											<time dateTime={meatData[key]['valid_from']}>{formDate(meatData[key]['valid_from'])}</time> - <time dateTime={meatData[key]['valid_to']}>{formDate(meatData[key]['valid_to'])}</time>
-
-										</i>
-									</div>
-								</div>
-								<span className="row__price">
-									${formPrice(meatData[key]['current_price'])}{meatData[key]['price_text']}
-								</span>
-								<span className="row__price">
-									${formPrice(meatData[key]['unit_price'])}/lb.
-								</span>
-							</div>
-						</CSSTransition>
-					);
-				// }
-				/* End code to render a row of item information to the page. */
-			});
-		}
 	}
 	console.log("meat changed to " + props.currMeat);
 	return (
