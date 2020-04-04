@@ -1,10 +1,6 @@
-import nodemailer from 'nodemailer';
-import mongoose from 'mongoose';
+// import nodemailer from 'nodemailer';
+// import mongoose from 'mongoose';
 import fetch from 'node-fetch';
-
-// export function hello() {
-// 	return "Hello from module.";
-// }
 
 export function hello() {
 
@@ -48,106 +44,9 @@ export function hello() {
 
 						return item;
 					});
-					// return 555;
-		// 			// console.log('fetched');
-		// 			// test();
-		// 			// return dataMeatItems;
-		// 			// return "Hello from module.";
-
-		// 	// 		setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
 				})
-				// return dataAll;
-
-				// return flyerInfo;
 			});
-
-
-
-		// fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		// // return fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		// .then(flyerInfo => {
-		// 	console.log(flyerInfo);
-		// 	console.log(555);
-		// 	return 123;
-		// // 	return "Hello from module.";
-		// });
-
-		// // return fetch(proxyURL + urlAPIFlyer)
-		// // .then(flyerInfo => {
-		// // 	const posFlyerID = flyerInfo.search("current_flyer_id");
-		// // 	const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
-		// // 	const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
-		// // 	fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		// // 	.then(response => response.text())
-		// // };
-		// // .then((response) => response.json);
-		// // return fetch(`http://api.com/endpoint?${params}`)
-        // // .then((response) => response.json());
-		// // return 123;
-		// }
-
-
-
-
-
-		// return "Hello from module.";
-
-
-	// 	// Use this first fetch() to obtain just the flyer ID, which we will in-turn use with a second fetch() to obtain the actual weekly specials data.
-		// fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		// return fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
-		// .then(response => response.text())
-		// .then(flyerInfo => {
-		// 	const posFlyerID = flyerInfo.search("current_flyer_id");
-		// 	const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
-		// 	const urlAPIData = "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
-
-		// 	fetch(proxyURL + urlAPIData)// This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
-
-		// 	.then(response => response.json())
-		// 	.then(dataAll => {
-		// 			console.log(dataAll);
-				
-		// 			const dataItems = dataAll.items;// Filter all data into only data related to items.
-		// 			var dataMeatItems;
-
-		// 			const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
-		// 			const dataMeatItemsKeys = productFilter(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
-					
-		// 			dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
-			
-		// 				let item = dataItems[key];
-
-		// 				if (item['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
-		// 					item['unit_price'] = 'unknown';
-		// 					item['current_price'] = item['unit_price'];
-		// 				} else {
-		// 					unitPrice(item);//Calculate the unit price of the item and add it to the items array.
-		// 				}
-
-		// 				return item;
-		// 			});
-
-		// 			// console.log('fetched');
-		// 			// test();
-		// 			// return dataMeatItems;
-		// 			// return "Hello from module.";
-
-		// 	// 		setData(dataMeatItems);//Assign this array (the array containing all desired items and information) to the value of the 'data' variable.
-		// 	})
-		// 	.catch(() => console.log("Message from Carl's code:  can’t access " + urlAPIData + " response. Possibly blocked by browser."));
-		// 	// let testVar = 555;
-		// 	// return testVar;
-		// });
-// 	// 	/* End code to fetch API data. */
 }
-	// 	function test() {
-	// 		console.log('testy');
-	// 	}
-
-	// // return "Hello from module.";
-	// // return testy;
-
 		
 // Function to filter all data into items from specific departments, e.g. meat, deli, etc.
 function productFilter(dataItems, filter) {
@@ -194,12 +93,4 @@ function unitPrice(item) {
 			}
 		}
 	/* End code to calculate unit price for each item and add it as a new element in the array. */
-
-	
-	
-	// return "Hello from module.";
-	// return dataMeatItems;
-	// console.log(dataMeatItems);
-
-
 }
