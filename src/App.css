@@ -193,7 +193,7 @@ body {
     padding: 30px 0;
     border-bottom: 1px solid #f4eff1;
     border-top: 1px solid #f4eff1;
-	min-height: 100px;
+	min-height: 150px;
 }
 .row__thumb {
 	width: var(--thumb-width);
