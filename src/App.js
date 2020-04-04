@@ -40,39 +40,39 @@ function Results(props) {// Filter the list of specials based on the user's meat
 		// const meatData = props.data;
 		const meatData = filter(props);
 
-		const searchTerms = terms();
-		let meatPref;
-		// Determine which terms should be used to filter products, baed on the user's selected meat.
-		if (props.currMeat === "poultry") {
-			meatPref = searchTerms['poultry'];
-		} else if (props.currMeat === "beef") {
-			meatPref = searchTerms['beef'];
-		} else if(props.currMeat === "pork") {
-			meatPref = searchTerms['pork'];
-		}
+		// const searchTerms = terms();
+		// let meatPref;
+		// // Determine which terms should be used to filter products, baed on the user's selected meat.
+		// if (props.currMeat === "poultry") {
+		// 	meatPref = searchTerms['poultry'];
+		// } else if (props.currMeat === "beef") {
+		// 	meatPref = searchTerms['beef'];
+		// } else if(props.currMeat === "pork") {
+		// 	meatPref = searchTerms['pork'];
+		// }
 
 		if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
 			return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
 
 				/* Begin code to check if item name contains any search terms. */
-				const itemName = meatData[key]["display_name"].toLowerCase();
+				// const itemName = meatData[key]["display_name"].toLowerCase();
 					
-				let match = false;
-				if (props.currMeat === "") {
-					match = true;
-				} else {
-					for (let i = 0; i < meatPref.length; i++) {
-						const pos = itemName.search(meatPref[i]);
-						if (pos >= 0) {
-							match = true;
-							break;
-						}
-					}
-				}
+				// let match = false;
+				// if (props.currMeat === "") {
+				// 	match = true;
+				// } else {
+				// 	for (let i = 0; i < meatPref.length; i++) {
+				// 		const pos = itemName.search(meatPref[i]);
+				// 		if (pos >= 0) {
+				// 			match = true;
+				// 			break;
+				// 		}
+				// 	}
+				// }
 				/* End code to check if item name contains any meat terms. */
 
 				/* Begin code to render a row of item information to the page. */
-				if (match) {
+				// if (match) {
 					return (
 
 						<CSSTransition //Ensure each row appears with a CSS fade transition.
@@ -129,7 +129,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
 							</div>
 						</CSSTransition>
 					);
-				}
+				// }
 				/* End code to render a row of item information to the page. */
 			});
 		}
