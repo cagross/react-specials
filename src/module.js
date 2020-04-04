@@ -8,7 +8,10 @@ export function hello() {
 		// const proxyURL = "https://cors-anywhere.herokuapp.com/";
 		const proxyURL = '';
 		const urlAPIFlyer =
-			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535"
+			// "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
+			"https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0233&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
+
+			
 
 			return fetch(proxyURL + urlAPIFlyer) // e.g. https://cors-anywhere.herokuapp.com/https://example.com  Method to avoid/disable CORS errors in Chrome during local development.
 			.then(response => response.text())
@@ -24,6 +27,8 @@ export function hello() {
 				.then(dataAll => {
 					// console.log(dataAll);
 					// return 555;
+					console.log('testy');
+					console.log(dataAll);
 					const dataItems = dataAll.items;// Filter all data into only data related to items.
 					var dataMeatItems;
 

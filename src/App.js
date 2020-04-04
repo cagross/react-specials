@@ -106,8 +106,10 @@ function Results(props) {// Filter the list of specials based on the user's meat
 										{/* 15/7/19 The store name/address is hard coded for now.  Once more stores are added, this will be dynamic. */}
 										<div className="row__storaddress">
 											Giant Food<br />
-											2501 S. 9th Rd.<br />
-											Arlington, VA 22204
+											{/* 2501 S. 9th Rd.<br />
+											Arlington, VA 22204 */}
+											7235 Arlington Blvd<br />
+											Falls Church, VA 22042
 										</div>
 									</div>
 									<div className="row__datetext">
