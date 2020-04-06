@@ -28,7 +28,6 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-
 console.log('Here is the output.');
 
 //Define a schema.  
@@ -41,11 +40,11 @@ const SomeModelSchema = new Schema({
 	th_price: Number,
 });
 
-/* Replace this static string with a string created from the start/end dates that are present in the array returned after filtering items by the user's preferred meat. */
-const dates = 'Friday, April 3 - Thursday, April 9';
-
 // Compile model from schema object.
 const SomeModel = mongoose.model('somemodel', SomeModelSchema );
+
+/* Replace this static string with a string created from the start/end dates that are present in the array returned after filtering items by the user's preferred meat. */
+const dates = 'Friday, April 3 - Thursday, April 9';
 
 SomeModel.find({}, 'name email meat th_price', function (err, match) {
 
@@ -58,10 +57,7 @@ SomeModel.find({}, 'name email meat th_price', function (err, match) {
 		// for (let i = 0; i < len; i++) {
 		for (let i = 0; i < 1; i++) {
 			console.log(len + ' ' + i + ' ' + match[i].email);
-			// console.log(len + ' ' + i + ' ' + match[i].meat);
-			// main(match[i].email).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
-			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, dates).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
-
+			// main(match[i].email, match[i].name, match[i].meat, match[i].th_price, dates).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		mongoose.connection.close();
 
@@ -117,7 +113,6 @@ async function main(email, name, meatPref, thPrice, dates) {// async..await is n
 
 	userResults.forEach(item => {
 		myHtml = myHtml.concat('<br>', item.name);
-		console.log(myHtml);
 	});
 
 	const myText = myHtml;
