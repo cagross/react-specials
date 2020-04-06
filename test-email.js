@@ -78,7 +78,7 @@ async function main(email, name, dates) {// async..await is not allowed in globa
 		secure: true,
 		auth: {
 			user: 'cagross@everlooksolutions.com',
-			pass: ''
+			pass: 'blood74pen'
 		}
 	});
 
