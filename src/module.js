@@ -28,7 +28,7 @@ export function hello() {
 					// console.log(dataAll);
 					// return 555;
 					console.log('testy');
-					console.log(dataAll);
+					// console.log(dataAll);
 					const dataItems = dataAll.items;// Filter all data into only data related to items.
 					var dataMeatItems;
 
