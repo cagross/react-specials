@@ -9,10 +9,6 @@ import mongoose from 'mongoose';
 import { hello } from './src/module.js';
 import { filter } from './src/module-filter.js';
 
-/* Replace this static string with a string created from the start/end dates that are present in the array returned after filtering items by the user's preferred meat. */
-const dates = 'Friday, April 3 - Thursday, April 9';
-
-
 const promise1 = Promise.resolve(hello());
 
 const promise2 = new Promise(function(resolve, reject) {
@@ -54,20 +50,26 @@ Promise.all([promise1, promise2]).then(function(values) {
 		} else {
 	
 	
-			var len = match.length;
-			// for (let i = 0; i < len; i++) {
-			for (let i = 0; i < 1; i++) {
-				console.log(len + ' ' + i + ' ' + match[i].email);
-				main(match[i].email, match[i].name, match[i].meat, match[i].th_price, dates).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
-			}
-			mongoose.connection.close();
+		var len = match.length;
+		// for (let i = 0; i < len; i++) {
+		for (let i = 0; i < 1; i++) {
+			
+			// console.log(match[i].meat)
+			const propsy = {currMeat: match[i].meat, data: values[0]};
+			const meatTest = filter(propsy);
+			// console.log(meatTest.length);
+
+			console.log(len + ' ' + i + ' ' + match[i].email);
+			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+		}
+		mongoose.connection.close();
 	
 		}
 	})
 });
 
 // Function to prepare an email and send it.
-async function main(email, name, meatPref, thPrice, dates) {// async..await is not allowed in global scope, must use a wrapper
+async function main(email, name, meatPref, thPrice, userArray) {// async..await is not allowed in global scope, must use a wrapper
 
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
@@ -105,18 +107,14 @@ async function main(email, name, meatPref, thPrice, dates) {// async..await is n
 	
 	myHtml = myHtml.concat('<br><br>');
 
-	/* Replace this static array with the array returned after filtering items by the user's preferred meat. */
-	const userResults = [
-		{name:"John", age:33, eyeColor:"blue"},
-		{name:"Rick", age:44, eyeColor:"green"},
-		{name:"Tom", age:55, eyeColor:"red"}
-	];
+	const userResults = userArray;
 
 	userResults.forEach(item => {
 		myHtml = myHtml.concat('<br>', item.name);
 	});
 
 	const myText = myHtml;
+	const dates = userResults[0].valid_from + '-' + userResults[0].valid_to;
 
 	// send mail with defined transport object
 	let info = await transporter.sendMail({

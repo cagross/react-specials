@@ -34,7 +34,7 @@ export function filter(props) {
 		}
 	}
  	let filtered = mdOriginal.filter(isBigEnough)
-	console.log(filtered);
+	// console.log(filtered);
 
 	return filtered;
 }
