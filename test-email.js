@@ -5,67 +5,68 @@
 // const fetch = require('node-fetch');
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-// import fetch from 'node-fetch';
 
 import { hello } from './src/module.js';
-// import { terms } from './src/module-terms.js';
 import { filter } from './src/module-filter.js';
-// const searchTerms = terms();
-
-// let data;
-
-(async () => {
-	const data = await hello();
-	// data = await hello();
-
-	console.log(Object.keys(data).length);
-	console.log('Print this after data.');
-})();
-
-//Set up mongoose connection
-const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-console.log('Here is the output.');
-
-//Define a schema.  
-const Schema = mongoose.Schema;
-//Create an instance of schema Schema.
-const SomeModelSchema = new Schema({
-	name: String,
-	email: String,
-	meat: String,
-	th_price: Number,
-});
-
-// Compile model from schema object.
-const SomeModel = mongoose.model('somemodel', SomeModelSchema );
 
 /* Replace this static string with a string created from the start/end dates that are present in the array returned after filtering items by the user's preferred meat. */
 const dates = 'Friday, April 3 - Thursday, April 9';
 
-SomeModel.find({}, 'name email meat th_price', function (err, match) {
 
-	if (err) {
-		return console.log('error:  ' + err);
-	} else {
+const promise1 = Promise.resolve(hello());
+
+const promise2 = new Promise(function(resolve, reject) {
+	//Set up mongoose connection
+	const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+	mongoose.connect(mongoDB, { useNewUrlParser: true });
+	const db = mongoose.connection;
+	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+	console.log('Here is the output.');
+
+	//Define a schema.  
+	const Schema = mongoose.Schema;
+	//Create an instance of schema Schema.
+	const SomeModelSchema = new Schema({
+		name: String,
+		email: String,
+		meat: String,
+		th_price: Number,
+	});
+
+	// Compile model from schema object.
+	// const SomeModel = mongoose.model('somemodel', SomeModelSchema );
+	let SomeModel = mongoose.model('somemodel', SomeModelSchema );
+
+	resolve(SomeModel);
+
+});
 
 
-		var len = match.length;
-		// for (let i = 0; i < len; i++) {
-		for (let i = 0; i < 1; i++) {
-			console.log(len + ' ' + i + ' ' + match[i].email);
-			// main(match[i].email, match[i].name, match[i].meat, match[i].th_price, dates).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+Promise.all([promise1, promise2]).then(function(values) {
+	console.log(Object.keys(values[0]).length);
+	const SomeModel = values[1];
+
+	SomeModel.find({}, 'name email meat th_price', function (err, match) {
+
+		if (err) {
+			return console.log('error:  ' + err);
+		} else {
+	
+	
+			var len = match.length;
+			// for (let i = 0; i < len; i++) {
+			for (let i = 0; i < 1; i++) {
+				console.log(len + ' ' + i + ' ' + match[i].email);
+				main(match[i].email, match[i].name, match[i].meat, match[i].th_price, dates).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+			}
+			mongoose.connection.close();
+	
 		}
-		mongoose.connection.close();
-
-	}
-})
+	})
+});
 
 // Function to prepare an email and send it.
-// async function main(email) {// async..await is not allowed in global scope, must use a wrapper
 async function main(email, name, meatPref, thPrice, dates) {// async..await is not allowed in global scope, must use a wrapper
 
 	// create reusable transporter object using the default SMTP transport
@@ -122,10 +123,6 @@ async function main(email, name, meatPref, thPrice, dates) {// async..await is n
 		from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
 		to: email, // list of receivers
 		subject: 'Specials For ' + dates, // Subject line
-
-
-		// text: 'Hi ' + name, // plain text body
-		// html: '<b>Hello world?</b>' // html body
 		text: myText, // plain text body
 		html: myHtml // html body
 	});
