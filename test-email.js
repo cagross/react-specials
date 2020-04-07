@@ -49,8 +49,8 @@ Promise.all([promise1, promise2]).then(function(values) {
 	
 	
 		var len = match.length;
-		// for (let i = 0; i < len; i++) {
-		for (let i = 0; i < 1; i++) {
+		for (let i = 0; i < len; i++) {
+		// for (let i = 0; i < 1; i++) {
 			
 			// console.log(match[i].meat)
 			const propsy = {currMeat: match[i].meat, data: values[0]};
@@ -58,7 +58,7 @@ Promise.all([promise1, promise2]).then(function(values) {
 			// console.log(meatTest.length);
 
 			console.log(len + ' ' + i + ' ' + match[i].email);
-			// main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		mongoose.connection.close();
 	
@@ -80,7 +80,6 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 		}
 	});
 
-
 	const storeLoc = [
 		'Giant Food',
 		'7235 Arlington Blvd',
@@ -93,23 +92,39 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 
 	myHtml = myHtml.concat('Your selection criteria is:  ');
 	myHtml = myHtml.concat('<br>');
+	myHtml = myHtml.concat('<i><bold>');
 	myHtml = myHtml.concat('Meat Preference:  ' + meatPref);
 	myHtml = myHtml.concat('<br>');
 	myHtml = myHtml.concat('Threshold Price:  ' + thPrice);
+	myHtml = myHtml.concat('</bold></i>');
 	myHtml = myHtml.concat('<br><br>');
 	
 	myHtml = myHtml.concat('The specials are available at this store:<br>');
+	myHtml = myHtml.concat('<i><bold>');
 	storeLoc.forEach(entry => {
-		myHtml = myHtml.concat('<br>', entry);
+		myHtml = myHtml.concat(entry, '<br>');
 	});
+	myHtml = myHtml.concat('</bold></i>');
 	
 	myHtml = myHtml.concat('<br><br>');
 
 	const userResults = userArray;
 
+	myHtml = myHtml.concat('<table>');
+	myHtml = myHtml.concat('<tr>');
+	myHtml = myHtml.concat('<td>', 'Item Name', '</td>');
+	myHtml = myHtml.concat('<td>', 'Item Price', '</td>');
+	myHtml = myHtml.concat('<td>', 'Item Unit Price', '</td>');
+	myHtml = myHtml.concat('</tr>');
+
 	userResults.forEach(item => {
-		myHtml = myHtml.concat('<br>', item.name);
+		myHtml = myHtml.concat('<tr>');
+		myHtml = myHtml.concat('<td>', item.name, '</td>');
+		myHtml = myHtml.concat('<td>', Number(item.current_price).toFixed(2), item.price_text, '</td>');
+		myHtml = myHtml.concat('<td>', Number(item.unit_price).toFixed(2), '/lb', '</td>');
+		myHtml = myHtml.concat('</tr>');
 	});
+	myHtml = myHtml.concat('</table>');
 
 	const myText = myHtml;
 	const dates = userResults[0].valid_from + '-' + userResults[0].valid_to;
