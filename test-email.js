@@ -1,8 +1,7 @@
 #! /usr/bin/env node
 
-// const nodemailer = require('nodemailer');
-// const mongoose = require('mongoose');
-// const fetch = require('node-fetch');
+const nodemailer = require('nodemailer');
+const mongoose = require('mongoose');
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 
@@ -18,7 +17,7 @@ const promise2 = new Promise(function(resolve, reject) {
 	const db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-	console.log('Here is the output.');
+	// console.log('Here is the output.');
 
 	//Define a schema.  
 	const Schema = mongoose.Schema;
@@ -60,7 +59,7 @@ Promise.all([promise1, promise2]).then(function(values) {
 			// console.log(meatTest.length);
 
 			console.log(len + ' ' + i + ' ' + match[i].email);
-			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+			// main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		mongoose.connection.close();
 	
