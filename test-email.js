@@ -1,7 +1,6 @@
 #! /usr/bin/env node
 
-const nodemailer = require('nodemailer');
-const mongoose = require('mongoose');
+
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 
