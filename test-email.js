@@ -49,8 +49,8 @@ Promise.all([promise1, promise2]).then(function(values) {
 	
 	
 		var len = match.length;
-		for (let i = 0; i < len; i++) {
-		// for (let i = 0; i < 1; i++) {
+		// for (let i = 0; i < len; i++) {
+		for (let i = 0; i < 1; i++) {
 			
 			// console.log(match[i].meat)
 			const propsy = {currMeat: match[i].meat, data: values[0]};
