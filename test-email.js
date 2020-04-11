@@ -130,14 +130,53 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	const dates = userResults[0].valid_from + '-' + userResults[0].valid_to;
 
 	// send mail with defined transport object
+	// let info = await transporter.sendMail({
+	// 	from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+	// 	to: email, // list of receivers
+	// 	subject: 'Specials For ' + dates, // Subject line
+	// 	text: myText, // plain text body
+	// 	html: myHtml // html body
+	// });
+
+
+
 	let info = await transporter.sendMail({
 		from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
 		to: email, // list of receivers
 		subject: 'Specials For ' + dates, // Subject line
 		text: myText, // plain text body
 		html: myHtml // html body
+	}, (err, info) => {
+		console.log('envelope');
+		console.log(info.envelope);
+		console.log('messageID');
+		console.log(info.messageId);
+		console.log('err');
+		console.log(err);
 	});
-	console.log('Message sent: %s', info.messageId);
-	console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+
+
+
+
+	// transporter.sendMail({
+	// 	from: 'sender@example.com',
+	// 	to: 'recipient@example.com',
+	// 	subject: 'Message',
+	// 	text: 'I hope this message gets delivered!'
+	// }, (err, info) => {
+	// 	console.log(info.envelope);
+	// 	console.log(info.messageId);
+	// });
+
+
+
+
+
+
+
+
+	// console.log('Message sent: %s', info.messageId);
+	// console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 }
 
