@@ -1,11 +1,10 @@
 #! /usr/bin/env node
-
-
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 
 import { hello } from './src/module.js';
 import { filter } from './src/module-filter.js';
+import { loc } from "./src/module-store-location.js";
 
 const promise1 = Promise.resolve(hello());
 
@@ -77,14 +76,20 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 		auth: {
 			user: 'cagross@everlooksolutions.com',
 			pass: 'blood74pen'
+			// pass: 'blood74pens'
+
 		}
 	});
 
-	const storeLoc = [
-		'Giant Food',
-		'7235 Arlington Blvd',
-		'Falls Church, VA 22042'
-	]
+	// const storeLoc = [
+	// 	'Giant Food',
+	// 	'7235 Arlington Blvd',
+	// 	'Falls Church, VA 22042'
+	// ];
+
+	// const storeLoc = location;
+	const storeLoc = loc();
+
 
 	let myHtml;
 	myHtml = 'Hi ' + name + ',<br><br>';
@@ -147,29 +152,29 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 		text: myText, // plain text body
 		html: myHtml // html body
 	}, (err, info) => {
-		console.log('envelope');
-		console.log(info.envelope);
-		console.log('messageID');
-		console.log(info.messageId);
-		console.log('err');
-		console.log(err);
+		if (info) {
+			console.log('envelope is:');
+			console.log(info.envelope);
+			console.log('messageID is:');
+			console.log(info.messageId);
+		} else {
+			console.log('err is:');
+			console.log(err);
+		}
 	});
 
+	// import { testy } from "../src/change-calculator.js";
+	// let info = await transporter.sendMail({
+	// 	from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+	// 	to: email, // list of receivers
+	// 	subject: 'Specials For ' + dates, // Subject line
+	// 	text: myText, // plain text body
+	// 	html: myHtml // html body
+	// }, (err, info) => testy(err, info));
 
-
-
-
-	// transporter.sendMail({
-	// 	from: 'sender@example.com',
-	// 	to: 'recipient@example.com',
-	// 	subject: 'Message',
-	// 	text: 'I hope this message gets delivered!'
-	// }, (err, info) => {
-	// 	console.log(info.envelope);
-	// 	console.log(info.messageId);
-	// });
-
-
+	// function testy(err, info) {
+	// 	console.log('envelope is:');
+	// }
 
 
 
