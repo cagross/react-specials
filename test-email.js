@@ -4,7 +4,9 @@ import mongoose from 'mongoose';
 
 import { hello } from './src/module.js';
 import { filter } from './src/module-filter.js';
-import { loc } from "./src/module-store-location.js";
+// import { loc } from "./src/module-store-location.js";
+import { storeLoc } from "./src/module-store-location.js";
+
 
 const promise1 = Promise.resolve(hello());
 
@@ -88,7 +90,7 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	// ];
 
 	// const storeLoc = location;
-	const storeLoc = loc();
+	// const storeLoc = loc();
 
 
 	let myHtml;
