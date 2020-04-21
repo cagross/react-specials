@@ -1,6 +1,5 @@
 #! /usr/bin/env node
 
-
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 
@@ -69,14 +68,35 @@ Promise.all([promise1, promise2]).then(function(values) {
 // Function to prepare an email and send it.
 async function main(email, name, meatPref, thPrice, userArray) {// async..await is not allowed in global scope, must use a wrapper
 
+	
+	
+	// // console.log(process.env.NODE_ENV);
+	// console.log(process.env.SP_EMAIL_USER);
+	// console.log(process.env.SP_EMAIL_PASS);
+	let userName;
+	if (process.env.SP_EMAIL_USER) {
+		userName = process.env.SP_EMAIL_USER;
+	} else {
+		userName = '';
+	}
+	console.log('username: ' + userName);
+	let userPass;
+	if (process.env.SP_EMAIL_PASS) {
+		userPass = process.env.SP_EMAIL_PASS;
+	} else {
+		userPass = '';
+	}
+	console.log('password: ' + userPass);
+
+
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
 		host: 'sg2plcpnl0174.prod.sin2.secureserver.net',
 		port: 465,
 		secure: true,
 		auth: {
-			user: 'cagross@everlooksolutions.com',
-			pass: '*****'
+			user: process.env.SP_EMAIL_USER,
+			pass: process.env.SP_EMAIL_PASS
 		}
 	});
 
