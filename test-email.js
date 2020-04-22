@@ -16,19 +16,14 @@ const promise2 = new Promise(function(resolve, reject) {
 	} else {
 		dbUserName = '';
 	}
-	// console.log('dbUsername: ' + dbUserName);
 	let dbUserPass;
 	if (process.env.SP_DB_PASS) {
 		dbUserPass = process.env.SP_DB_PASS;
 	} else {
 		dbUserPass = '';
 	}
-	// console.log('password: ' + dbUserPass);
-	
-	// const mongoDB = 'mongodb+srv://cagross:bHbeI3MEQ78naaiM@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+
 	const mongoDB = 'mongodb+srv://' + process.env.SP_DB_USER + ':' + process.env.SP_DB_PASS + '@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
-
-
 	
 	mongoose.connect(mongoDB, { useNewUrlParser: true });
 	const db = mongoose.connection;
