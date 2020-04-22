@@ -10,7 +10,26 @@ const promise1 = Promise.resolve(hello());
 
 const promise2 = new Promise(function(resolve, reject) {
 	//Set up mongoose connection
-	const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+	let dbUserName;
+	if (process.env.SP_DB_USER) {
+		dbUserName = process.env.SP_DB_USER;
+	} else {
+		dbUserName = '';
+	}
+	console.log('dbUsername: ' + dbUserName);
+	let dbUserPass;
+	if (process.env.SP_DB_PASS) {
+		dbUserPass = process.env.SP_DB_PASS;
+	} else {
+		dbUserPass = '';
+	}
+	console.log('password: ' + dbUserPass);
+	
+	// const mongoDB = 'mongodb+srv://cagross:bHbeI3MEQ78naaiM@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+	const mongoDB = 'mongodb+srv://' + process.env.SP_DB_USER + ':' + process.env.SP_DB_PASS + '@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+
+
+	
 	mongoose.connect(mongoDB, { useNewUrlParser: true });
 	const db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
