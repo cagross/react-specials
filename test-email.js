@@ -1,4 +1,8 @@
 #! /usr/bin/env node
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 
@@ -12,7 +16,26 @@ const promise1 = Promise.resolve(hello());
 
 const promise2 = new Promise(function(resolve, reject) {
 	//Set up mongoose connection
-	const mongoDB = 'mongodb+srv://cagross:blood74pen@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+	let dbUserName;
+	if (process.env.SP_DB_USER) {
+		dbUserName = process.env.SP_DB_USER;
+	} else {
+		dbUserName = '';
+	}
+	// console.log('dbUsername: ' + dbUserName);
+	let dbUserPass;
+	if (process.env.SP_DB_PASS) {
+		dbUserPass = process.env.SP_DB_PASS;
+	} else {
+		dbUserPass = '';
+	}
+	// console.log('password: ' + dbUserPass);
+	
+	// const mongoDB = 'mongodb+srv://cagross:bHbeI3MEQ78naaiM@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+	const mongoDB = 'mongodb+srv://' + process.env.SP_DB_USER + ':' + process.env.SP_DB_PASS + '@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
+
+
+	
 	mongoose.connect(mongoDB, { useNewUrlParser: true });
 	const db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -59,7 +82,7 @@ Promise.all([promise1, promise2]).then(function(values) {
 			// console.log(meatTest.length);
 
 			console.log(len + ' ' + i + ' ' + match[i].email);
-			// main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		mongoose.connection.close();
 	
@@ -70,14 +93,35 @@ Promise.all([promise1, promise2]).then(function(values) {
 // Function to prepare an email and send it.
 async function main(email, name, meatPref, thPrice, userArray) {// async..await is not allowed in global scope, must use a wrapper
 
+	
+	
+	// // console.log(process.env.NODE_ENV);
+	// console.log(process.env.SP_EMAIL_USER);
+	// console.log(process.env.SP_EMAIL_PASS);
+	let userName;
+	if (process.env.SP_EMAIL_USER) {
+		userName = process.env.SP_EMAIL_USER;
+	} else {
+		userName = '';
+	}
+	// console.log('username: ' + userName);
+	let userPass;
+	if (process.env.SP_EMAIL_PASS) {
+		userPass = process.env.SP_EMAIL_PASS;
+	} else {
+		userPass = '';
+	}
+	// console.log('password: ' + userPass);
+
+
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
 		host: 'sg2plcpnl0174.prod.sin2.secureserver.net',
 		port: 465,
 		secure: true,
 		auth: {
-			user: 'cagross@everlooksolutions.com',
-			pass: '*****'
+			user: process.env.SP_EMAIL_USER,
+			pass: process.env.SP_EMAIL_PASS
 		}
 	});
 
