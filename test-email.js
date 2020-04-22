@@ -16,14 +16,14 @@ const promise2 = new Promise(function(resolve, reject) {
 	} else {
 		dbUserName = '';
 	}
-	console.log('dbUsername: ' + dbUserName);
+	// console.log('dbUsername: ' + dbUserName);
 	let dbUserPass;
 	if (process.env.SP_DB_PASS) {
 		dbUserPass = process.env.SP_DB_PASS;
 	} else {
 		dbUserPass = '';
 	}
-	console.log('password: ' + dbUserPass);
+	// console.log('password: ' + dbUserPass);
 	
 	// const mongoDB = 'mongodb+srv://cagross:bHbeI3MEQ78naaiM@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
 	const mongoDB = 'mongodb+srv://' + process.env.SP_DB_USER + ':' + process.env.SP_DB_PASS + '@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority';
@@ -98,14 +98,14 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	} else {
 		userName = '';
 	}
-	console.log('username: ' + userName);
+	// console.log('username: ' + userName);
 	let userPass;
 	if (process.env.SP_EMAIL_PASS) {
 		userPass = process.env.SP_EMAIL_PASS;
 	} else {
 		userPass = '';
 	}
-	console.log('password: ' + userPass);
+	// console.log('password: ' + userPass);
 
 
 	// create reusable transporter object using the default SMTP transport
