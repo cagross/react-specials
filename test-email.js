@@ -1,8 +1,5 @@
 #! /usr/bin/env node
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
 
