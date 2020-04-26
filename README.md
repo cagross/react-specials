@@ -81,7 +81,7 @@ Give an example
 ``` -->
 
 ## 🎈 Usage <a name="usage"></a>
-Currently, opening the app in a browser displays the meat/deli items currently on sale for one specific Giant Food grocery store (in Arlington, VA, USA).  The app displays an image of the item, a description, the sale price, and if possible, the current unit price of the item.  The app allows you to filter results by type (beef, chicken, or pork).  But the filtering is not yet perfect--you may observe some inconsistencies.  
+Currently, opening the app in a browser displays the meat/deli items currently on sale for one specific Giant Food grocery store (in Falls Church, VA, USA).  The app displays an image of the item, a description, the sale price, and if possible, the current unit price of the item.  The app allows you to filter results by type (beef, chicken, or pork).  But the filtering is not yet perfect--you may observe some inconsistencies.  
 
 ## 📋 To Do <a name="todo"></a>
 * Increase the number of stores searched by the app.
