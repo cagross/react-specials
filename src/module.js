@@ -14,9 +14,6 @@ export function hello() {
 		if (typeof window === 'undefined') {
 			proxyURL = '';
 		}
-		console.log('testy');
-		console.log(proxyURL);
-		// const proxyURL = "https://cors-anywhere.herokuapp.com/";
 		
 		const urlAPIFlyer =
 			// "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
