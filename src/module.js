@@ -14,7 +14,8 @@ export function hello() {
 		if (typeof window === 'undefined') {
 			proxyURL = '';
 		}
-		
+		console.log('testy');
+		console.log(proxyURL);
 		// const proxyURL = "https://cors-anywhere.herokuapp.com/";
 		
 		const urlAPIFlyer =
