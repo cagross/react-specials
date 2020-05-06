@@ -6,8 +6,9 @@ import { unitPrice } from "../src/module-unit-price.js";
 export function hello() {
 
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
-		// let proxyURL = 'https://cors-anywhere.herokuapp.com/';
-		let proxyURL = '';
+		let proxyURL;
+		proxyURL = 'https://cors-anywhere.herokuapp.com/';
+		// proxyURL = '';
 		// console.log(window);
 		// if (typeof window === 'undefined') {
 			//  proxyURL = '';
