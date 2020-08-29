@@ -22,26 +22,7 @@ import PropTypes from 'prop-types';// Required to add data type validation on pr
 import { hello } from './module.js';
 // import { terms } from './module-terms.js';
 import { filter } from './module-filter.js';
-
-// Assemble full price, with proper prefix/suffix.  Or set price to 'Unkown' if it is not known.
-function dispPrice(unform_price, price_suffix) {
-  let price, prefix, suffix;
-  if (!unform_price) {
-    prefix = '';
-    price = 'Unknown';
-    suffix = '';
-  } else {
-    prefix = '$';
-    price = formPrice(unform_price);
-    suffix = price_suffix;
-  }
-  return prefix + price + suffix;
-}
-
-// Function to format price.
-function formPrice(unform_price) {
-  return Number(unform_price).toFixed(2);
-}
+import { dispPrice } from './module-display-price.js';
 
 // Function to format date.
 function formDate(unform_date) {
