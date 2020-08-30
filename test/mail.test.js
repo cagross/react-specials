@@ -20,6 +20,62 @@ test("Store location must be an array of string values, corresponding to Loehman
 let i;
 const testArr = [
   {
+    "flyer_item_id": 511827658,
+    "flyer_id": 3636218,
+    "flyer_type_id": 6404,
+    "merchant_id": 2520,
+    "brand": "Perdue",
+    "display_name": "Perdue Chicken Short Cuts",
+    "name": "Perdue Chicken Short Cuts",
+    "description": "Selected Varieties, 6–9 oz. pkg.",
+    "current_price": "6.0",
+    "pre_price_text": "2/",
+    "price_text": "",
+    "category_ids": [],
+    "category_names": [
+      "Meat"
+    ],
+    "sub_items_skus": [],
+    "left": 4781.02,
+    "bottom": -739.19,
+    "right": 5030.12,
+    "top": -483.1,
+    "run_item_id": null,
+    "discount_percent": null,
+    "display_type": 1,
+    "iframe_display_width": null,
+    "iframe_display_height": null,
+    "url": null,
+    "in_store_only": false,
+    "review": null,
+    "video": false,
+    "page_destination": null,
+    "video_count": false,
+    "video_url": null,
+    "recipe": false,
+    "recipe_title": null,
+    "text_areas": [],
+    "shopping_cart_urls": [],
+    "large_image_url": "https://cdn.flippenterprise.net/page_items/198841955/1598647078/extra_large.jpg",
+    "x_large_image_url": "https://cdn.flippenterprise.net/page_pdf_images/10554224/bcd9f6e0-e268-11ea-a7c9-0ec6e2beadde/x_large",
+    "dist_coupon_image_url": "https://f.wishabi.net/page_items/198841955/1598647078/extra_large.jpg",
+    "sku": null,
+    "custom1": null,
+    "custom2": null,
+    "custom3": "4379071",
+    "custom4": null,
+    "custom5": null,
+    "custom6": null,
+    "valid_to": "2020-09-03",
+    "valid_from": "2020-08-28",
+    "disclaimer_text": null,
+    "flyer_type_name_identifier": "weekly",
+    "flyer_type_name": "Weekly Circular",
+    "flyer_run_id": 544866,
+    "sale_story": null,
+    "unit_price": 16
+  },
+  {
     "flyer_item_id": 488324205,
     "flyer_id": 3414280,
     "flyer_type_id": 6404,
@@ -129,6 +185,7 @@ const testArr = [
     "sale_story": null,
     "unit_price": "not set"
   },
+  /* Begin list of objects with no price set (e.g. $1.00 off, buy one get one free, etc. */
   {
     "flyer_item_id": 508152233,
     "flyer_id": 3601356,
@@ -295,7 +352,6 @@ const testArr = [
     "sale_story": "BUY 1, GET 1, FREE OF EQUAL OR LESSER VALUE",
     "unit_price": "unknown"
   },
-  /* Begin list of objects with no price set (e.g. $1.00 off, buy one get one free, etc. */
   {
     "flyer_item_id": 511828124,
     "flyer_id": 3636218,
@@ -423,8 +479,16 @@ test("Test of display price.", function (t) {
   for (i = 0; i < testArr.length; i++) {
     displayedPrice = dispPrice(testArr[i]['current_price'], testArr[i]['price_text']);
     if (!testArr[i]['current_price'] || testArr[i]['current_price'] === 'unknown') {
-      console.log(testArr[i]['current_price']);
+      // console.log(testArr[i]['current_price']);
       t.deepEqual('Unknown', displayedPrice);
+    } else {
+      console.log(testArr[i]['current_price']);
+
+      t.deepEqual('string', typeof (displayedPrice));
+      // t.deepEqual('$', displayedPrice.slice(0, 1));
+      // t.deepEqual('$', displayedPrice.slice(0, 1));
+      // t.match(displayedPrice, regexp, 'Displayed price is not correct format.')
+
     }
   }
 
