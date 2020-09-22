@@ -1,21 +1,16 @@
 import test from 'tape'; // assign the tape library to the variable "test"
-// import { loc } from "../src/module-store-location.js";
 import { storeLoc } from "../src/module-store-location.js";
-// import { unitPrice } from "../src/module-unit-price.js";
 import { dispPrice } from '../src/module-display-price.js';
 
-test("Store location must be an array of string values, corresponding to Loehmann's Plaza Giant Food location.", function (t) {
+test("Test of store location function.", function (t) {
   const storeLocRes = [
     'Giant Food',
     '7235 Arlington Blvd',
     'Falls Church, VA 22042'
   ];
-  t.deepEqual(storeLocRes, storeLoc); // make this test pass by completing the add function!
+  t.deepEqual(storeLocRes, storeLoc, 'Store address.'); // make this test pass by completing the add function!
   t.end();
 });
-
-
-
 
 let i;
 const testArr = [
@@ -464,71 +459,81 @@ const testArr = [
     "flyer_run_id": 544866,
     "sale_story": "$1.00 off",
     "unit_price": "unknown"
-  }
+  },
   /* End list of objects with no price set (e.g. $1.00 off, buy one get one free, etc. */
+  /* Begin list of objects with 'lb' in the description.*/
+  {
+    "flyer_item_id": 515177572,
+    "flyer_id": 3664494,
+    "flyer_type_id": 6404,
+    "merchant_id": 2520,
+    "brand": "Philly Gourmet",
+    "display_name": "Philly Gourmet Beef Patties",
+    "name": "Philly Gourmet Beef Patties",
+    "description": "Frozen, 4 lb. pkg.",
+    "current_price": "12.99",
+    "pre_price_text": "",
+    "price_text": "/ea.",
+    "category_ids": [],
+    "category_names": [
+      "Deli"
+    ],
+    "sub_items_skus": [],
+    "left": 3972.93,
+    "bottom": -987.56,
+    "right": 4233.67,
+    "top": -747.766,
+    "run_item_id": null,
+    "discount_percent": null,
+    "display_type": 1,
+    "iframe_display_width": null,
+    "iframe_display_height": null,
+    "url": null,
+    "in_store_only": false,
+    "review": null,
+    "video": false,
+    "page_destination": null,
+    "video_count": false,
+    "video_url": null,
+    "recipe": false,
+    "recipe_title": null,
+    "text_areas": [],
+    "shopping_cart_urls": [],
+    "large_image_url": "https://cdn.flippenterprise.net/page_items/200359411/1600362756/extra_large.jpg",
+    "x_large_image_url": "https://cdn.flippenterprise.net/page_pdf_images/10634242/4f0fdb5c-f23a-11ea-8083-0e1ba86a8db4/x_large",
+    "dist_coupon_image_url": "https://f.wishabi.net/page_items/200359411/1600362756/extra_large.jpg",
+    "sku": null,
+    "custom1": null,
+    "custom2": null,
+    "custom3": "4264665",
+    "custom4": null,
+    "custom5": null,
+    "custom6": null,
+    "valid_to": "2020-09-24",
+    "valid_from": "2020-09-18",
+    "disclaimer_text": null,
+    "flyer_type_name_identifier": "weekly",
+    "flyer_type_name": "Weekly Circular",
+    "flyer_run_id": 544869,
+    "sale_story": null
+  }
+  /* Begin list of objects with 'lb' in the description.*/
 ]
 
-
-
-
-
-
-
-test("Test of display price.", function (t) {
+test("Test of display price function.", function (t) {
   let displayedPrice;
   for (i = 0; i < testArr.length; i++) {
     displayedPrice = dispPrice(testArr[i]['current_price'], testArr[i]['price_text']);
     if (!testArr[i]['current_price'] || testArr[i]['current_price'] === 'unknown') {
-      // console.log(testArr[i]['current_price']);
-      t.deepEqual('Unknown', displayedPrice);
+      t.deepEqual('Unknown', displayedPrice, "Displayed price must be: 'Unknown'");
     } else {
-      console.log(testArr[i]['current_price']);
-
-      t.deepEqual('string', typeof (displayedPrice));
-      // t.deepEqual('$', displayedPrice.slice(0, 1));
-      // t.deepEqual('$', displayedPrice.slice(0, 1));
-      // t.match(displayedPrice, regexp, 'Displayed price is not correct format.')
-
+      t.deepEqual('string', typeof (displayedPrice), 'Displayed price must be a string.');
+      t.match(displayedPrice, /^(\$\d+\.\d{2})((\/\w+\.)?)$/, 'Displayed price is correct format.')
     }
   }
-
-  // displayedPrice = dispPrice(testArr[2]['current_price'], testArr[2]['price_text']);
-  // if (!testArr[2]['current_price'] || testArr[2]['current_price'] === 'unknown') {
-  //   t.deepEqual('Unknown', displayedPrice);
-  // }
-  // if (unitPrice(testItem) > 0) {
-  //   unitPriceRes = true;
-  // }
-
-  // t.deepEqual(true, unitPriceRes);
   t.end();
 });
 
-
-
-
-
-
-
-// import test from 'tape'; // assign the tape library to the variable "test"
-// // import { loc } from "../src/module-store-location.js";
-// import { storeLoc } from "../src/module-store-location.js";
-// import { unitPrice } from "../src/module-unit-price.js";
-
-// let i;
-// let testArr = [];
-// let unitPriceRes;
-
-
-// test("Store location must be an array of string values, corresponding to Loehmann's Plaza Giant Food location.", function (t) {
-//   const storeLocRes = [
-//     'Giant Food',
-//     '7235 Arlington Blvd',
-//     'Falls Church, VA 22042'
-//   ];
-//   t.deepEqual(storeLocRes, storeLoc); // make this test pass by completing the add function!
-//   t.end();
-// });
 
 // test("Test of unit price.", function (t) {
 
@@ -544,28 +549,6 @@ test("Test of display price.", function (t) {
 //   t.end();
 // });
 
-// test("Test of unknown unit price.", function (t) {
-
-//   for (i = 0; i < testArr.length; i++) {
-//     unitPriceRes = false;
-//     // if (typeof (unitPrice(testArr[i])) === 'number' && unitPrice(testArr[i]) > 0) {
-//     // if (unitPrice(testArr[i]) > 0) {
-//     // if (typeof (unitPrice(testArr[i]) === 'string') && unitPrice(testArr[i]) > 0) {
-//     console.log(i);
-//     console.log(unitPrice(testArr[i]));
-//     console.log(typeof (unitPrice(testArr[i])));
-
-//     // if (typeof (unitPrice(testArr[i])) === 'number') {
-//     if (typeof (unitPrice(testArr[i])) === 'string') {
-
-
-
-//       unitPriceRes = true;
-//     }
-//     t.deepEqual(true, unitPriceRes); // make this test pass by completing the add function!
-//   }
-//   t.end();
-// });
 
 
 
