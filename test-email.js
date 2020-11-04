@@ -2,14 +2,11 @@
 
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-
-import { hello } from './src/module.js';
+import { apiData } from './src/module.js';
 import { filter } from './src/module-filter.js';
-// import { loc } from "./src/module-store-location.js";
 import { storeLoc } from "./src/module-store-location.js";
 
-
-const promise1 = Promise.resolve(hello());
+const promise1 = Promise.resolve(apiData());
 
 const promise2 = new Promise(function(resolve, reject) {
 	//Set up mongoose connection
@@ -32,8 +29,6 @@ const promise2 = new Promise(function(resolve, reject) {
 	const db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-	// console.log('Here is the output.');
-
 	//Define a schema.  
 	const Schema = mongoose.Schema;
 	//Create an instance of schema Schema.
@@ -52,7 +47,6 @@ const promise2 = new Promise(function(resolve, reject) {
 
 });
 
-
 Promise.all([promise1, promise2]).then(function(values) {
 	console.log(Object.keys(values[0]).length);
 	const SomeModel = values[1];
@@ -65,13 +59,9 @@ Promise.all([promise1, promise2]).then(function(values) {
 	
 	
 		var len = match.length;
-		// for (let i = 0; i < len; i++) {
 		for (let i = 0; i < 1; i++) {
-			
-			// console.log(match[i].meat)
 			const propsy = {currMeat: match[i].meat, data: values[0]};
 			const meatTest = filter(propsy);
-			// console.log(meatTest.length);
 
 			console.log(len + ' ' + i + ' ' + match[i].email);
 			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
@@ -84,27 +74,18 @@ Promise.all([promise1, promise2]).then(function(values) {
 
 // Function to prepare an email and send it.
 async function main(email, name, meatPref, thPrice, userArray) {// async..await is not allowed in global scope, must use a wrapper
-
-	
-	
-	// // console.log(process.env.NODE_ENV);
-	// console.log(process.env.SP_EMAIL_USER);
-	// console.log(process.env.SP_EMAIL_PASS);
 	let userName;
 	if (process.env.SP_EMAIL_USER) {
 		userName = process.env.SP_EMAIL_USER;
 	} else {
 		userName = '';
 	}
-	// console.log('username: ' + userName);
 	let userPass;
 	if (process.env.SP_EMAIL_PASS) {
 		userPass = process.env.SP_EMAIL_PASS;
 	} else {
 		userPass = '';
 	}
-	// console.log('password: ' + userPass);
-
 
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
@@ -116,16 +97,6 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 			pass: process.env.SP_EMAIL_PASS
 		}
 	});
-
-	// const storeLoc = [
-	// 	'Giant Food',
-	// 	'7235 Arlington Blvd',
-	// 	'Falls Church, VA 22042'
-	// ];
-
-	// const storeLoc = location;
-	// const storeLoc = loc();
-
 
 	let myHtml;
 	myHtml = 'Hi ' + name + ',<br><br>';
@@ -170,17 +141,6 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	const myText = myHtml;
 	const dates = userResults[0].valid_from + '-' + userResults[0].valid_to;
 
-	// send mail with defined transport object
-	// let info = await transporter.sendMail({
-	// 	from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
-	// 	to: email, // list of receivers
-	// 	subject: 'Specials For ' + dates, // Subject line
-	// 	text: myText, // plain text body
-	// 	html: myHtml // html body
-	// });
-
-
-
 	let info = await transporter.sendMail({
 		from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
 		to: email, // list of receivers
@@ -198,26 +158,5 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 			console.log(err);
 		}
 	});
-
-	// import { testy } from "../src/change-calculator.js";
-	// let info = await transporter.sendMail({
-	// 	from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
-	// 	to: email, // list of receivers
-	// 	subject: 'Specials For ' + dates, // Subject line
-	// 	text: myText, // plain text body
-	// 	html: myHtml // html body
-	// }, (err, info) => testy(err, info));
-
-	// function testy(err, info) {
-	// 	console.log('envelope is:');
-	// }
-
-
-
-
-
-
-	// console.log('Message sent: %s', info.messageId);
-	// console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 }
 

@@ -3,7 +3,7 @@
 import fetch from 'node-fetch';
 import { unitPrice } from "../src/module-unit-price.js";
 
-export function hello() {
+export function apiData() {
 
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
 

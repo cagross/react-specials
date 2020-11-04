@@ -1,0 +1,10 @@
+{
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "src\\\\.*.js",
+        "cmd": "node test/unit-tests.js"
+      }
+    ]
+  }
+}

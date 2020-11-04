@@ -1,11 +1,13 @@
+/**
+ * Return the unit price for each item.
+ * 
+ * @param {array} item 
+ */
 export function unitPrice(item) {
-  /* Begin code to calculate unit price for each item and add it as a new element in the array. */
   const pos_lb = item['price_text'].search("lb");// Search the 'price text' of each item for 'lb.'
   let uprice;
   if (pos_lb >= 0) {// If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
-    // item['unit_price'] = item['current_price'];
     uprice = item['current_price'];
-
   } else {// If 'lb' does not occur in the 'price text' of an item, continue to determine the unit price using other methods.
     const patt_ea = /\/ea/;
     const has_ea = patt_ea.test(item['price_text']);// Check if the string 'ea' exists in the 'price text.'
@@ -18,13 +20,10 @@ export function unitPrice(item) {
         if (pos_oz >= 0) {// If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
           const partial_oz = item['description'].substring(0, pos_oz);
           const weight_oz = partial_oz.match(/[0-9]+/);
-          // item['unit_price'] = 16*item['current_price']/weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
           uprice = 16 * item['current_price'] / weight_oz;// Calculate the per pound unit price of the item, using the total price and weight in ounces.
-          // console.log(uprice);
-        }
+         }
       }
     }
   }
   return uprice;
-  /* End code to calculate unit price. */
-}
+ }

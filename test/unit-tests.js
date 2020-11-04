@@ -533,24 +533,3 @@ test("Test of display price function.", function (t) {
   }
   t.end();
 });
-
-
-// test("Test of unit price.", function (t) {
-
-//   // let unitPriceRes;
-//   for (i = 0; i < testArr.length; i++) {
-//     unitPriceRes = false;
-//     // if (typeof (unitPrice(testArr[i])) === 'number' && unitPrice(testArr[i]) > 0) {
-//     if (unitPrice(testArr[i]) > 0) {
-//       unitPriceRes = true;
-//     }
-//     t.deepEqual(true, unitPriceRes); // make this test pass by completing the add function!
-//   }
-//   t.end();
-// });
-
-
-
-
-
-
