@@ -46,7 +46,7 @@ export function apiData() {
 					return dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
 			
 						let item = dataItems[key];
-						console.log(item);
+						// console.log(item);
 
 						if (item['current_price'] === null) {//If an item has no price, set its price and unit price as unknown.
 							item['unit_price'] = 'unknown';
