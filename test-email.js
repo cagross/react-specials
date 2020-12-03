@@ -15,7 +15,7 @@ const promise2 = new Promise(function(resolve, reject) {
 		dbUserName = process.env.SP_DB_USER;
 	} else {
 		dbUserName = '';
-	}
+  }
 	let dbUserPass;
 	if (process.env.SP_DB_PASS) {
 		dbUserPass = process.env.SP_DB_PASS;
@@ -48,7 +48,7 @@ const promise2 = new Promise(function(resolve, reject) {
 });
 
 Promise.all([promise1, promise2]).then(function(values) {
-	console.log(Object.keys(values[0]).length);
+	// console.log(Object.keys(values[0]).length);
 	const SomeModel = values[1];
 
 	SomeModel.find({}, 'name email meat th_price', function (err, match) {
@@ -63,7 +63,7 @@ Promise.all([promise1, promise2]).then(function(values) {
 			const propsy = {currMeat: match[i].meat, data: values[0]};
 			const meatTest = filter(propsy);
 
-			console.log(len + ' ' + i + ' ' + match[i].email);
+			// console.log(len + ' ' + i + ' ' + match[i].email);
 			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
 		}
 		mongoose.connection.close();
@@ -86,16 +86,17 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	} else {
 		userPass = '';
 	}
-
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
-		host: 'sg2plcpnl0174.prod.sin2.secureserver.net',
-		port: 465,
-		secure: true,
-		auth: {
-			user: process.env.SP_EMAIL_USER,
-			pass: process.env.SP_EMAIL_PASS
-		}
+    host: 'smtp.gmail.com',
+    port: 587,
+      auth: {
+      user: userName,
+      pass: userPass
+    },
+    debug: true, // show debug output
+    logger: true, // log information in console
+
 	});
 
 	let myHtml;
@@ -142,7 +143,9 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	const dates = userResults[0].valid_from + '-' + userResults[0].valid_to;
 
 	let info = await transporter.sendMail({
-		from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+    // from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+    from: '"Carl Gross" <cagross@gmail.com>', // sender address
+    
 		to: email, // list of receivers
 		subject: 'Specials For ' + dates, // Subject line
 		text: myText, // plain text body
@@ -154,7 +157,7 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 			console.log('messageID is:');
 			console.log(info.messageId);
 		} else {
-			console.log('err is:');
+      console.log('err is:');
 			console.log(err);
 		}
 	});
