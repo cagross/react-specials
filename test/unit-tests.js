@@ -1,6 +1,7 @@
 import test from 'tape'; // assign the tape library to the variable "test"
 import { storeLoc } from "../src/module-store-location.js";
 import { dispPrice } from '../src/module-display-price.js';
+import { unitPrice } from '../src/module-unit-price.js';
 
 test("Test of store location function.", function (t) {
   const storeLocRes = [
@@ -516,8 +517,64 @@ const testArr = [
     "flyer_type_name": "Weekly Circular",
     "flyer_run_id": 544869,
     "sale_story": null
+  },
+  {
+    "flyer_item_id": 536863599,
+    "flyer_id": 3846306,
+    "flyer_type_id": 6404,
+    "merchant_id": 2520,
+    "brand": "Oscar Mayer",
+    "display_name": "Oscar Mayer Deli Fresh Lunch Meat",
+    "name": "Oscar Mayer Deli Fresh Lunch Meat",
+    "description": "Selected Varieties, 16 oz. pkg.",
+    "current_price": "10.0",
+    "pre_price_text": "2/",
+    "price_text": null,
+    "category_ids": [],
+    "category_names": [
+      "Meat"
+    ],
+    "tag_ids": [],
+    "sub_items_skus": [],
+    "left": 2762.41,
+    "bottom": -740.246,
+    "right": 2965.89,
+    "top": -487.45,
+    "run_item_id": null,
+    "discount_percent": null,
+    "display_type": 1,
+    "iframe_display_width": null,
+    "iframe_display_height": null,
+    "url": "https://giantfood.com/savings/weekly-ad/grid-view",
+    "in_store_only": false,
+    "review": null,
+    "video": false,
+    "page_destination": null,
+    "video_count": false,
+    "video_url": null,
+    "recipe": false,
+    "recipe_title": null,
+    "text_areas": [],
+    "shopping_cart_urls": [],
+    "large_image_url": "https://cdn.flippenterprise.net/page_items/208866747/1608146211/extra_large.jpg",
+    "x_large_image_url": "https://cdn.flippenterprise.net/page_pdf_images/11086978/871c615a-3a4c-11eb-889a-0edc53c25ee6/x_large",
+    "dist_coupon_image_url": "https://f.wishabi.net/page_items/208866747/1608146211/extra_large.jpg",
+    "sku": null,
+    "custom1": null,
+    "custom2": null,
+    "custom3": "4256923",
+    "custom4": null,
+    "custom5": null,
+    "custom6": null,
+    "valid_to": "2020-12-25",
+    "valid_from": "2020-12-18",
+    "disclaimer_text": null,
+    "flyer_type_name_identifier": "weekly",
+    "flyer_type_name": "Weekly Circular",
+    "flyer_run_id": 642569,
+    "sale_story": null,
+    "unit_price": 10
   }
-  /* Begin list of objects with 'lb' in the description.*/
 ]
 
 test("Test of display price function.", function (t) {
@@ -531,5 +588,66 @@ test("Test of display price function.", function (t) {
       t.match(displayedPrice, /^(\$\d+\.\d{2})((\/\w+\.)?)$/, 'Displayed price is correct format.')
     }
   }
+  t.end();
+});
+
+test("Tests of unit price function.", function (t) {
+  const testItem = {
+    "flyer_item_id": 511827658,
+    "flyer_id": 3636218,
+    "flyer_type_id": 6404,
+    "merchant_id": 2520,
+    "brand": "Perdue",
+    "display_name": "Perdue Chicken Short Cuts",
+    "name": "Perdue Chicken Short Cuts",
+    "description": "Selected Varieties, 6–9 oz. pkg.",
+    "current_price": "6.0",
+    "pre_price_text": "2/",
+    "category_ids": [],
+    "category_names": [
+      "Meat"
+    ],
+    "sub_items_skus": [],
+    "left": 4781.02,
+    "bottom": -739.19,
+    "right": 5030.12,
+    "top": -483.1,
+    "run_item_id": null,
+    "discount_percent": null,
+    "display_type": 1,
+    "iframe_display_width": null,
+    "iframe_display_height": null,
+    "url": null,
+    "in_store_only": false,
+    "review": null,
+    "video": false,
+    "page_destination": null,
+    "video_count": false,
+    "video_url": null,
+    "recipe": false,
+    "recipe_title": null,
+    "text_areas": [],
+    "shopping_cart_urls": [],
+    "large_image_url": "https://cdn.flippenterprise.net/page_items/198841955/1598647078/extra_large.jpg",
+    "x_large_image_url": "https://cdn.flippenterprise.net/page_pdf_images/10554224/bcd9f6e0-e268-11ea-a7c9-0ec6e2beadde/x_large",
+    "dist_coupon_image_url": "https://f.wishabi.net/page_items/198841955/1598647078/extra_large.jpg",
+    "sku": null,
+    "custom1": null,
+    "custom2": null,
+    "custom3": "4379071",
+    "custom4": null,
+    "custom5": null,
+    "custom6": null,
+    "valid_to": "2020-09-03",
+    "valid_from": "2020-08-28",
+    "disclaimer_text": null,
+    "flyer_type_name_identifier": "weekly",
+    "flyer_type_name": "Weekly Circular",
+    "flyer_run_id": 544866,
+    "sale_story": null
+    };
+  let testUnitPrice
+  testUnitPrice = unitPrice(testItem);
+  t.equal(typeof (testUnitPrice), 'number', 'Unit price returns a number.');
   t.end();
 });
