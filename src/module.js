@@ -8,8 +8,9 @@ export function apiData() {
 		/* Begin code to fetch all weekly special data from the Giant Food API. */
 
 		// If this module is being called by the front-end app, it will need to have this proxy URL set.  Without it, fetching data will fail (at least it will in Chrome).
-		let proxyURL = 'https://cors-anywhere.herokuapp.com/';
-		
+    // const proxyURL = 'https://cors-anywhere.herokuapp.com/';
+    const proxyURL = 'https://sheltered-lake-52088.herokuapp.com/';
+    		
 		// If this module is being called by the back-end app (i.e.) the email service, the proxy URL does not need to be set.  So set the proxy URL to a blank string.  Check if the back-end app is in use by checking for the window object.  If it does not exist, then the module is being called by the back-end app.
 		if (typeof window === 'undefined') {
 			proxyURL = '';
