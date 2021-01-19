@@ -7,19 +7,21 @@ export function apiData() {
 
 		// If this module is being called by the front-end app, it will need to have a valid proxy URL set.  Without it, fetching data will fail (at least it will in Chrome).  See the project's README file for more information on setting up a valid proxy URL.
     let proxyURL = ''
-    console.log(555);
-    console.log(window.location.href);
-    if (window.location.href) {// If an environmental variable named CORS_PROXYURL exists, 
-      console.log(666);
+    if (typeof window !== 'undefined') {
+      console.log(555);
       console.log(window.location.href);
-      if (window.location.href === 'http://localhost:3000/') {// If an environmental variable named CORS_PROXYURL exists, set its value as the proxy URL.
-        proxyURL = ''
-        console.log(777);
-        console.log(proxyURL);
-        console.log("Ensure you have a valid CORS proxy solution. See project's README file.");
-      } else {
-        console.log(888);
-        proxyURL = 'https://sheltered-lake-52088.herokuapp.com/';// This proxy URL is valid only for the Specials app deployed to https://gentle-gorge-04163.herokuapp.com/.  If your app is deployed locally
+      if (window.location.href) {// If an environmental variable named CORS_PROXYURL exists, 
+        console.log(666);
+        console.log(window.location.href);
+        if (window.location.href === 'http://localhost:3000/') {// If an environmental variable named CORS_PROXYURL exists, set its value as the proxy URL.
+          proxyURL = ''
+          console.log(777);
+          console.log(proxyURL);
+          console.log("Ensure you have a valid CORS proxy solution. See project's README file.");
+        } else {
+          console.log(888);
+          proxyURL = 'https://sheltered-lake-52088.herokuapp.com/';// This proxy URL is valid only for the Specials app deployed to https://gentle-gorge-04163.herokuapp.com/.  If your app is deployed locally
+        }
       }
     }
     console.log(999);
