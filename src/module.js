@@ -7,25 +7,14 @@ export function apiData() {
 
 		// If this module is being called by the front-end app, it will need to have a valid proxy URL set.  Without it, fetching data will fail (at least it will in Chrome).  See the project's README file for more information on setting up a valid proxy URL.
     let proxyURL = ''
-    if (typeof window !== 'undefined') {
-      console.log(555);
-      console.log(window.location.href);
-      if (window.location.href) {// If an environmental variable named CORS_PROXYURL exists, 
-        console.log(666);
-        console.log(window.location.href);
-        if (window.location.href === 'http://localhost:3000/') {// If an environmental variable named CORS_PROXYURL exists, set its value as the proxy URL.
-          proxyURL = ''
-          console.log(777);
-          console.log(proxyURL);
-          console.log("Ensure you have a valid CORS proxy solution. See project's README file.");
-        } else {
-          console.log(888);
-          proxyURL = 'https://sheltered-lake-52088.herokuapp.com/';// This proxy URL is valid only for the Specials app deployed to https://gentle-gorge-04163.herokuapp.com/.  If your app is deployed locally
-        }
+    if (typeof window !== 'undefined' && window.location.href) {// This conditional should be true if the script is running in a browser, and false if running in Node.
+      const regex = /:\/\/localhost/g;// This regex matches any string containing ://localhost
+      if (window.location.href.search(regex) === -1) {// If the browser URL does not match the above regex, execute the following code block.
+        proxyURL = 'https://sheltered-lake-52088.herokuapp.com/';// This proxy URL is valid only for the Specials app deployed to https://gentle-gorge-04163.herokuapp.com/.  If your app is deployed to any other URL (including localhost), you will need to implement your own proxy URL solution.  See the README for more information.
+      } else {
+        console.log("Ensure you have a valid CORS proxy solution. See project's README file.");
       }
     }
-    console.log(999);
-    console.log(proxyURL);
     		
 // Check if the back-end app is in use by checking for the window object.  If it does not exist, then the module is being called by the back-end app, and the proxy URL does not need to be set.
 		if (typeof window === 'undefined') {
