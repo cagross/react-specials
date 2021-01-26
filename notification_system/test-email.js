@@ -6,17 +6,17 @@ import { apiData } from './src/module.js';
 import { filter } from './src/module-filter.js';
 import { storeLoc } from "./src/module-store-location.js";
 
-const promise1 = Promise.resolve(apiData());
+const promiseData = Promise.resolve(apiData());// Fetch data from the API.
 
-const promise2 = new Promise(function(resolve, reject) {
-	//Set up mongoose connection
-	let dbUserName;
+// Set up connection to database.
+const promiseDbConnect = new Promise(function(resolve, reject) {
+  let dbUserName, dbUserPass;
+  
 	if (process.env.SP_DB_USER) {
 		dbUserName = process.env.SP_DB_USER;
 	} else {
 		dbUserName = '';
   }
-	let dbUserPass;
 	if (process.env.SP_DB_PASS) {
 		dbUserPass = process.env.SP_DB_PASS;
 	} else {
@@ -31,7 +31,8 @@ const promise2 = new Promise(function(resolve, reject) {
 
 	//Define a schema.  
 	const Schema = mongoose.Schema;
-	//Create an instance of schema Schema.
+
+  //Create an instance of schema Schema.
 	const SomeModelSchema = new Schema({
 		name: String,
 		email: String,
@@ -40,53 +41,44 @@ const promise2 = new Promise(function(resolve, reject) {
 	});
 
 	// Compile model from schema object.
-	// const SomeModel = mongoose.model('somemodel', SomeModelSchema );
 	let SomeModel = mongoose.model('somemodel', SomeModelSchema );
 
 	resolve(SomeModel);
 
 });
 
-Promise.all([promise1, promise2]).then(function(values) {
-	// console.log(Object.keys(values[0]).length);
+
+Promise.all([promiseData, promiseDbConnect]).then(function(values) {
 	const SomeModel = values[1];
-
 	SomeModel.find({}, 'name email meat th_price', function (err, match) {
-
 		if (err) {
 			return console.log('error:  ' + err);
 		} else {
-	
-	
-		var len = match.length;
-		for (let i = 0; i < 1; i++) {
-			const propsy = {currMeat: match[i].meat, data: values[0]};
-			const meatTest = filter(propsy);
-
-			// console.log(len + ' ' + i + ' ' + match[i].email);
-			main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
-		}
-		mongoose.connection.close();
-	
+      // const len = match.length;
+      for (let i = 0; i < 1; i++) {
+        const propsy = {currMeat: match[i].meat, data: values[0]};
+        const meatTest = filter(propsy);
+        main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+      }
+      mongoose.connection.close();
 		}
 	})
 });
 
 // Function to prepare an email and send it.
 async function main(email, name, meatPref, thPrice, userArray) {// async..await is not allowed in global scope, must use a wrapper
-	let userName;
+	let userName, userPass;
 	if (process.env.SP_EMAIL_USER) {
 		userName = process.env.SP_EMAIL_USER;
 	} else {
 		userName = '';
 	}
-	let userPass;
 	if (process.env.SP_EMAIL_PASS) {
 		userPass = process.env.SP_EMAIL_PASS;
 	} else {
 		userPass = '';
 	}
-	// create reusable transporter object using the default SMTP transport
+	// Create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -99,7 +91,8 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 
 	});
 
-	let myHtml;
+  // This section needs to be cleaned up.  No time right now :-(
+  let myHtml;
 	myHtml = 'Hi ' + name + ',<br><br>';
 	myHtml = myHtml.concat("Based on your selection criteria, we've found some matches this week." + '<br><br>');
 
@@ -142,10 +135,8 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 	const myText = myHtml;
 	const dates = userResults[0].valid_from + '-' + userResults[0].valid_to;
 
-	let info = await transporter.sendMail({
-    // from: '"Carl Gross" <cagross@everlooksolutions.com>', // sender address
+	transporter.sendMail({
     from: '"Carl Gross" <cagross@gmail.com>', // sender address
-    
 		to: email, // list of receivers
 		subject: 'Specials For ' + dates, // Subject line
 		text: myText, // plain text body
@@ -162,4 +153,3 @@ async function main(email, name, meatPref, thPrice, userArray) {// async..await 
 		}
 	});
 }
-
