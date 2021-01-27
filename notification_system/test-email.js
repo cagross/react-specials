@@ -2,9 +2,12 @@
 
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-import { apiData } from './src/module.js';
-import { filter } from './src/module-filter.js';
-import { storeLoc } from "./src/module-store-location.js";
+// import { apiData } from './src/module.js';
+// import { filter } from './src/module-filter.js';
+// import { storeLoc } from "./src/module-store-location.js";
+import { apiData } from '../src/module.js';
+import { filter } from '../src/module-filter.js';
+import { storeLoc } from "../src/module-store-location.js";
 
 const promiseData = Promise.resolve(apiData());// Fetch data from the API.
 
