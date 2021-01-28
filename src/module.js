@@ -41,13 +41,15 @@ export function apiData() {
 					// return 555;
 					// console.log('testy');
 					const dataItems = dataAll.items;// Filter all data into only data related to items.
-					var dataMeatItems;
+					// var dataMeatItems;
 
 					const filter = 1;// Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
 					const dataMeatItemsKeys = productFilter(dataItems, filter);// This returns an array of the keys after the desired filter has been applied.
 					
 					// dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
-					return dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
+          // return dataMeatItems = dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
+					return dataMeatItemsKeys.map(function (key) {// Create a new array containing only filtered items.  In addition, calculate and add a unit price property to the array.
+          
 			
 						let item = dataItems[key];
 						// console.log(item);

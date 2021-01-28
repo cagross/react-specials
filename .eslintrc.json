@@ -18,5 +18,8 @@
     "react": {
       "version": "detect"
     }
+  },
+  "rules": {
+    "no-mixed-spaces-and-tabs": 0 // Disable this rule.  Otherwise React will not compile until this is fixed in all files.
   }
 }
