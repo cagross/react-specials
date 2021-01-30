@@ -35,12 +35,10 @@ body {
 	width: var(--main-width);
 	min-width: var(--main-min-width);
 	margin: var(--main-margin);
-	/* font-size: 16px; */
 	font-size: 0.75rem;
-
 }
 .wrapper {
-    width: var(--main-width);
+  width: var(--main-width);
 	min-width: var(--main-min-width);
 	margin: var(--main-margin);
 }
@@ -49,7 +47,6 @@ body {
     border: 5px solid #406C1C;
 	margin: 20px 0;
 	color: #333333;
-	/* font-size: 120px; */
     font-size: 5.5rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
