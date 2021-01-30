@@ -1,11 +1,9 @@
-//App.js fetches grocery meat specials from an API, and renders them onto the page using ReactJS.
+//App.js fetches grocery specials from a web API, and renders them onto the page.
 
 import React from 'react';
 import { CSSTransition } from 'react-transition-group'// Required only for CSS transitions.
 // import './animate.css';// Needed to for the specific CSS transition I'm using ('fade' in this case).
-
 import './App.css';// Import the main CSS file.
-
 import { useState } from 'react';// This needs to be present in order to use the 'useState' hook.
 import { useEffect } from 'react';// This needs to be present in order to use the 'useEffect' hook.
 
@@ -27,10 +25,9 @@ function formDate(unform_date) {
   return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date(unform_date));
 }
 
-function Results(props) {// Filter the list of specials based on the user's meat selection, and render that list onto the page.
-
-  function meatList() {// Filter the list of specials based on the user's meat selection and render it into a list.
-
+// Filter the list of specials based on the user's meat selection, and return a <div> containing the list of results.
+function Results(props) {
+  function meatList() {// Filter the list of specials based on the user's meat selection and return an HTML element of the results.
     const meatData = filter(props);
     if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
       return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
@@ -52,8 +49,6 @@ function Results(props) {// Filter the list of specials based on the user's meat
         // }
         /* End code to check if item name contains any meat terms. */
 
-        /* Begin code to render a row of item information to the page. */
-        // if (match) {
         return (
 
           <CSSTransition //Ensure each row appears with a CSS fade transition.
@@ -84,7 +79,7 @@ function Results(props) {// Filter the list of specials based on the user's meat
               <div className="row__dates">
                 <div className="row__storinfo">
                   <img className="row__storlogo" alt="Logo: Giant Food." src={logo_giant}></img>
-                  {/* 15/7/19 The store name/address is hard coded for now.  Once more stores are added, this will be dynamic. */}
+                  {/* 15/7/19 The store name/address is hard coded here for now.  Once more stores are added, this should be dynamic--read from the API response. */}
                   <div className="row__storaddress">
                     Giant Food<br />
 										7235 Arlington Blvd<br />
@@ -110,7 +105,6 @@ function Results(props) {// Filter the list of specials based on the user's meat
             </div>
           </CSSTransition>
         );
-        // }
         /* End code to render a row of item information to the page. */
       });
     }
@@ -133,18 +127,17 @@ Results.propTypes = {
 // App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
 function App() {
   /* Use the 'useState' hook to set initial state. */
-  const [data, setData] = useState([]);// Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
+  const [data, setData] = useState([]);// Set a piece of state named 'data' to an empty array.  To update that piece of state, run the 'setData()' function.
   const [currentMeat, setMeat] = useState('');// Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
 
-  /*Execute the 'useEffect' hook to fetch the API data.  Pass a second parameter to useEffect()--a blank array--to ensure this is executed only once (on initial page load ). */
+  /* Execute the 'useEffect' hook to fetch the API data.  Pass an empty array as the second parameter to ensure this is executed only once (on initial page load). */
   useEffect(() => {
     (async () => {
-      setData(await apiData());//Assign this
+      setData(await apiData());
     })();
   }, []);
-  /* End code to fetch API data. */
 
-  /* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as handle the functionality of the radio buttons.*/
+  /* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as set classes on the radio button elements.*/
   function handleInput( event ) {
     setMeat(event.target.value);
 
@@ -203,7 +196,7 @@ function App() {
 				</div>
       </div>
 
-      {/* Render the list of items. */}
+      {/* Insert the list of items. */}
       <section id="items_container">
         <Results currMeat={currentMeat} data={data} />
       </section>
@@ -211,5 +204,5 @@ function App() {
   )
 }
 
-// Ensure the function App() is executed whenever index.js renders App.
+// Export App, so it can be imported by index.js.
 export default App;
