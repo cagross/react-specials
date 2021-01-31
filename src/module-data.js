@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { unitPrice } from "../src/module-unit-price.js";
+import { unitPrice } from "./module-unit-price.js";
 
 /* Function to fetch all weekly special data from the Giant Food API. */
 export function apiData() {

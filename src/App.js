@@ -16,7 +16,7 @@ import logo_giant from './images/logo-Giant-50.png';
 
 import PropTypes from 'prop-types';// Required to add data type validation on props.
 
-import { apiData } from './module.js';
+import { apiData } from './module-data.js';
 import { filter } from './module-filter.js';
 import { dispPrice } from './module-display-price.js';
 

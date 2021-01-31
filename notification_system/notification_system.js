@@ -2,7 +2,7 @@
 
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-import { apiData } from '../src/module.js';
+import { apiData } from '../src/module-data.js';
 import { filter } from '../src/module-filter.js';
 import { storeLoc } from "../src/module-store-location.js";
 
