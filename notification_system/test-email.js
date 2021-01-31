@@ -2,9 +2,6 @@
 
 import nodemailer from 'nodemailer';
 import mongoose from 'mongoose';
-// import { apiData } from './src/module.js';
-// import { filter } from './src/module-filter.js';
-// import { storeLoc } from "./src/module-store-location.js";
 import { apiData } from '../src/module.js';
 import { filter } from '../src/module-filter.js';
 import { storeLoc } from "../src/module-store-location.js";
@@ -14,7 +11,6 @@ const promiseData = Promise.resolve(apiData());// Fetch data from the API.
 // Set up connection to database.
 const promiseDbConnect = new Promise(function(resolve, reject) {
   let dbUserName, dbUserPass;
-  
 	if (process.env.SP_DB_USER) {
 		dbUserName = process.env.SP_DB_USER;
 	} else {
@@ -50,14 +46,12 @@ const promiseDbConnect = new Promise(function(resolve, reject) {
 
 });
 
-
 Promise.all([promiseData, promiseDbConnect]).then(function(values) {
 	const SomeModel = values[1];
 	SomeModel.find({}, 'name email meat th_price', function (err, match) {
 		if (err) {
 			return console.log('error:  ' + err);
 		} else {
-      // const len = match.length;
       for (let i = 0; i < 1; i++) {
         const propsy = {currMeat: match[i].meat, data: values[0]};
         const meatTest = filter(propsy);
