@@ -1,8 +1,8 @@
-//Define all possible search terms here--terms which are indicative of a poultry, beef, or pork item.  These terms are requried to determine which meat category each items belongs.  This is very incomplete and inexact, as determining accurate and complete search terms is difficult.  Also, this data should eventually be moved to a database.
+// 
 import { terms } from './module-terms.js';
 export function filter(props) {
 
-	const mdOriginal = props.data;
+	const items = props.data;
 	const searchTerms = terms();
 	let meatPref;
 	// Determine which terms should be used to filter products, baed on the user's selected meat.
@@ -14,7 +14,7 @@ export function filter(props) {
 		meatPref = searchTerms['pork'];
 	}
 
-	function isBigEnough(value) {
+	function matchTerm(value) {
 		const itemName = value["display_name"].toLowerCase();
 		let match = false;
 
@@ -33,8 +33,6 @@ export function filter(props) {
 			return value;
 		}
 	}
- 	let filtered = mdOriginal.filter(isBigEnough)
-	// console.log(filtered);
-
+ 	let filtered = items.filter(matchTerm)
 	return filtered;
 }
