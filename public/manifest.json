@@ -1,15 +1,27 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Specials",
+  "name": "Grocery Specials App",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "favicon-192.png",
+      "sizes": "33x33"
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "display": "browser",
   "theme_color": "#000000",
+  "categories": [
+    "food",
+    "finance",
+    "shopping"
+  ],
+  "dir": "ltr",
+  "description": "App to help save money on your groceries.",
+  "lang": "en-US",
   "background_color": "#ffffff"
 }
