@@ -47,13 +47,12 @@ export function apiData() {
 		
 // Function to filter all data into items from specific departments, e.g. meat, deli, etc.  For now I'm filtering items by only the meat and deli departments.
 function productFilter(dataItems, filter) {
-	let myArray;
-
+  const arrMeatDeli = ['Meat', 'Deli'];
+  
 	let dataMeatItems = Object.keys(dataItems).filter(key => {
 		switch (filter) {
 			case 1:
-				myArray = ['Meat', 'Deli'];
-				if (myArray.includes(dataItems[key]["category_names"][0])) {
+				if (arrMeatDeli.includes(dataItems[key]["category_names"][0])) {
 					return true;
 				}
 				break;
