@@ -1,7 +1,10 @@
-// 
 import { terms } from './module-terms.js';
-export function filter(props) {
 
+/**
+ * Accepts an object of grocery store items from all categories, and returns a filtered array of items.
+ * @param {object} props 
+ */
+export function filter(props) {
 	const items = props.data;
 	const searchTerms = terms();
 	let meatPref;
@@ -33,6 +36,6 @@ export function filter(props) {
 			return value;
 		}
 	}
- 	let filtered = items.filter(matchTerm)
+ 	const filtered = items.filter(matchTerm)
 	return filtered;
 }
