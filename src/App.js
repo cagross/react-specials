@@ -27,7 +27,7 @@ function formDate(unform_date) {
 
 // Filter the list of specials based on the user's meat selection, and return a <div> containing the list of results.
 function Results(props) {
-  function meatList() {// Filter the list of specials based on the user's meat selection and return an HTML element of the results.
+  function meatList() {
     const meatData = filter(props);
     if (Object.entries(meatData).length) {// Check if the weekly specials array is empty or not.  If it is not empty, execute code.
       return Object.keys(meatData).map(function (key) {// Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
