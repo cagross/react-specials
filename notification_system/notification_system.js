@@ -6,7 +6,8 @@ import { apiData } from '../src/module-data.js';
 import { filter } from '../src/module-filter.js';
 import { storeLoc } from "../src/module-store-location.js";
 
-const promiseData = Promise.resolve(apiData());// Fetch data from the API.
+// Fetch data from the API.
+const promiseData = Promise.resolve(apiData());
 
 // Set up connection to database.
 const promiseDbConnect = new Promise(function(resolve, reject) {
@@ -46,16 +47,17 @@ const promiseDbConnect = new Promise(function(resolve, reject) {
 
 });
 
+// Code to run when both API data has been fetched, and database connection has been made.
 Promise.all([promiseData, promiseDbConnect]).then(function(values) {
 	const SomeModel = values[1];
 	SomeModel.find({}, 'name email meat th_price', function (err, match) {
 		if (err) {
 			return console.log('error:  ' + err);
 		} else {
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 1; i++) {// Loop through every record in the database.
         const propsy = {currMeat: match[i].meat, data: values[0]};
         const meatTest = filter(propsy);
-        main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// If a match is found, execute the main() function, and pass to it the email address found in the database.
+        main(match[i].email, match[i].name, match[i].meat, match[i].th_price, meatTest).catch(console.error);// Call main() to send an email of items to the user found in the database record.
       }
       mongoose.connection.close();
 		}
@@ -63,7 +65,7 @@ Promise.all([promiseData, promiseDbConnect]).then(function(values) {
 });
 
 // Function to prepare an email and send it.
-async function main(email, name, meatPref, thPrice, userArray) {// async..await is not allowed in global scope, must use a wrapper
+async function main(email, name, meatPref, thPrice, userArray) {
 	let userName, userPass;
 	if (process.env.SP_EMAIL_USER) {
 		userName = process.env.SP_EMAIL_USER;
