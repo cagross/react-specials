@@ -3,6 +3,7 @@ import { storeLoc } from "../src/module-store-location.js";
 import { dispPrice } from '../src/module-display-price.js';
 import { unitPrice } from '../src/module-unit-price.js';
 
+// This is a trivial test for now.
 test("Test of store location function.", function (t) {
   const storeLocRes = [
     'Giant Food',
@@ -14,6 +15,7 @@ test("Test of store location function.", function (t) {
 });
 
 let i;
+// Array of test objects that will be passed to unit tests.
 const testArr = [
   {
     "flyer_item_id": 511827658,
@@ -181,7 +183,6 @@ const testArr = [
     "sale_story": null,
     "unit_price": "not set"
   },
-  /* Begin list of objects with no price set (e.g. $1.00 off, buy one get one free, etc. */
   {
     "flyer_item_id": 508152233,
     "flyer_id": 3601356,
@@ -461,8 +462,6 @@ const testArr = [
     "sale_story": "$1.00 off",
     "unit_price": "unknown"
   },
-  /* End list of objects with no price set (e.g. $1.00 off, buy one get one free, etc. */
-  /* Begin list of objects with 'lb' in the description.*/
   {
     "flyer_item_id": 515177572,
     "flyer_id": 3664494,
@@ -585,7 +584,7 @@ test("Test of display price function.", function (t) {
       t.deepEqual('Unknown', displayedPrice, "Displayed price must be: 'Unknown'");
     } else {
       t.deepEqual('string', typeof (displayedPrice), 'Displayed price must be a string.');
-      t.match(displayedPrice, /^(\$\d+\.\d{2})((\/\w+\.)?)$/, 'Displayed price is correct format.')
+      t.match(displayedPrice, /^(\$\d+\.\d{2})((\/\w+\.)?)$/, 'Displayed price is correct format.')// RegEx matches a strings of format $3.99 or $3.99/lb.  See here for more info: regexr.com/5ll4e).
     }
   }
   t.end();
