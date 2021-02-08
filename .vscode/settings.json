@@ -6,5 +6,7 @@
         "cmd": "node test/unit-tests.js"
       }
     ]
-  }
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
