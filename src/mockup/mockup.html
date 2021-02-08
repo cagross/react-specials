@@ -1,55 +1,72 @@
 <!DOCTYPE html>
-<html lang="en-US" xmlns:fb="https://www.facebook.com/2008/fbml" xmlns:addthis="https://www.addthis.com/help/api-spec">
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<title>React Specials App</title>
-<!--[if lt IE 9]>
-<script src="http://leafandmortar.com/wp-content/themes/kage-green/js/html5.js"></script>
-<![endif]-->
-	<style type="text/css">
-		/* @import url(../../../assets/directory.css); */
-		@import url(style.css);
-	</style>
-</head>
-<body>
-	<div id="wrapper">
-		<header id="header">
-			Header Goes Here
-		</header>
-		<div id="content">
+<html
+  lang="en-US"
+  xmlns:fb="https://www.facebook.com/2008/fbml"
+  xmlns:addthis="https://www.addthis.com/help/api-spec"
+>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>React Specials App</title>
+    <!--[if lt IE 9]>
+      <script src="http://leafandmortar.com/wp-content/themes/kage-green/js/html5.js"></script>
+    <![endif]-->
+    <style type="text/css">
+      /* @import url(../../../assets/directory.css); */
+      @import url(style.css);
+    </style>
+  </head>
 
+  <body>
+    <div id="wrapper">
+      <header id="header">Header Goes Here</header>
+      <div id="content">
+        <div class="filter">
+          <div>
+            <input
+              type="radio"
+              id="meatChoice1"
+              name="meaty"
+              value="Beef"
+              class="radio"
+            />
+            <label for="meatChoice1"
+              >Beef<br />
+              <!-- <input type="radio" id="meatChoice1" name="meaty" value="Beef" class="radio" /> -->
+            </label>
+            <img src="../images/steak-200x116.jpg" />
+          </div>
+          <div>
+            <label for="meatChoice2"
+              >Chicken<br />
+              <input
+                type="radio"
+                id="meatChoice2"
+                name="meaty"
+                value="Chicken"
+                class="radio"
+              />
+            </label>
+          </div>
+          <div>
+            <label for="meatChoice3"
+              >Pork<br />
+              <input
+                type="radio"
+                id="meatChoice3"
+                name="meaty"
+                value="Pork"
+                class="radio"
+              />
+            </label>
+          </div>
 
-
-
-
-
-
-
-
-			<div class="filter">
-				<div>
-					<input type="radio" id="meatChoice1" name="meaty" value="Beef" class="radio" />
-					<label for="meatChoice1">Beef<br />
-						<!-- <input type="radio" id="meatChoice1" name="meaty" value="Beef" class="radio" /> -->
-					</label>
-					<img src="../images/steak-200x116.jpg"></img>
-				</div>
-				<div>
-					<label for="meatChoice2">Chicken<br />
-						<input type="radio" id="meatChoice2" name="meaty" value="Chicken" class="radio" />
-					</label>
-				</div>
-				<div>
-					<label for="meatChoice3">Pork<br />
-						<input type="radio" id="meatChoice3" name="meaty" value="Pork" class="radio" />
-					</label>
-				</div>
-
-
-				<!-- <div>
+          <!-- <div>
 					<input type="radio" name="sex" value="female" id="female-radio">
 					<label for="female-radio">
 						<img
@@ -58,64 +75,29 @@
 						</img>
 					</label>
 				</div> -->
+        </div>
 
-
-			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-			<div class="items_container">
-				<div class="item_row">
-					<img class="item_thumb" src="image-test.jpg">
-					<span class="item_name">
-						Item name
-					</span>
-					<span class="item_price">
-						Item price
-					</span>
-				</div>
-				<div class="item_row">
-					<img class="item_thumb" src="image-test.jpg">
-					<span class="item_name">
-						Item name
-					</span>
-					<span class="item_price">
-						Item price
-					</span>
-				</div>
-				<div class="item_row">
-					<img class="item_thumb" src="image-test.jpg">
-					<span class="item_name">
-						Item name
-					</span>
-					<span class="item_price">
-						Item price
-					</span>
-				</div>
-			</div>
-
-
-
-
-
-
-
-
-
-			
-		</div>
-		<footer id="footer">
-			Footer goes here.
-			<!-- <div class="footer_block">
+        <div class="items_container">
+          <div class="item_row">
+            <img class="item_thumb" src="image-test.jpg" />
+            <span class="item_name"> Item name </span>
+            <span class="item_price"> Item price </span>
+          </div>
+          <div class="item_row">
+            <img class="item_thumb" src="image-test.jpg" />
+            <span class="item_name"> Item name </span>
+            <span class="item_price"> Item price </span>
+          </div>
+          <div class="item_row">
+            <img class="item_thumb" src="image-test.jpg" />
+            <span class="item_name"> Item name </span>
+            <span class="item_price"> Item price </span>
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+        Footer goes here.
+        <!-- <div class="footer_block">
 				<div class="container columnwrapp clearfix">
 					<div class="column3">
 						<div class="gutter">
@@ -184,9 +166,9 @@
 					</div>
 				</div>
 			</div> -->
-		</footer>
-	</div>
-<!-- <aside class="super-header" role="banner">
+      </footer>
+    </div>
+    <!-- <aside class="super-header" role="banner">
 	<div class="wrapper">
 		<div class="lynda-logo wpdiy-item">
 			<a href="http://lynda.com/" title="Visit lynda.com" class="element-invisible">lynda.com</a> 
@@ -226,11 +208,11 @@
 
 	</aside>
 </aside> -->
-<!-- .super-header -->
-<!-- <script type='text/javascript' src='../../../leafandmortar.com/wp-content/themes/kage-green/js/main5152.js?ver=1.0'>
+    <!-- .super-header -->
+    <!-- <script type='text/javascript' src='../../../leafandmortar.com/wp-content/themes/kage-green/js/main5152.js?ver=1.0'>
 </script> -->
 
-<!--
+    <!--
 Polyfills for older browsers
 @see https://reactjs.org/docs/javascript-environment-requirements.html
 <script crossorigin src="https://unpkg.com/core-js@2.5.1/client/shim.min.js"></script>
@@ -238,12 +220,11 @@ Polyfills for older browsers
 <script src="../../../assets/polyfills/raf-3.4.0-polyfill.min.js"></script>
 -->
 
-<!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script>window.React || document.write('<script crossorigin src="../../../node_modules/react/umd/react.development.js"><\/script>')</script>
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script>window.ReactDOM || document.write('<script crossorigin src="../../../node_modules/react-dom/umd/react-dom.development.js"><\/script>')</script>
 
 <script src="directory.js"></script> -->
-
-</body>
+  </body>
 </html>

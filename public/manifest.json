@@ -15,11 +15,7 @@
   "start_url": ".",
   "display": "browser",
   "theme_color": "#000000",
-  "categories": [
-    "food",
-    "finance",
-    "shopping"
-  ],
+  "categories": ["food", "finance", "shopping"],
   "dir": "ltr",
   "description": "App to help save money on your groceries.",
   "lang": "en-US",
