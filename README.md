@@ -1,6 +1,6 @@
-![Images of various prepared meats.](images-readme/sp-readme-banner.png "Meat Specials screenshot")
+![Images of various prepared meat items.](images-readme/sp-readme-banner.png "Grocery Specials screenshot")
 
-<h1 align="center">Meat Specials Web App</h1>
+<h1 align="center">Grocery Specials Web App</h1>
 
 <div align="center">
 
@@ -12,9 +12,9 @@
 
 </div>
 
-This app displays the weekly specials in the meat/deli department, for one specific grocery store (with more to come).
+This web app displays the weekly specials in the meat/deli department, for one specific grocery store (with more to come).
 
-This is a passion project of mine, built with ReactJS (for now). It is by no means complete, or even that useful in its current version. See the [To Do section](#todo) below for future plans.
+This is a passion project of mine, built with ReactJS. It is by no means complete, or even that useful in its current version. See the [To Do section](#todo) below for future plans.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

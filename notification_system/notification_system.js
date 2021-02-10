@@ -161,7 +161,7 @@ async function main(email, name, meatPref, thPrice, userArray) {
     {
       from: '"Carl Gross" <cagross@gmail.com>', // sender address
       to: email, // list of receivers
-      subject: "Specials For " + dates, // Subject line
+      subject: "Grocery Specials For " + dates, // Subject line
       text: myText, // plain text body
       html: myHtml, // html body
     },
