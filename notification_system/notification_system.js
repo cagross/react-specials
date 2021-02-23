@@ -58,7 +58,7 @@ Promise.all([promiseData, promiseDbConnect]).then(function (values) {
     if (err) {
       return console.log("error:  " + err);
     } else {
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < match.length; i++) {
         // Loop through every record in the database.
         const propsy = { currMeat: match[i].meat, data: values[0] };
         const meatTest = filter(propsy);
