@@ -197,6 +197,7 @@ Here is a list of features/fixes I would like to implement soon:
 
 - Increase the number of stores searched by the app.
 - Browse Component: Make fully responsive.
+- Fix price displays bugs in emails sent in Notify Component.
 
 ## ✍️ Authors <a name = "authors"></a>
 
