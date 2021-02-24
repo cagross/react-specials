@@ -49,9 +49,9 @@ _Note: Currently, both the Browse Component and the Notify Component use the wee
 |                                                                                                             |                                     |                                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | ![Images of various prepared meat items.](images-readme/logo-reactjs-100.png "Grocery Specials screenshot") | [ReactJS](https://reactjs.org/)     | Web Framework. I used the [Create React App project](https://github.com/facebook/create-react-app) to get started. |
-| ![Images of various prepared meat items.](images-readme/logo-nodejs-100.png "Grocery Specials screenshot")  | [Node.js](https://nodejs.org/)      | Server Environment                                                                                                 |
+| ![Images of various prepared meat items.](images-readme/logo-nodejs-100.jpg "Grocery Specials screenshot")  | [Node.js](https://nodejs.org/)      | Server Environment                                                                                                 |
 | ![Images of various prepared meat items.](images-readme/logo-express-100.png "Grocery Specials screenshot") | [Express](https://expressjs.com/)   | Web Server Environment                                                                                             |
-| ![Images of various prepared meat items.](images-readme/logo-mongodb-100.png "Grocery Specials screenshot") | [MongoDB](https://www.mongodb.com/) | Database                                                                                                           |
+| ![Images of various prepared meat items.](images-readme/logo-mongodb-100.jpg "Grocery Specials screenshot") | [MongoDB](https://www.mongodb.com/) | Database                                                                                                           |
 
 ## ⛏️ Installation <a name = "installation"></a>
 
@@ -86,7 +86,7 @@ After, your default browser should automatically open and display the app's Brow
 
 2. Implement CORS Fix (if necessary): In many cases, after you complete the previous step, the browser will open but display no data, i.e. no items. The screen will look like the screenshot below:
 
-<img src="images-readme/sp-browse-cors.jpg" style="border: solid #000000 1px;" alt="Grocery Specials Browse Component exhibiting CORS issue." title = "Grocery Specials with CORS issue." width="600"/>
+<img src="images-readme/sp-browse-cors.jpg" style="border: solid #000000 1px;" alt="Grocery Specials Browse Component exhibiting CORS issue." title = "Grocery Specials with CORS issue."/>
 
 In addition, you should see an error in the browser's JavaScript console, similar to this:
 
@@ -126,7 +126,7 @@ Configuring this component is a little trickier, and admittedly fragile for now.
 
 It is possible to use a non-Gmail account, but if you do so, you will have to manually make edits to the project file `notification_system/notification_system.js`. Specifically, you'll have to edit the object passed to `createTransport()` and ensure it reflect the details of your email provider.
 
-<img src="images-readme/sp-notify-code.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js." width="600"/>
+<img src="images-readme/sp-notify-code.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
 
 6.  On your local system, create two environmental variables:
 
@@ -189,7 +189,7 @@ Unit tests are a work in progress :smiley: There are a few unit tests written, u
 
 After, output should be printed to the console, similar to this screenshot:
 
-<img src="images-readme/sp-unit-test-output.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js." width="300"/>
+<img src="images-readme/sp-unit-test-output.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
 
 ## 📋 To-Do List (last updated 18 Feb 2021) <a name="to_do_list"></a>
 
