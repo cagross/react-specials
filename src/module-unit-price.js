@@ -7,7 +7,7 @@ export function unitPrice(item) {
   const priceText = item["price_text"] || "";
   const pos_lb = priceText.search("lb"); // Search the 'price text' of each item for 'lb.'
 
-  let uprice;
+  let partial, weight, uprice;
   if (pos_lb >= 0) {
     // If 'lb' occurs in the 'price text' of an item, then its 'current price' is already its unit price, so set it accordingly.
     uprice = item["current_price"];
@@ -21,10 +21,16 @@ export function unitPrice(item) {
         const pos_oz = item["description"].search(/oz\./i); // Search for the string 'oz' in the item 'description.'  Return the index in the string.
         if (pos_oz >= 0) {
           // If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
-          const partial_oz = item["description"].substring(0, pos_oz);
-          const weight_oz = partial_oz.match(/[0-9]+/);
-          uprice = (16 * item["current_price"]) / weight_oz; // Calculate the per pound unit price of the item, using the total price and weight in ounces.
+          partial = item["description"].substring(0, pos_oz);
+          weight = partial.match(/[0-9]+/) / 16; // Total weight in pounds.
         }
+        const pos_lb = item["description"].search(/lb\./i); // Search for the string 'lb' in the item 'description.'  Return the index in the string.
+        if (pos_lb >= 0) {
+          // If the string 'lb' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
+          partial = item["description"].substring(0, pos_lb);
+          weight = partial.match(/[0-9]+/); // Total weight in pounds.
+        }
+        uprice = item["current_price"] / weight; // Calculate the per pound unit price of the item, using the total price and weight in pounds.
       }
     }
   }
