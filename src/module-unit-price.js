@@ -18,6 +18,14 @@ export function unitPrice(item) {
     // If 'ea' occurs in the 'price text,' or the 'price text' is blank, then assume the price is per package, and run the following code which searches through the item 'description' to determine the weight of the package.
     if (has_ea || priceText === "") {
       if (item["description"] != null) {
+        let divisor = 1;
+        // Calculate any additional divisor specified by item (e.g. '2 items for $3.00').  Set it to  the first number that is present before the final '/' in item["pre_price_text"].
+        if (item["pre_price_text"]) {
+          const pos_slash = item["pre_price_text"].lastIndexOf("/");
+          partial = item["pre_price_text"].slice(0, pos_slash);
+          divisor = partial.match(/\d+/g)[0];
+        }
+
         const pos_oz = item["description"].search(/oz\./i); // Search for the string 'oz' in the item 'description.'  Return the index in the string.
         if (pos_oz >= 0) {
           // If the string 'oz' appears in the item 'description,' run the following code to extract the weight of the item, in pounds.
@@ -30,7 +38,7 @@ export function unitPrice(item) {
           partial = item["description"].substring(0, pos_lb);
           weight = partial.match(/[0-9]+/); // Total weight in pounds.
         }
-        uprice = item["current_price"] / weight; // Calculate the per pound unit price of the item, using the total price and weight in pounds.
+        uprice = item["current_price"] / weight / divisor; // Calculate the per pound unit price of the item, using the total price and weight in pounds.
       }
     }
   }

@@ -624,71 +624,73 @@ test("Test of display price function.", function (t) {
 
 test("Tests of unit price function.", function (t) {
   let testUnitPrice;
-
   let testItem;
-  // testItem = {
-  //   flyer_item_id: 511827658,
-  //   flyer_id: 3636218,
-  //   flyer_type_id: 6404,
-  //   merchant_id: 2520,
-  //   brand: "Perdue",
-  //   display_name: "Perdue Chicken Short Cuts",
-  //   name: "Perdue Chicken Short Cuts",
-  //   description: "Selected Varieties, 6–9 oz. pkg.",
-  //   current_price: "6.0",
-  //   pre_price_text: "2/",
-  //   category_ids: [],
-  //   category_names: ["Meat"],
-  //   sub_items_skus: [],
-  //   left: 4781.02,
-  //   bottom: -739.19,
-  //   right: 5030.12,
-  //   top: -483.1,
-  //   run_item_id: null,
-  //   discount_percent: null,
-  //   display_type: 1,
-  //   iframe_display_width: null,
-  //   iframe_display_height: null,
-  //   url: null,
-  //   in_store_only: false,
-  //   review: null,
-  //   video: false,
-  //   page_destination: null,
-  //   video_count: false,
-  //   video_url: null,
-  //   recipe: false,
-  //   recipe_title: null,
-  //   text_areas: [],
-  //   shopping_cart_urls: [],
-  //   large_image_url:
-  //     "https://cdn.flippenterprise.net/page_items/198841955/1598647078/extra_large.jpg",
-  //   x_large_image_url:
-  //     "https://cdn.flippenterprise.net/page_pdf_images/10554224/bcd9f6e0-e268-11ea-a7c9-0ec6e2beadde/x_large",
-  //   dist_coupon_image_url:
-  //     "https://f.wishabi.net/page_items/198841955/1598647078/extra_large.jpg",
-  //   sku: null,
-  //   custom1: null,
-  //   custom2: null,
-  //   custom3: "4379071",
-  //   custom4: null,
-  //   custom5: null,
-  //   custom6: null,
-  //   valid_to: "2020-09-03",
-  //   valid_from: "2020-08-28",
-  //   disclaimer_text: null,
-  //   flyer_type_name_identifier: "weekly",
-  //   flyer_type_name: "Weekly Circular",
-  //   flyer_run_id: 544866,
-  //   sale_story: null,
-  // };
-  // testUnitPrice = unitPrice(testItem);
-  // // t.equal(typeof testUnitPrice, "number", "Unit price returns a number.");
-  // t.equal(testUnitPrice, 8, "Unit price returns a number.");
+
+  testItem = {
+    flyer_item_id: 511827658,
+    flyer_id: 3636218,
+    flyer_type_id: 6404,
+    merchant_id: 2520,
+    brand: "Perdue",
+    display_name: "Perdue Chicken Short Cuts",
+    name: "Perdue Chicken Short Cuts",
+    description: "Selected Varieties, 6–9 oz. pkg.",
+    current_price: "6.0",
+    pre_price_text: "2/",
+    category_ids: [],
+    category_names: ["Meat"],
+    sub_items_skus: [],
+    left: 4781.02,
+    bottom: -739.19,
+    right: 5030.12,
+    top: -483.1,
+    run_item_id: null,
+    discount_percent: null,
+    display_type: 1,
+    iframe_display_width: null,
+    iframe_display_height: null,
+    url: null,
+    in_store_only: false,
+    review: null,
+    video: false,
+    page_destination: null,
+    video_count: false,
+    video_url: null,
+    recipe: false,
+    recipe_title: null,
+    text_areas: [],
+    shopping_cart_urls: [],
+    large_image_url:
+      "https://cdn.flippenterprise.net/page_items/198841955/1598647078/extra_large.jpg",
+    x_large_image_url:
+      "https://cdn.flippenterprise.net/page_pdf_images/10554224/bcd9f6e0-e268-11ea-a7c9-0ec6e2beadde/x_large",
+    dist_coupon_image_url:
+      "https://f.wishabi.net/page_items/198841955/1598647078/extra_large.jpg",
+    sku: null,
+    custom1: null,
+    custom2: null,
+    custom3: "4379071",
+    custom4: null,
+    custom5: null,
+    custom6: null,
+    valid_to: "2020-09-03",
+    valid_from: "2020-08-28",
+    disclaimer_text: null,
+    flyer_type_name_identifier: "weekly",
+    flyer_type_name: "Weekly Circular",
+    flyer_run_id: 544866,
+    sale_story: null,
+  };
+  testUnitPrice = unitPrice(testItem);
+  t.equal(
+    testUnitPrice,
+    8,
+    "Unit price returns correct value (item with an additional divisor (e.g. '2 for $3.00')."
+  );
 
   testItem = testObj1;
   testUnitPrice;
   testUnitPrice = unitPrice(testItem);
-  // t.equal(typeof testUnitPrice, "number", "Unit price returns a number.");
   t.equal(
     testUnitPrice,
     3.2475,
