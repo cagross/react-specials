@@ -3,7 +3,7 @@
     "commands": [
       {
         "match": "src\\\\.*.js",
-        "cmd": "node test/unit-tests.js"
+        "cmd": "node client/test/unit-tests.js"
       }
     ]
   },
