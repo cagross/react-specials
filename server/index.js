@@ -9,7 +9,14 @@ const LocalStrategy = require("passport-local").Strategy;
 // import mongoose from "mongoose";
 const mongoose = require("mongoose");
 
-const users = [{ id: "2f24vvg", email: "test@test.com", password: "password" }];
+// const users = [{ id: "2f24vvg", email: "test@test.com", password: "password" }];
+const users = [
+  {
+    id: "5e7a0f9967d7650f285c1aac",
+    email: "cagross@gmail.com",
+    password: "password-g",
+  },
+];
 
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
@@ -17,110 +24,125 @@ passport.use(
     // here is where you make a call to the database
     // to find the user based on their username or email address
     // for now, we'll just pretend we found that it was users[0]
-    const user = users[0];
-    if (email === user.email && password === user.password) {
-      console.log("Local strategy returned true");
-      return done(null, user);
-    }
+    // const user = users[0];
+    // if (email === user.email && password === user.password) {
+    //   console.log("Local strategy returned true");
+    //   return done(null, user);
+    // }
 
-    // const promiseDbConnect = new Promise(function (resolve, reject) {
-    //   let dbUserName, dbUserPass;
-    //   if (process.env.SP_DB_USER) {
-    //     dbUserName = process.env.SP_DB_USER;
-    //   } else {
-    //     dbUserName = "";
-    //   }
-    //   if (process.env.SP_DB_PASS) {
-    //     dbUserPass = process.env.SP_DB_PASS;
-    //   } else {
-    //     dbUserPass = "";
-    //   }
+    const promiseDbConnect = new Promise(function (resolve, reject) {
+      let dbUserName, dbUserPass;
+      if (process.env.SP_DB_USER) {
+        dbUserName = process.env.SP_DB_USER;
+      } else {
+        dbUserName = "";
+      }
+      if (process.env.SP_DB_PASS) {
+        dbUserPass = process.env.SP_DB_PASS;
+      } else {
+        dbUserPass = "";
+      }
 
-    //   const mongoDB =
-    //     "mongodb+srv://" +
-    //     process.env.SP_DB_USER +
-    //     ":" +
-    //     process.env.SP_DB_PASS +
-    //     "@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority";
+      const mongoDB =
+        "mongodb+srv://" +
+        process.env.SP_DB_USER +
+        ":" +
+        process.env.SP_DB_PASS +
+        "@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority";
 
-    //   mongoose.connect(mongoDB, { useNewUrlParser: true });
-    //   const db = mongoose.connection;
-    //   db.on("error", console.error.bind(console, "MongoDB connection error:"));
+      mongoose.connect(mongoDB, { useNewUrlParser: true });
+      const db = mongoose.connection;
+      db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-    //   //Define a schema.
-    //   const Schema = mongoose.Schema;
+      //Define a schema.
+      const Schema = mongoose.Schema;
 
-    //   //Create an instance of schema Schema.
-    //   const SomeModelSchema = new Schema({
-    //     name: String,
-    //     email: String,
-    //     meat: String,
-    //     th_price: Number,
-    //     password: String,
-    //   });
-    //   console.log(444);
-    //   // Compile model from schema object.
-    //   // let SomeModel = mongoose.model("somemodel", SomeModelSchema);
-    //   // console.log(111);
-    //   // console.log(SomeModel);
-    //   // resolve(SomeModel);
+      //Create an instance of schema Schema.
+      const SomeModelSchema = new Schema({
+        name: String,
+        email: String,
+        meat: String,
+        th_price: Number,
+        password: String,
+      });
+      console.log(444);
+      // Compile model from schema object.
+      // let SomeModel = mongoose.model("somemodel", SomeModelSchema);
+      // console.log(111);
+      // console.log(SomeModel);
+      // resolve(SomeModel);
 
-    //   // let TheModel = mongoose.model("somemodel", SomeModelSchema);
-    //   let TheModel =
-    //     mongoose.models.TheModel ||
-    //     mongoose.model("somemodel", SomeModelSchema);
+      // let TheModel = mongoose.model("somemodel", SomeModelSchema);
+      let TheModel =
+        mongoose.models.TheModel ||
+        mongoose.model("somemodel", SomeModelSchema);
 
-    //   console.log(111);
-    //   console.log(TheModel);
-    //   resolve(TheModel);
-    // });
+      console.log(111);
+      console.log(TheModel);
+      resolve(TheModel);
+    });
 
-    // // Code to run when both API data has been fetched, and database connection has been made.
-    // // Promise.all([promiseData, promiseDbConnect]).then(function (values) {
-    // Promise.all([promiseDbConnect]).then(function (values) {
-    //   console.log(555);
-    //   console.log(values);
-    //   // const SomeModel = values[0];
-    //   const myModel = values[0];
+    // Code to run when both API data has been fetched, and database connection has been made.
+    // Promise.all([promiseData, promiseDbConnect]).then(function (values) {
+    Promise.all([promiseDbConnect]).then(function (values) {
+      console.log(555);
+      console.log(values);
+      // const SomeModel = values[0];
+      const myModel = values[0];
 
-    //   // SomeModel.find(
-    //   myModel.find(
-    //     {},
-    //     "name email meat th_price password",
-    //     function (err, match) {
-    //       if (err) {
-    //         mongoose.connection.close();
+      // SomeModel.find(
+      myModel.find(
+        {},
+        "name email meat th_price password",
+        function (err, match) {
+          console.log("inside find callback.");
+          console.log(
+            `match is of type: ${typeof match} with length ${match.length}`
+          );
+          console.log(match);
 
-    //         return console.log("error:  " + err);
-    //       } else {
-    //         console.log("email pass");
-    //         console.log(email);
-    //         console.log(password);
-    //         const isMatch = (element) => {
-    //           return element.email === email && element.password === password;
-    //         };
+          if (err) {
+            mongoose.connection.close();
 
-    //         const myIndex = match.findIndex(isMatch);
-    //         // console.log(myIndex);
+            return console.log("error:  " + err);
+          } else {
+            console.log("email pass");
+            console.log(email);
+            console.log(password);
+            const isMatch = (element) => {
+              return element.email === email && element.password === password;
+            };
+            // console.log(isMatch);
 
-    //         if (myIndex > -1) {
-    //           console.log("Local strategy returned true");
-    //           mongoose.connection.close();
+            const myIndex = match.findIndex(isMatch);
+            console.log(myIndex);
 
-    //           return done(null, match[myIndex]);
-    //         }
-    //         mongoose.connection.close();
-    //       }
-    //     }
-    //   );
-    // });
+            if (myIndex > -1) {
+              console.log("Local strategy returned true. User object is:");
+              console.log(match[myIndex]);
+              mongoose.connection.close();
+              const user = match[myIndex];
+
+              return done(null, user);
+            }
+            mongoose.connection.close();
+          }
+        }
+      );
+    });
+
+    // const user = users[0];
+    // if (email === user.email && password === user.password) {
+    //   console.log("Local strategy returned true");
+    //   return done(null, user);
+    // }
   })
 );
 
 // tell passport how to serialize the user
 passport.serializeUser((user, done) => {
   console.log(
-    "Inside serializeUser callback. User id is save to the session file store here"
+    "Inside serializeUser callback. User id is saved to the session file store here."
   );
   done(null, user.id);
 });
