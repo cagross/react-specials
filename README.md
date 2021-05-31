@@ -195,9 +195,10 @@ After, output should be printed to the console, similar to this screenshot:
 
 Here is a list of features/fixes I would like to implement soon:
 
+- Add authentication to Browse Component, allowing a user to create an account and login to app. See [here](https://github.com/cagross/react-specials/issues/9).
 - Increase the number of stores searched by the app.
 - Browse Component: Make fully responsive.
-- Fix price displays bugs in emails sent in Notify Component.
+- Fix price displays bugs in emails sent in Notify Component. See [here](https://github.com/cagross/react-specials/issues/12).
 
 ## ✍️ Authors <a name = "authors"></a>
 
