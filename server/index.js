@@ -7,6 +7,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt-nodejs");
 
 //Define a schema.
 const Schema = mongoose.Schema;
@@ -69,7 +70,8 @@ passport.use(
           return console.log("error:  " + err);
         } else {
           const isMatch = (element) => {
-            return element.email === email && element.password === password;
+            // return element.email === email && element.password === password;
+            return element.email === email;
           };
           const myIndex = match.findIndex(isMatch);
           if (myIndex > -1) {
@@ -77,6 +79,15 @@ passport.use(
             console.log(match[myIndex]);
             mongoose.connection.close();
             const user = match[myIndex];
+            if (!user) {
+              return done(null, false, { message: "No user found.\n" });
+            }
+            // if (password != user.password) {
+            if (!bcrypt.compareSync(password, user.password)) {
+              return done(null, false, {
+                message: "Incorrect password for that user.\n",
+              });
+            }
             return done(null, user);
           }
           mongoose.connection.close();
