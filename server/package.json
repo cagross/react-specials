@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
+    "bcrypt": "^5.0.1",
     "connect-mongodb-session": "^2.4.1",
     "express": "4.17.1",
     "express-session": "^1.17.1",

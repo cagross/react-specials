@@ -7,7 +7,9 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt-nodejs");
+const bcrypt = require("bcrypt");
+const myModule = require("./myModule.js");
+const createModel = myModule.createModel;
 
 //Define a schema.
 const Schema = mongoose.Schema;
@@ -47,7 +49,7 @@ passport.use(
       mongoose.connect(mongoDB, { useNewUrlParser: true });
       const db = mongoose.connection;
       db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
+      console.log("Before TheModel");
       let TheModel =
         mongoose.models.TheModel ||
         mongoose.model("somemodel", SomeModelSchema);
@@ -63,7 +65,7 @@ passport.use(
         console.log(
           `match is of type: ${typeof match} with length ${match.length}`
         );
-        console.log(match);
+        // console.log(match);
 
         if (err) {
           mongoose.connection.close();
@@ -82,8 +84,11 @@ passport.use(
             if (!user) {
               return done(null, false, { message: "No user found.\n" });
             }
-            // if (password != user.password) {
-            if (!bcrypt.compareSync(password, user.password)) {
+            console.log(`password: ${password}`);
+            console.log(`user.password: ${user.password}`);
+
+            if (password != user.password) {
+              // if (!bcrypt.compareSync(password, user.password)) {
               return done(null, false, {
                 message: "Incorrect password for that user.\n",
               });
@@ -171,7 +176,7 @@ passport.deserializeUser((id, done) => {
       console.log(
         `match is of type: ${typeof match} with length ${match.length}`
       );
-      console.log(match);
+      // console.log(match);
 
       if (err) {
         mongoose.connection.close();
@@ -187,6 +192,8 @@ passport.deserializeUser((id, done) => {
           console.log("Local strategy returned true. User object is:");
           console.log(match[myIndex]);
           mongoose.connection.close();
+          console.log(1);
+          console.log(myUser);
           myUser = match[myIndex];
           return done(null, myUser);
         } else {
@@ -207,23 +214,16 @@ app.use(express.static("public"));
 // });
 /* End middleware to ensure React app is served at localhost:5555 and all subdirectories. */
 
-const myMongoStore = new MongoDBStore(
-  {
-    uri:
-      "mongodb+srv://" +
-      process.env.SP_DB_USER +
-      ":" +
-      process.env.SP_DB_PASS +
-      "@cluster0-mycmk.mongodb.net/connect_mongodb_session_test?retryWrites=true&w=majority",
-    databaseName: "connect_mongodb_session_test",
-    collection: "mySessions",
-  },
-  function (error) {
-    console.log("error 1");
-    console.log("Could not connect to Mongo session store. Full error is:");
-    console.log(error);
-  }
-);
+const myMongoStore = new MongoDBStore({
+  uri:
+    "mongodb+srv://" +
+    process.env.SP_DB_USER +
+    ":" +
+    process.env.SP_DB_PASS +
+    "@cluster0-mycmk.mongodb.net/connect_mongodb_session_test?retryWrites=true&w=majority",
+  databaseName: "connect_mongodb_session_test",
+  collection: "mySessions",
+});
 
 myMongoStore.on("error", function (error) {
   console.log("error 2");
@@ -248,13 +248,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Create the /register route.
-// app.use(express.json());
-// app.post("/register", (req, res) => {
-// app.post("/register", (req, res) => {
-//   const { username, password } = req.body;
-//   // res.json("register response");
-// });
 app.get("/testhomepage", (req, res) => {
   console.log("Inside the homepage callback function");
   console.log("req.sessionID:");
@@ -279,12 +272,19 @@ app.post("/login", express.json(), (req, res, next) => {
       `req.session.passport: ${JSON.stringify(req.session.passport)}`
     );
     console.log(`req.user: ${JSON.stringify(req.user)}`);
+    if (info) return res.send(info.message);
+    if (err) return next(err);
+    if (!user) return res.redirect("/login");
+
     req.login(user, (err) => {
       console.log("Inside req.login() callback");
       console.log(
         `req.session.passport: ${JSON.stringify(req.session.passport)}`
       );
       console.log(`req.user: ${JSON.stringify(req.user)}`);
+      if (err) {
+        return next(err);
+      }
       return res.send("You were authenticated & logged in!\n");
     });
   })(req, res, next);
@@ -298,6 +298,64 @@ app.get("/authrequired", (req, res) => {
   } else {
     res.redirect("/");
   }
+});
+
+app.use(express.json());
+app.post("/register", (req, res) => {
+  console.log(111);
+  console.log(req.body);
+  const { username, password } = req.body;
+  let genre;
+
+  createModel(req, res).then((myModel) => {
+    console.log(123);
+    console.log(myModel);
+    console.log(req.body.email);
+    myModel
+      .findOne({ email: req.body.email })
+      .then((testy) => {
+        console.log(345);
+        console.log(testy);
+        if (testy) {
+          // Genre exists, redirect to its detail page.
+          //  res.redirect(testy.url);
+          console.log(222);
+        } else {
+          console.log(567);
+          // const genre = new myModel({});
+          // console.log(genre);
+          return bcrypt.hash(password, 10).then((hash) => {
+            genre = new myModel({
+              email: req.body.email,
+              password: hash,
+            });
+            return genre.save(function (err) {
+              if (err) {
+                console.log(444);
+                // return next(err);
+                return "Finished2.";
+              }
+              console.log(333);
+              return;
+              // Genre saved. Redirect to genre detail page.
+              //  res.redirect(SomeModelSchema.url);
+            });
+          });
+        }
+      })
+      .then(() => {
+        return res.json(
+          `User registered with username ${username}, password ${password}, and has been hashed.`
+        );
+      })
+      .catch((err) => {
+        console.log("Error somewhere.");
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ error: err });
+        }
+      });
+  });
 });
 
 // Start express server on port 5555
