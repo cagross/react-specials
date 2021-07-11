@@ -22,6 +22,7 @@ const SomeModelSchema = new Schema({
   password: String,
 });
 
+//This function call contains a callback, which is called when a user sends a username/password via POST to the login route.
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
     console.log("Inside local strategy callback");
@@ -86,9 +87,7 @@ passport.use(
             }
             console.log(`password: ${password}`);
             console.log(`user.password: ${user.password}`);
-
-            if (password != user.password) {
-              // if (!bcrypt.compareSync(password, user.password)) {
+            if (!bcrypt.compareSync(password, user.password)) {
               return done(null, false, {
                 message: "Incorrect password for that user.\n",
               });
@@ -103,6 +102,8 @@ passport.use(
 );
 
 // Tell passport how to serialize the user.
+// This function call defines a callback, which is called after the passport.use() call is successful, i.e. after passport.use() has confirmed the username/password corresponds to a valid user in the database.
+// The callback serializes the user's database ID, and then passes it to the next function.
 passport.serializeUser((user, done) => {
   console.log(
     "Inside serializeUser callback. User id is saved to the session file store here."
@@ -110,6 +111,7 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
+// This function call defines a callback, which is called after the user has already successfully logged in, left the page, and sent a new HTTP request to a route requiring authentication. The session store is then checked to see if it contains the session ID of the HTTP request. If yes, the corresponding user ID is passed to the callback defined below. The callback uses the user ID to lookup the user's data from the user table, then passes it to the next function.
 passport.deserializeUser((id, done) => {
   console.log("Inside deserializeUser callback");
   console.log(`The user id passport saved in the session file store is: ${id}`);
@@ -214,6 +216,7 @@ app.use(express.static("public"));
 // });
 /* End middleware to ensure React app is served at localhost:5555 and all subdirectories. */
 
+//Create new session store. i.e. connect to the database table that houses all my session ID/user ID pairs.
 const myMongoStore = new MongoDBStore({
   uri:
     "mongodb+srv://" +
@@ -230,7 +233,8 @@ myMongoStore.on("error", function (error) {
   console.log(error);
 });
 
-// Add & configure middleware
+// Add & configure session middleware.
+// This function call creates a new session, with a unique session ID, and stores it in the session store (created above).
 app.use(
   session({
     genid: (req) => {
@@ -245,6 +249,7 @@ app.use(
   })
 );
 
+//Begin using Passport.
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -304,7 +309,7 @@ app.use(express.json());
 app.post("/register", (req, res) => {
   console.log(111);
   console.log(req.body);
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   let genre;
 
   createModel(req, res).then((myModel) => {
@@ -345,7 +350,7 @@ app.post("/register", (req, res) => {
       })
       .then(() => {
         return res.json(
-          `User registered with username ${username}, password ${password}, and has been hashed.`
+          `User registered with username ${email}, password ${password}, and has been hashed.`
         );
       })
       .catch((err) => {
