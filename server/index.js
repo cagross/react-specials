@@ -66,8 +66,6 @@ passport.use(
         console.log(
           `match is of type: ${typeof match} with length ${match.length}`
         );
-        // console.log(match);
-
         if (err) {
           mongoose.connection.close();
           return console.log("error:  " + err);
@@ -82,19 +80,24 @@ passport.use(
             console.log(match[myIndex]);
             mongoose.connection.close();
             const user = match[myIndex];
-            if (!user) {
-              return done(null, false, { message: "No user found.\n" });
-            }
             console.log(`password: ${password}`);
             console.log(`user.password: ${user.password}`);
             if (!bcrypt.compareSync(password, user.password)) {
+              console.log("Incorrect password for that user.");
               return done(null, false, {
-                message: "Incorrect password for that user.\n",
+                message: "Invalid username/password combination.",
               });
             }
+            mongoose.connection.close();
             return done(null, user);
+          } else {
+            mongoose.connection.close();
+            console.log("No user found.");
+            return done(null, false, {
+              message: "Invalid username/password combination.",
+            });
           }
-          mongoose.connection.close();
+          // mongoose.connection.close();
         }
       });
     });
