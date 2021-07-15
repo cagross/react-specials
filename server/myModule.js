@@ -11,7 +11,6 @@ const SomeModelSchema = new Schema({
   password: String,
 });
 
-// Handle Genre create on POST.
 exports.createModel = function (req, res) {
   console.log("Inside create post.");
   const promiseDbConnect = new Promise(function (resolve, reject) {

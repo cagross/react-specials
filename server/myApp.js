@@ -103,7 +103,6 @@ passport.use(
     });
   })
 );
-console.log(1);
 // Tell passport how to serialize the user.
 // This function call defines a callback, which is called after the passport.use() call is successful, i.e. after passport.use() has confirmed the username/password corresponds to a valid user in the database.
 // The callback serializes the user's database ID, and then passes it to the next function.
@@ -113,7 +112,6 @@ passport.serializeUser((user, done) => {
   );
   done(null, user.id);
 });
-console.log(2);
 // This function call defines a callback, which is called after the user has already successfully logged in, left the page, and sent a new HTTP request to a route requiring authentication. The session store is then checked to see if it contains the session ID of the HTTP request. If yes, the corresponding user ID is passed to the callback defined below. The callback uses the user ID to lookup the user's data from the user table, then passes it to the next function.
 passport.deserializeUser((id, done) => {
   console.log("Inside deserializeUser callback");
@@ -209,7 +207,6 @@ passport.deserializeUser((id, done) => {
     });
   });
 });
-console.log(3);
 /* Begin middleware to ensure React app is served at localhost:5555 and all subdirectories. */
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 app.use(express.static("public"));
@@ -218,7 +215,6 @@ app.use(express.static("public"));
 //   res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
 // });
 /* End middleware to ensure React app is served at localhost:5555 and all subdirectories. */
-console.log(4);
 //Create new session store. i.e. connect to the database table that houses all my session ID/user ID pairs.
 const myMongoStore = new MongoDBStore({
   uri:
@@ -230,12 +226,10 @@ const myMongoStore = new MongoDBStore({
   databaseName: "connect_mongodb_session_test",
   collection: "mySessions",
 });
-console.log(5);
 myMongoStore.on("error", function (error) {
   console.log("error 2");
   console.log(error);
 });
-console.log(6);
 // Add & configure session middleware.
 // This function call creates a new session, with a unique session ID, and stores it in the session store (created above).
 app.use(
@@ -251,18 +245,15 @@ app.use(
     saveUninitialized: true,
   })
 );
-console.log(7);
 //Begin using Passport.
 app.use(passport.initialize());
 app.use(passport.session());
-console.log(8);
 app.get("/testhomepage", (req, res) => {
   console.log("Inside the homepage callback function");
   console.log("req.sessionID:");
   console.log(req.sessionID);
   res.send(`You hit home page!\n`);
 });
-console.log(9);
 // create the login get and post routes
 app.get("/login", (req, res) => {
   console.log("Inside GET /login callback function");
@@ -271,7 +262,6 @@ app.get("/login", (req, res) => {
   console.log(req.sessionID);
   res.send(`You got the login page!\n`);
 });
-console.log(10);
 app.post("/login", express.json(), (req, res, next) => {
   console.log("Inside POST /login callback");
   passport.authenticate("local", (err, user, info) => {
@@ -297,7 +287,6 @@ app.post("/login", express.json(), (req, res, next) => {
     });
   })(req, res, next);
 });
-console.log(11);
 app.get("/authrequired", (req, res) => {
   console.log("Inside GET /authrequired callback");
   console.log(`User authenticated? ${req.isAuthenticated()}`);
@@ -307,13 +296,12 @@ app.get("/authrequired", (req, res) => {
     res.redirect("/");
   }
 });
-console.log(12);
 app.use(express.json());
 app.post("/register", (req, res) => {
   console.log(111);
   console.log(req.body);
   const { email, password } = req.body;
-  let genre;
+  let myUser;
 
   createModel(req, res).then((myModel) => {
     console.log(123);
@@ -321,40 +309,36 @@ app.post("/register", (req, res) => {
     console.log(req.body.email);
     myModel
       .findOne({ email: req.body.email })
-      .then((testy) => {
-        console.log(345);
-        console.log(testy);
-        if (testy) {
-          // Genre exists, redirect to its detail page.
-          //  res.redirect(testy.url);
-          console.log(222);
+      .then((result) => {
+        console.log("Database search for email address complete.");
+        console.log(result);
+        if (result) {
+          // User already exists in database. Optional redirect to proper page.
+          console.log("Email address already exists in database.");
+          return res.json(`Email address already in-use.`);
+          //  res.redirect(result.url);
         } else {
-          console.log(567);
-          // const genre = new myModel({});
-          // console.log(genre);
+          console.log(
+            "Email address does not already exist in database. Hashing password and saving new document to database..."
+          );
           return bcrypt.hash(password, 10).then((hash) => {
-            genre = new myModel({
+            myUser = new myModel({
               email: req.body.email,
               password: hash,
             });
-            return genre.save(function (err) {
+            return myUser.save(function (err) {
               if (err) {
                 console.log(444);
-                // return next(err);
-                return "Finished2.";
+                return res.json(`Error creating user.`);
               }
-              console.log(333);
-              return;
-              // Genre saved. Redirect to genre detail page.
+              // Password saved. Optional redirect to proper page.
+              return res.json(
+                `User registered with username ${email}, password ${password}, and has been hashed.`
+              );
               //  res.redirect(SomeModelSchema.url);
             });
           });
         }
-      })
-      .then(() => {
-        return res.json(
-          `User registered with username ${email}, password ${password}, and has been hashed.`
-        );
       })
       .catch((err) => {
         console.log("Error somewhere.");
@@ -365,6 +349,5 @@ app.post("/register", (req, res) => {
       });
   });
 });
-console.log(13);
 
 module.exports = app;
