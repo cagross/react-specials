@@ -272,7 +272,11 @@ app.post("/login", express.json(), (req, res, next) => {
     console.log(`req.user: ${JSON.stringify(req.user)}`);
     if (info) return res.send(info.message);
     if (err) return next(err);
-    if (!user) return res.redirect("/login");
+    // if (!user) return res.redirect("/login");
+    if (!user)
+      return res
+        .status(400)
+        .json({ error: "Invalid username/password combination." });
 
     req.login(user, (err) => {
       console.log("Inside req.login() callback");
@@ -283,7 +287,7 @@ app.post("/login", express.json(), (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.send("You were authenticated & logged in!\n");
+      return res.send("You were authenticated & logged in!");
     });
   })(req, res, next);
 });
@@ -328,8 +332,8 @@ app.post("/register", (req, res) => {
             });
             return myUser.save(function (err) {
               if (err) {
-                console.log(444);
-                return res.json(`Error creating user.`);
+                console.log("Error saving new user to database.");
+                return res.json("Error creating user.");
               }
               // Password saved. Optional redirect to proper page.
               return res.json(
