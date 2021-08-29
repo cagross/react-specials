@@ -291,13 +291,18 @@ app.post("/login", express.json(), (req, res, next) => {
     });
   })(req, res, next);
 });
-app.get("/authrequired", (req, res) => {
-  console.log("Inside GET /authrequired callback");
+app.get("/profile", (req, res) => {
+  console.log("Inside GET /profile callback");
   console.log(`User authenticated? ${req.isAuthenticated()}`);
   if (req.isAuthenticated()) {
-    res.send("you hit the authentication endpoint\n");
+    res.send(`
+      You hit the authentication endpoint.\n
+      Your username is: ${req.user.email}.  
+      `);
   } else {
-    res.redirect("/");
+    const baseUrl = `${req.protocol}://${req.headers.host}`;
+    const myURL = new URL(baseUrl);
+    res.send(`You are not logged in. Please login at: ${myURL.href}login/.`);
   }
 });
 app.use(express.json());
