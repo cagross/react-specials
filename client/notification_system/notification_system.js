@@ -1,57 +1,26 @@
 #! /usr/bin/env node
 
+/**
+ * For each user in database, find all meat/threshold matches. If found, prepare and send email.
+ * @file
+ * @author Carl Gross
+ */
+
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 import { apiData } from "../src/module-data.js";
 import { filter } from "../src/module-filter.js";
 import { storeLoc } from "../src/module-store-location.js";
+import { createModel } from "../../server/models/createModel.js";
+import { config } from "../../server/src/config/config.js";
 
-// Fetch data from the API.
+// Promise to fetch data from the API.
 const promiseData = Promise.resolve(apiData());
 
-// Set up connection to database.
-const promiseDbConnect = new Promise(function (resolve, reject) {
-  let dbUserName, dbUserPass;
-  if (process.env.SP_DB_USER) {
-    dbUserName = process.env.SP_DB_USER;
-  } else {
-    dbUserName = "";
-  }
-  if (process.env.SP_DB_PASS) {
-    dbUserPass = process.env.SP_DB_PASS;
-  } else {
-    dbUserPass = "";
-  }
+// Promise to set up connection to database.
+const promiseDbConnect = createModel(["name", "email", "meat", "th_price"]);
 
-  const mongoDB =
-    "mongodb+srv://" +
-    process.env.SP_DB_USER +
-    ":" +
-    process.env.SP_DB_PASS +
-    "@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority";
-
-  mongoose.connect(mongoDB, { useNewUrlParser: true });
-  const db = mongoose.connection;
-  db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-  //Define a schema.
-  const Schema = mongoose.Schema;
-
-  //Create an instance of schema Schema.
-  const SomeModelSchema = new Schema({
-    name: String,
-    email: String,
-    meat: String,
-    th_price: Number,
-  });
-
-  // Compile model from schema object.
-  let SomeModel = mongoose.model("somemodel", SomeModelSchema);
-
-  resolve(SomeModel);
-});
-
-// Code to run when both API data has been fetched, and database connection has been made.
+// Resolve all promises and run subsequent code.
 Promise.all([promiseData, promiseDbConnect]).then(function (values) {
   const SomeModel = values[1];
   SomeModel.find({}, "name email meat th_price", function (err, match) {
@@ -60,7 +29,8 @@ Promise.all([promiseData, promiseDbConnect]).then(function (values) {
     } else {
       for (let i = 0; i < match.length; i++) {
         // Loop through every record in the database.
-        const propsy = { currMeat: match[i].meat, data: values[0] };
+        const currMeat = match[i].meat || "";
+        const propsy = { currMeat: currMeat, data: values[0] };
         const meatTest = filter(propsy);
         main(
           match[i].email,
@@ -75,26 +45,26 @@ Promise.all([promiseData, promiseDbConnect]).then(function (values) {
   });
 });
 
-// Function to prepare an email and send it.
+/**
+ * Function to prepare an email and send it.
+ *
+ * @async
+ * @param {string} email
+ * @param {string} name
+ * @param {string} meatPref
+ * @param {number} thPrice
+ * @param {Object[]} userArray
+ */
 async function main(email, name, meatPref, thPrice, userArray) {
-  let userName, userPass;
-  if (process.env.SP_EMAIL_USER) {
-    userName = process.env.SP_EMAIL_USER;
-  } else {
-    userName = "";
-  }
-  if (process.env.SP_EMAIL_PASS) {
-    userPass = process.env.SP_EMAIL_PASS;
-  } else {
-    userPass = "";
-  }
+  const currConfig = config();
+  mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
   // Create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     auth: {
-      user: userName,
-      pass: userPass,
+      user: process.env.SP_EMAIL_USER ? process.env.SP_EMAIL_USER : "",
+      pass: process.env.SP_EMAIL_PASS ? process.env.SP_EMAIL_PASS : "",
     },
     debug: true, // show debug output
     logger: true, // log information in console

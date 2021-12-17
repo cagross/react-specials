@@ -1,4 +1,9 @@
-//App.js fetches grocery specials from a web API, and renders them onto the page.
+/**
+ * Fetches grocery specials from a web API, and renders them onto the page.
+ * @file
+ * @module
+ * @author Carl Gross
+ */
 
 import React from "react";
 import { CSSTransition } from "react-transition-group"; // Required only for CSS transitions.
@@ -20,7 +25,11 @@ import { apiData } from "./module-data.js";
 import { filter } from "./module-filter.js";
 import { dispPrice } from "./module-display-price.js";
 
-// Function to format date.
+/**
+ * Function to format date.
+ * @param {String} unform_date
+ * @returns {Date}
+ */
 function formDate(unform_date) {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -29,32 +38,20 @@ function formDate(unform_date) {
   }).format(new Date(unform_date));
 }
 
-// Filter the list of specials based on the user's meat selection, and return a <div> containing the list of results.
+/**
+ * Filter the list of specials based on the user's meat selection, and return a <div> component containing the list of results.
+ * @param {Object} props
+ * @returns
+ */
 function Results(props) {
+  /**
+   *
+   */
   function meatList() {
     const meatData = filter(props);
     if (Object.entries(meatData).length) {
       // Check if the weekly specials array is empty or not.  If it is not empty, execute code.
       return Object.keys(meatData).map(function (key) {
-        // Loop over every key in the weekly specials array and check if it contains any of the meat search terms.  If so, render a row of information to the page.
-
-        /* Begin code to check if item name contains any search terms. */
-        // const itemName = meatData[key]["display_name"].toLowerCase();
-
-        // let match = false;
-        // if (props.currMeat === "") {
-        // 	match = true;
-        // } else {
-        // 	for (let i = 0; i < meatPref.length; i++) {
-        // 		const pos = itemName.search(meatPref[i]);
-        // 		if (pos >= 0) {
-        // 			match = true;
-        // 			break;
-        // 		}
-        // 	}
-        // }
-        /* End code to check if item name contains any meat terms. */
-
         return (
           <CSSTransition //Ensure each row appears with a CSS fade transition.
             in={true}
@@ -133,7 +130,24 @@ Results.propTypes = {
   data: PropTypes.array,
 };
 
-// App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
+/* Begin code to send a GET request to the /checkauth route. If logged in, it will return the user object.*/
+fetch("/checkauth")
+  .then((response) => {
+    return response.json();
+  })
+  .then((result) => {
+    if (result.user) {
+      console.log("User authenticated.");
+    } else {
+      console.log("User not authenticated.");
+    }
+  });
+/* End code to send a GET request to the /checkauth route.*/
+
+/**
+ * App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
+ * @returns
+ */
 function App() {
   /* Use the 'useState' hook to set initial state. */
   const [data, setData] = useState([]); // Set a piece of state named 'data' to an empty array.  To update that piece of state, run the 'setData()' function.
@@ -146,7 +160,10 @@ function App() {
     })();
   }, []);
 
-  /* Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as set classes on the radio button elements.*/
+  /**
+   * Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as set classes on the radio button elements.
+   * @param {object} event - Event object.
+   */
   function handleInput(event) {
     setMeat(event.target.value);
 

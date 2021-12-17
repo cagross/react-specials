@@ -1,8 +1,16 @@
+/**
+ * Module to filter items based on user preference.
+ * @file
+ * @module
+ * @author Carl Gross
+ */
+
 import { terms } from "./module-terms.js";
 
 /**
  * Accepts an object of grocery store items from all categories, and returns a filtered array of items.
  * @param {object} props
+ * @returns {array}
  */
 export function filter(props) {
   const items = props.data;
@@ -17,6 +25,11 @@ export function filter(props) {
     meatPref = searchTerms["pork"];
   }
 
+  /**
+   * Accepts an object representing an item. Then checks if it matches any of the user's meat preferences. If so, return the object.
+   * @param {array} value
+   * @returns {string|undefined}
+   */
   function matchTerm(value) {
     const itemName = value["display_name"].toLowerCase();
     let match = false;

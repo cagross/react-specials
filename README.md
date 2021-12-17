@@ -94,6 +94,12 @@ In addition, you should see an error in the browser's JavaScript console, simila
 
 To resolve this, you need to implement a solution which can temporarily enable Cross Origin Resource Sharing (CORS) in your browser. One suggestion is to install and enable the [Allow CORS: Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf) Chrome browser extension.
 
+3. On your local system, create two environmental variables:
+
+| variable name     | variable value                                             |
+| ----------------- | ---------------------------------------------------------- |
+| SP_SESSION_SECRET | String of text of your choosing. Length: 20-50 characters. |
+
 ### Configure the Notify Component (optional)
 
 Configuring this component is a little trickier, and admittedly fragile for now. I want to improve it. But for now, drop me a message if you get stuck.

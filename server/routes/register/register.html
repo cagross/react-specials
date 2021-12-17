@@ -1,0 +1,40 @@
+<!-- HTML served to /register route. -->>
+<html>
+  <body>
+    <br />
+    <form>
+      Username:<br />
+      <input
+        type="text"
+        name="username"
+        placeholder="e.g. johndoe@example.com"
+      /><br /><br />
+      Password:<br />
+      <input
+        type="text"
+        name="password"
+        placeholder="e.g. mysecretpassphrase123!"
+      /><br /><br />
+      First Name:<br />
+      <input type="text" name="firstname" placeholder="e.g. John" /><br /><br />
+      Last Name:<br />
+      <input type="text" name="lastname" placeholder="e.g. Doe" /><br /><br />
+      <label for="meat-select">Meat Preference</label><br />
+      <select name="meat" id="meat-select">
+        <option value="all">All</option>
+        <option value="beef">Beef</option>
+        <option value="poultry">Poultry</option>
+        <option value="pork">Pork</option>
+      </select>
+      <br />
+      <br />
+      <label for="price">Threshold Price (in dollars; optional)</label><br />
+      <input type="text" name="price" placeholder="e.g. 4.99" /><br /><br />
+      <input type="submit" data-testid="mytestid" />
+    </form>
+    <script src="register.js"></script>
+    <script>
+      regModule.test();
+    </script>
+  </body>
+</html>
