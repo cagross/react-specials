@@ -5,6 +5,10 @@
       {
         "match": "src\\\\.*.js",
         "cmd": "node client/test/unit-tests.js"
+      },
+      {
+        "match": "unit-tests.js",
+        "cmd": "node client/test/unit-tests.js"
       }
     ]
   },
