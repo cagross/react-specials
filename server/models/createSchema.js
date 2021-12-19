@@ -13,6 +13,12 @@ const allFieldsTypes = {
   meat: String,
   th_price: Number,
   password: String,
+  host: String,
+  origin: String,
+  referer: String,
+  platform: String,
+  userAgent: String,
+  dateCreated: Date,
 };
 
 const match = (element) => element === property;
