@@ -1,5 +1,6 @@
 {
   "emeraldwalk.runonsave": {
+    "autoClearConsole": true,
     "commands": [
       {
         "match": "src\\\\.*.js",
