@@ -11,25 +11,22 @@ const createSchema = require("./createSchema.js").createSchema;
 
 /**
  *
- * @param {String[]} theFields - Array containing name of each field present in the model.
+ * @param {string} tbleName - String indicating which table in database to use for model. Must match the name of an existing table in database.
+ * @param {String[]} fieldNames - Array containing name of each field present in the model.
  * @returns {Promise} - Promise object resolving to a new Mongoose model.
  */
-exports.createModel = function (theFields) {
+exports.createModel = async function (tblName, fieldNames) {
   console.log("Inside createModel.");
-
-  const myFields = theFields;
-  const SomeModelSchema = createSchema(myFields);
+  const SomeModelSchema = createSchema(tblName, fieldNames);
   const currConfig = config();
-  const modelName = currConfig.modelName;
+  const tableName = currConfig.tableNames[tblName].singName;
 
-  return new Promise(function (resolve, reject) {
-    mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
+  mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
 
-    const db = mongoose.connection;
-    db.on("error", console.error.bind(console, "MongoDB connection error:"));
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-    let TheModel3 =
-      mongoose.models[modelName] || mongoose.model(modelName, SomeModelSchema);
-    resolve(TheModel3);
-  });
+  let TheModel3 =
+    mongoose.models[tableName] || mongoose.model(tableName, SomeModelSchema);
+  return TheModel3;
 };

@@ -13,13 +13,21 @@ exports.config = function () {
     dbPassword +
     "@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority";
 
+  const tableNames = {
+    items: {
+      singName: "item",
+      fields: ["storeCode", "all_items", "dateSaved"],
+    },
+    users: { singName: "somemodel" },
+  };
+
   return {
     dbUsername: dbUsername,
     dbPassword: dbPassword,
     mongoDBUri: mongoDBUri,
     sessionStoreDbName: "connect_mongodb_session_test",
     sessionStoreCollName: "mySessions",
-    modelName: "somemodel",
+    tableNames: tableNames,
     sessionSecret: process.env.SP_SESSION_SECRET
       ? process.env.SP_SESSION_SECRET
       : "",

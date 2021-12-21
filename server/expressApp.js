@@ -24,7 +24,7 @@ passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
     console.log("Inside local strategy callback");
 
-    const promiseDbConnect = createModel([
+    const promiseDbConnect = createModel("users", [
       "name",
       "email",
       "meat",
@@ -98,7 +98,7 @@ passport.deserializeUser((id, done) => {
   console.log("Inside deserializeUser callback");
   console.log(`The user id passport saved in the session file store is: ${id}`);
 
-  const promiseDbConnect = createModel([
+  const promiseDbConnect = createModel("users", [
     "name",
     "email",
     "meat",

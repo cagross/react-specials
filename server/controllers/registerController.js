@@ -35,8 +35,7 @@ exports.register_post = [
     const { email, password } = req.body;
     let myUser;
 
-    // createModel(["name", "email", "meat", "th_price", "password"]).then(
-    createModel([
+    createModel("users", [
       "name",
       "email",
       "meat",

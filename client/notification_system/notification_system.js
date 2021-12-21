@@ -18,7 +18,12 @@ import { config } from "../../server/src/config/config.js";
 const promiseData = Promise.resolve(apiData());
 
 // Promise to set up connection to database.
-const promiseDbConnect = createModel(["name", "email", "meat", "th_price"]);
+const promiseDbConnect = createModel("users", [
+  "name",
+  "email",
+  "meat",
+  "th_price",
+]);
 
 // Resolve all promises and run subsequent code.
 Promise.all([promiseData, promiseDbConnect]).then(function (values) {
