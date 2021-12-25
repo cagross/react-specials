@@ -8,11 +8,11 @@
 
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
-import { apiData } from "../src/module-data.js";
+import { apiData } from "../../controllers/module-data.js";
 import { filter } from "../src/module-filter.js";
 import { storeLoc } from "../src/module-store-location.js";
-import { createModel } from "../../server/models/createModel.js";
-import { config } from "../../server/src/config/config.js";
+import { createModel } from "../../models/createModel.js";
+import { config } from "../../src/config/config.js";
 
 // Promise to fetch data from the API.
 const promiseData = Promise.resolve(apiData());

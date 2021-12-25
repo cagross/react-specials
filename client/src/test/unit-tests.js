@@ -1,7 +1,7 @@
 import test from "tape"; // assign the tape library to the variable "test"
-import { storeLoc } from "../src/module-store-location.js";
-import { dispPrice } from "../src/module-display-price.js";
-import { unitPrice } from "../src/module-unit-price.js";
+import { storeLoc } from "../module-store-location.js";
+import { dispPrice } from "../module-display-price.js";
+import { unitPrice } from "../../../controllers/module-unit-price.js";
 
 // Item with 'lb' in price description.
 const testObj1 = {

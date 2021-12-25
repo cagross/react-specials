@@ -21,7 +21,6 @@ import logo_giant from "./images/logo-Giant-50.png";
 
 import PropTypes from "prop-types"; // Required to add data type validation on props.
 
-import { apiData } from "./module-data.js";
 import { filter } from "./module-filter.js";
 import { dispPrice } from "./module-display-price.js";
 
@@ -131,17 +130,17 @@ Results.propTypes = {
 };
 
 /* Begin code to send a GET request to the /checkauth route. If logged in, it will return the user object.*/
-fetch("/checkauth")
-  .then((response) => {
-    return response.json();
-  })
-  .then((result) => {
-    if (result.user) {
-      console.log("User authenticated.");
-    } else {
-      console.log("User not authenticated.");
-    }
-  });
+// fetch("/checkauth")
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((result) => {
+//     if (result.user) {
+//       console.log("User authenticated.");
+//     } else {
+//       console.log("User not authenticated.");
+//     }
+//   });
 /* End code to send a GET request to the /checkauth route.*/
 
 /**
@@ -153,10 +152,24 @@ function App() {
   const [data, setData] = useState([]); // Set a piece of state named 'data' to an empty array.  To update that piece of state, run the 'setData()' function.
   const [currentMeat, setMeat] = useState(""); // Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
 
+  /**
+   * Call items route on server.
+   * @async
+   * @returns {Object}
+   */
+  const fetchData = () =>
+    fetch("http://localhost:5555/items")
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataAll) => {
+        return dataAll;
+      });
+
   /* Execute the 'useEffect' hook to fetch the API data.  Pass an empty array as the second parameter to ensure this is executed only once (on initial page load). */
   useEffect(() => {
     (async () => {
-      setData(await apiData());
+      setData(await fetchData());
     })();
   }, []);
 

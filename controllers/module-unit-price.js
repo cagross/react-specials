@@ -3,7 +3,8 @@
  *
  * @param {array} item
  */
-export function unitPrice(item) {
+// export function unitPrice(item) {
+exports.unitPrice = function (item) {
   const priceText = item["price_text"] || "";
   const pos_lb = priceText.search("lb"); // Search the 'price text' of each item for 'lb.'
 
@@ -43,4 +44,4 @@ export function unitPrice(item) {
     }
   }
   return uprice;
-}
+};

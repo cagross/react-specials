@@ -18,6 +18,8 @@ const myModule = require("./models/createModel.js");
 const createModel = myModule.createModel;
 const config = require("./src/config/config.js").config;
 const registerController = require("./controllers/registerController");
+const apiData = require("./controllers/module-data.js");
+const fetchData = apiData.apiData;
 
 //This function call contains a callback, which is called when a user sends a username/password via POST to the login route.
 passport.use(
@@ -140,14 +142,13 @@ passport.deserializeUser((id, done) => {
       });
     })
     .catch((err) => {
-      console.log(456);
       console.log(err);
     });
 });
 
 /* Begin middleware to ensure React app is served at localhost:5555 and all subdirectories. */
 app.use("/", (req, res, next) => {
-  express.static(path.join(__dirname, "..", "client", "build"))(req, res, next);
+  express.static(path.join(__dirname, "client", "build"))(req, res, next);
 });
 app.use(express.static("public"));
 /* End middleware to ensure React app is served at localhost:5555 and all subdirectories. */
@@ -180,6 +181,12 @@ app.use(
 //Begin using Passport.
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get("/items", async (req, res) => {
+  console.log("Inside GET /items callback function");
+  res.send(await fetchData());
+});
+
 // create the login get and post routes
 app.get("/login", (req, res) => {
   console.log("Inside GET /login callback function");
@@ -261,20 +268,17 @@ app.get("/checkauth", (req, res) => {
 });
 
 app.use("/register", (req, res, next) => {
-  express.static(path.join(__dirname, "..", "server", "routes", "register"))(
-    req,
-    res,
-    next
-  );
+  // express.static(path.join(__dirname, "..", "server", "routes", "register"))(
+  console.log(111);
+  console.log(__dirname);
+  express.static(path.join(__dirname, "routes", "register"))(req, res, next);
 });
 
 app.get("/register", (req, res) => {
   console.log("Inside GET /register callback function");
   console.log("req.sessionID");
   console.log(req.sessionID);
-  res.sendFile(
-    path.join(__dirname, "..", "server", "routes", "register", "register.html")
-  );
+  res.sendFile(path.join(__dirname, "routes", "register", "register.html"));
 });
 
 app.post("/register", express.json(), registerController.register_post);

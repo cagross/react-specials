@@ -9,9 +9,10 @@ window.fetch = () => {};
 
 describe("When registration page submit button is clicked", () => {
   const fs = require("fs");
-  const html = fs.readFileSync("routes/register/register.html");
+  const html = fs.readFileSync("../routes/register/register.html");
+
   document.body.innerHTML = html;
-  const regModule = require("../routes/register/register.js");
+  const regModule = require("../../../routes/register/register.js");
   const { screen } = require("@testing-library/dom");
   const { default: userEvent } = require("@testing-library/user-event");
 

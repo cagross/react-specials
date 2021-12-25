@@ -1,8 +1,18 @@
-import fetch from "node-fetch";
-import { unitPrice } from "./module-unit-price.js";
+/**
+ * @file
+ * @module
+ * @author Carl Gross
+ */
 
-/* Function to fetch all weekly special data from the Giant Food API. */
-export function apiData() {
+const fetch = require("node-fetch");
+const { unitPrice } = require("./module-unit-price.js");
+
+/**
+ * Fetch weekly special data (deli department only) from the Giant Food API.
+ * @async
+ * @returns {array}
+ */
+exports.apiData = function () {
   // If this module is being called by the front-end app, it will need to have a valid proxy URL set.  Without it, fetching data will fail (at least it will in Chrome).  See the project's README file for more information on setting up a valid proxy URL.
   let proxyURL = "";
   if (typeof window !== "undefined" && window.location.href) {
@@ -51,9 +61,14 @@ export function apiData() {
           });
         });
     });
-}
+};
 
-// Function to filter all data into items from specific departments, e.g. meat, deli, etc.  For now I'm filtering items by only the meat and deli departments.
+/**
+ * Filter all data into items from specific departments, e.g. meat, deli, etc.  For now, it filters by only the meat and deli departments.
+ * @param {*} dataItems
+ * @param {*} filter
+ * @returns {array}
+ */
 function productFilter(dataItems, filter) {
   const arrMeatDeli = ["Meat", "Deli"];
 
