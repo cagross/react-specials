@@ -4,6 +4,8 @@
  * @author Carl Gross
  */
 
+const { doSave } = require("./module-do-save.js");
+const { saveToDb } = require("./module-save-to-db.js");
 const fetch = require("node-fetch");
 const { unitPrice } = require("./module-unit-price.js");
 
@@ -28,9 +30,14 @@ exports.apiData = function () {
     }
   }
 
+  const storeCode = "0233";
+
   const urlAPIFlyer =
     // "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0774&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
-    "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0233&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
+    // "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0233&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
+    "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=" +
+    storeCode +
+    "&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
 
   return fetch(proxyURL + urlAPIFlyer)
     .then((response) => response.text())
@@ -44,6 +51,24 @@ exports.apiData = function () {
       return fetch(proxyURL + urlAPIData) // This fetch() obtains an object containing all weekly specials data from the Giant Food store in-question.
         .then((response) => response.json())
         .then((dataAll) => {
+          // Save all data to database.
+          doSave
+            .doSave(
+              {
+                all_items: {
+                  valid_from: dataAll.valid_from,
+                  valid_to: dataAll.valid_to,
+                },
+                storeCode: storeCode,
+              },
+              "items"
+            )
+            .then((result) => {
+              console.log(result);
+              if (result)
+                saveToDb({ storeCode: storeCode, all_items: dataAll }, "items");
+            });
+
           const dataItems = dataAll.items; // Filter all data into only data related to items.
           const filter = 1; // Set this to 1 to filter data into only meat/deli items.  Set this to any other value to apply no filtering (i.e. display all items on page).
           const dataMeatItemsKeys = productFilter(dataItems, filter); // This returns an array of the keys after the desired filter has been applied.

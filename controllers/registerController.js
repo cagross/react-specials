@@ -5,6 +5,8 @@
  * @author Carl Gross
  */
 
+const { doSave } = require("./module-do-save.js");
+const { saveToDb } = require("./module-save-to-db.js");
 const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
 
@@ -33,39 +35,16 @@ exports.register_post = [
     }
 
     const { email, password } = req.body;
-    let myUser;
 
-    createModel("users", [
-      "name",
-      "email",
-      "meat",
-      "th_price",
-      "password",
-      "host",
-      "origin",
-      "referer",
-      "platform",
-      "userAgent",
-      "dateCreated",
-    ]).then((myModel) => {
-      myModel
-        .findOne({ email: req.body.email })
-        .then((result) => {
-          console.log("Database search for email address complete.");
-          if (result) {
-            // User already exists in database. Optional redirect to proper page.
-            console.log("Email address already exists in database.");
-            return res.json(`Email address already in-use.`);
-            //  res.redirect(result.url);
-          }
-          console.log(
-            "Email address does not already exist in database. Hashing password and saving new document to database..."
-          );
-          return bcrypt
-            .hash(password, 10)
-            .then((hash) => {
-              console.log("Hash obtained.");
-              myUser = new myModel({
+    doSave
+      .doSave({ email: req.body.email }, "users")
+      .then(() => {
+        return bcrypt
+          .hash(password, 10)
+          .then((hash) => {
+            console.log("Hash obtained.");
+            return saveToDb(
+              {
                 email: req.body.email,
                 password: hash,
                 meat: req.body.meatPref,
@@ -77,34 +56,35 @@ exports.register_post = [
                 platform: req.headers["sec-ch-ua-platform"] || "not provided",
                 userAgent: req.headers["user-agent"] || "not provided",
                 dateCreated: new Date(),
-              });
-              return myUser.save(function (err) {
-                if (err) {
-                  console.log("Error saving new user to database.");
-                  return res.json("Error creating user.");
+              },
+              "users"
+            )
+              .then((result) => {
+                if (result) {
+                  return res.json(
+                    `User registered with username ${email}, password ${password}, and has been hashed.`
+                  );
                 }
-                // Password saved. Optional redirect to proper page.
-                return res.json(
-                  `User registered with username ${email}, password ${password}, and has been hashed.`
-                );
-                //  res.redirect(SomeModelSchema.url);
+                return res.json(`3: Error saving: ${result}.`);
+              })
+              .catch((err) => {
+                return res.json(`4: Error saving: ${err}.`);
               });
-            })
-            .catch((err) => {
-              console.log("Error with hashing.");
-              if (err) {
-                console.log(err);
-                return res.status(400).json({ error: err });
-              }
-            });
-        })
-        .catch((err) => {
-          console.log("Error somewhere.");
-          if (err) {
-            console.log(err);
-            return res.status(400).json({ error: err });
-          }
-        });
-    });
+          })
+          .catch((err) => {
+            console.log("Error with hashing.");
+            if (err) {
+              console.log(err);
+              return res.status(400).json({ error: err });
+            }
+          });
+      })
+      .catch((err) => {
+        console.log("Error somewhere.");
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ error: err });
+        }
+      });
   },
 ];

@@ -1,7 +1,65 @@
 import test from "tape"; // assign the tape library to the variable "test"
+import sinon from "sinon";
 import { storeLoc } from "../module-store-location.js";
 import { dispPrice } from "../module-display-price.js";
 import { unitPrice } from "../../../controllers/module-unit-price.js";
+import { doSave } from "../../../controllers/module-do-save.js";
+import { saveToDb } from "../../../controllers/module-save-to-db.js";
+import createModel from "../../../models/createModel.js";
+
+// import { apiData } from "../../../controllers/module-data.js";
+// await apiData();
+
+test("Test of save to database.", async function (t) {
+  const sampleTbleName = "items";
+  const circInfo = {
+    storeCode: "0444",
+    all_items: {
+      valid_from: new Date(),
+      valid_to: new Date(),
+    },
+  };
+  let actual, expected;
+  let saveCallCount = 0;
+  class myModelStub {
+    constructor() {
+      this.storeCode = circInfo.storeCode;
+      this.items = {
+        valid_from: circInfo.valid_from,
+        valid_to: circInfo.valid_to,
+      };
+      this.save = myMock;
+    }
+  }
+  function myMock() {
+    saveCallCount += 1;
+    return this;
+  }
+  const createModelStub = sinon
+    .stub(createModel, "createModel")
+    .returns(myModelStub);
+  let doSaveStub = sinon.stub(doSave, "doSave").returns(true);
+
+  await saveToDb(circInfo, sampleTbleName);
+  actual = createModelStub.calledOnce;
+  expected = true;
+  t.equals(actual, expected, "createModel called once.");
+
+  doSaveStub.resetHistory();
+  saveCallCount = 0;
+
+  let result = await saveToDb(circInfo, sampleTbleName);
+  actual = result;
+  expected = true;
+  t.equals(actual, expected, "Returns true.");
+
+  actual = saveCallCount;
+  expected = 1;
+  t.equals(actual, expected, "save method called once.");
+  doSaveStub.restore();
+  saveCallCount = 0;
+  t.end();
+});
 
 // Item with 'lb' in price description.
 const testObj1 = {
@@ -689,7 +747,6 @@ test("Tests of unit price function.", function (t) {
   );
 
   testItem = testObj1;
-  testUnitPrice;
   testUnitPrice = unitPrice(testItem);
   t.equal(
     testUnitPrice,

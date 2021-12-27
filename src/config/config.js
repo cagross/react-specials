@@ -18,7 +18,22 @@ exports.config = function () {
       singName: "item",
       fields: ["storeCode", "all_items", "dateSaved"],
     },
-    users: { singName: "somemodel" },
+    users: {
+      singName: "somemodel",
+      fields: [
+        "name",
+        "email",
+        "meat",
+        "th_price",
+        "password",
+        "host",
+        "origin",
+        "referer",
+        "platform",
+        "userAgent",
+        "dateCreated",
+      ],
+    },
   };
 
   return {
