@@ -158,12 +158,17 @@ function App() {
    * @returns {Object}
    */
   const fetchData = () =>
-    fetch("http://localhost:5555/items")
+    fetch(`http://localhost:${process.env.PORT || "5555"}/items`)
       .then((response) => {
+        console.log(111);
         return response.json();
       })
       .then((dataAll) => {
         return dataAll;
+      })
+      .catch((err) => {
+        console.log(222);
+        console.log(err);
       });
 
   /* Execute the 'useEffect' hook to fetch the API data.  Pass an empty array as the second parameter to ensure this is executed only once (on initial page load). */
