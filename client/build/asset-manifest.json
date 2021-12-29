@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.281a4aee.chunk.css",
+    "main.js": "/static/js/main.cdb8ddbb.chunk.js",
+    "main.js.map": "/static/js/main.cdb8ddbb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.f473d804.js",
+    "runtime-main.js.map": "/static/js/runtime-main.f473d804.js.map",
+    "static/js/2.72ce6ad3.chunk.js": "/static/js/2.72ce6ad3.chunk.js",
+    "static/js/2.72ce6ad3.chunk.js.map": "/static/js/2.72ce6ad3.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.281a4aee.chunk.css.map": "/static/css/main.281a4aee.chunk.css.map",
+    "static/js/2.72ce6ad3.chunk.js.LICENSE.txt": "/static/js/2.72ce6ad3.chunk.js.LICENSE.txt",
+    "static/media/all-meat-250.f6ca237d.jpg": "/static/media/all-meat-250.f6ca237d.jpg",
+    "static/media/beef-250.7d5a4b10.jpg": "/static/media/beef-250.7d5a4b10.jpg",
+    "static/media/chicken-250.a1a457f0.jpg": "/static/media/chicken-250.a1a457f0.jpg",
+    "static/media/ribs-250.87ba6dd3.jpg": "/static/media/ribs-250.87ba6dd3.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f473d804.js",
+    "static/js/2.72ce6ad3.chunk.js",
+    "static/css/main.281a4aee.chunk.css",
+    "static/js/main.cdb8ddbb.chunk.js"
+  ]
+}

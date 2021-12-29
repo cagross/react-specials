@@ -158,7 +158,7 @@ function App() {
    * @returns {Object}
    */
   const fetchData = () =>
-    fetch(`http://localhost:${process.env.PORT || "5555"}/items`)
+    fetch(`https://gentle-gorge-04163.herokuapp.com/items`)
       .then((response) => {
         console.log(111);
         return response.json();
