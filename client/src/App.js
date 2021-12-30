@@ -192,7 +192,7 @@ function App() {
         return dataAll;
       })
       .catch((err) => {
-        console.log("Items not found:");
+        console.log("Error fetching circular data:");
         console.log(err);
       });
   };
