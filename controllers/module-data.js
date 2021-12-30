@@ -45,7 +45,7 @@ exports.apiData = function () {
             return response.json();
           })
           .then((dataAll) => {
-            console.log("All data fetched.");
+            console.log("All circular data fetched.");
             // Save all data to database.
             doSave
               .doSave(
@@ -66,6 +66,10 @@ exports.apiData = function () {
                     { storeCode: storeCode, all_items: dataAll },
                     "items"
                   );
+              })
+              .catch((err) => {
+                console.log("Error saving circular data.");
+                console.log(err);
               });
 
             const dataItems = dataAll.items; // Filter all data into only data related to items.
