@@ -20,7 +20,7 @@ This web app automatically reads the current specials in the meat/deli departmen
 
 - Allows users to select their favorite items, as well as a threshold price on each item. The app will then email the user once any of those items go on sale for less than their threshold price.
 
-This is a passion project of mine, built with ReactJS. It is by no means complete, or even that useful in its current version. See the [To-Do List](#to_do_list) below for future plans.
+This is a passion project of mine, built with ReactJS. It is by no means complete. See the [To-Do List](#to_do_list) below for future plans.
 
 ## 📝 Table of Contents
 
@@ -39,8 +39,8 @@ Eating frugally is a goal for many people. For those that cook at home a good st
 
 The two components of this app help alleviate these issues:
 
-- browse component: Displays the weekly specials for multiple stores in a single list, which is easy to browse, search, etc.
-- notify component (optional): Automatically emails you when your favorite items go on sale for below a threshold price. For example, you can receive an email whenever ribeye steaks go on sale for less than $5.00/lb.
+- Browse component: Displays the weekly specials for multiple stores in a single list, which is easy to browse, search, etc.
+- Notify component (optional): Automatically emails you when your favorite items go on sale for below a threshold price. For example, you can receive an email whenever ribeye steaks go on sale for less than $5.00/lb.
 
 _Note: Currently, both the browse component and the notify component use the weekly specials from only one specific store. See the footnote in the [Usage section](#usage) for more information._
 
@@ -70,11 +70,11 @@ This section should help you get a copy of the project up and running on your lo
 - [Git Basics - Getting a Git Repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository)
 - [`git-clone` documentation](https://git-scm.com/docs/git-clone)
 
-2. Install Dependencies: After the project has been cloned to your local machine, install the project's Node dependencies. To do so, from your command line navigate to the project's `client` directory and execute:
+2. Install Dependencies: After the project has been cloned to your local machine, install the project's Node dependencies. To do so, from your command line navigate to the project's root directory and execute:
 
 `npm install`
 
-This should complete without any errors (warnings are OK). Then, from your command line navigate to the project's `server` directory and execute:
+This should complete without any errors (warnings are OK). Then, from your command line navigate to the project's `client` directory and execute:
 
 `npm install`
 
@@ -82,25 +82,7 @@ This should complete without any errors (warnings are OK).
 
 ### Configure the browse component
 
-1. Check for CORS error: Open the browse component in your browser by navigating to the project's root directory from your command line and executing:
-
-`npm start`
-
-After, your default browser should automatically open and display the app's browse component. You should see something similar to the screenshot depicted in at the very top of this README ([link here](#header)). If your screen displays radio buttons, but no items underneath, implement the CORS fix described below.
-
-_Implement CORS Fix (if necessary)_
-
-In many cases, when you open the browse compoenent, the browser will open but display no data, i.e. no items--the screen will look like the screenshot below:
-
-<img src="images-readme/sp-browse-cors.jpg" style="border: solid #000000 1px;" alt="Grocery Specials browse component exhibiting CORS issue." title = "Grocery Specials with CORS issue."/>
-
-In addition, you will probably see an error in the browser's JavaScript console, similar to this:
-
-`Access to fetch at 'https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0233&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.`
-
-To resolve this, you need to implement a solution which can temporarily enable Cross Origin Resource Sharing (CORS) in your browser. One suggestion is to install and enable the [Allow CORS: Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf) Chrome browser extension.
-
-2. Add environmental variables: On your local system, create one environmental variable:
+1. Add environmental variables: On your local system, create one environmental variable:
 
 | variable name     | variable value                                             |
 | ----------------- | ---------------------------------------------------------- |
@@ -142,31 +124,35 @@ If you cannot setup a Gmail account, it _is_ possible to use a non-Gmail account
 
 ### Use the browse component
 
-From your command line navigate to the project's root directory and execute:
+1. Start the web server listening on port 5555. To do that, from your command line navigate to the project's root directory and execute:
 
 `npm start`
 
-After, your default browser should automatically open and display the app's browse component. You should see something similar to the screenshot depicted in at the very top of this README ([link here](#header)).
+That should complete without issue, with output reading: `Server running on port 5555`.
+
+2. Open your browser to `http://localhost:5555` and it should display the app's browse component. You should see something similar to the screenshot depicted in at the very top of this README ([link here](#header)).
 
 On the screen, all of the items from the deli/meat department should be listed, along with their details, price, and if possible, their unit price.
 
 To filter by different meat types (beef, chicken, or pork), use the radio buttons at the top of the page.
 
-_Note: For now, the Browser Component is best viewed on desktop devices. The layout is quite broken at tablet/mobile screen widths._
+_Note: For now, the browse component is best viewed on desktop devices. The layout is quite broken at tablet/mobile screen widths._
 
 ### Use the notify component
 
-1. Create a user: To create a user, from your command line navigate to the project's root directory and execute:
+1. Create a user: To create a user, first start the web server listening on port 5555 (if it is not already doing so). To do that,from your command line navigate to the project's root directory and execute:
 
 `npm start`
 
-After, your default browser should automatically open and display the app's browse component. In your browser, navigate to: localhost:5555/register. Complete and submit the registration form on the page.
+That should complete without issue, with output reading: `Server running on port 5555.`
 
-2. From your command line navigate to the project's root directory and execute:
+2. In your browser, navigate to: `http://localhost:5555/register`. Complete and submit the registration form on the page.
+
+3. From your command line navigate to the project's root directory and execute:
 
 `node client/notification_system/notification_system.js`
 
-After, one email should be sent to your user's email address, listing which items from this week's specials meet the user's criteria (i.e. meat type and threshold price).
+That should complete without error. After, one email should be sent to your user's email address, listing which items from this week's specials meet the user's criteria (i.e. meat type and threshold price).
 
 For example, let's say you created a user with with the following data:
 
@@ -181,6 +167,8 @@ When you execute the above command from the command line, an email will be sent 
 - meat type is poultry.
 - unit price less than or equal to $7.00 per pound.
 
+_Note: The email will be sent only if this week's specials contain an item that meets your criteria (e.g. poultry sold for less than $7.00/lb)._
+
 ---
 
 _Note: In its current state, the app fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
@@ -191,11 +179,11 @@ I have deployed my app to a live server--hosted by Heroku. The browse component 
 
 ## :memo: Unit Testing <a name = "tests"></a>
 
-Unit tests are a work in progress :smiley: There are unfortunately some unit tests written with [Tape](https://github.com/substack/tape), and others with [Jest](https://jestjs.io/).
+Unit tests are a work in progress :smiley: There are unfortunately some unit tests written with [Tape](https://github.com/substack/tape), and others with [Jest](https://jestjs.io/). See below for details.
 
 ### Tape Unit Tests
 
-The Tape unit tests are in the file `client/test/unit-tests.js`. To execute the unit tests in that file, from your command line navigate to the project's root directory and execute:
+The Tape unit tests are in the file `client/src/test/unit-tests.js`. To execute the unit tests in that file, from your command line navigate to the project's root directory and execute:
 
 `node test/unit-tests.js`
 
@@ -207,7 +195,7 @@ Additionally, if you are using VSCode, and have the Run on Save extension enable
 
 ### Jest Unit Tests
 
-The Jest unit tests are in the file `server/test/expressApp.test.js`. To execute the unit tests in that file, open the VSCode terminal and navigate to the project's `server` directory. Then execute:
+The Jest unit tests are in the file `client/src/test/jesty.test.js`. To execute the unit tests in that file, open the VSCode terminal and navigate to the project's `client` directory. Then execute:
 
 `npm test -- --watch`
 
@@ -222,7 +210,7 @@ Furthermore, as long as you keep the VSCode terminal open, these tests will be a
 Here is a list of features/fixes I would like to implement soon:
 
 - Increase the number of stores searched by the app.
-- browse component: Make fully responsive.
+- Browse component: Make fully responsive.
 - Fix price displays bugs in emails sent in notify component. See [here](https://github.com/cagross/react-specials/issues/12).
 
 ## ✍️ Authors <a name = "authors"></a>

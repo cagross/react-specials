@@ -17,11 +17,7 @@ exports.saveToDb = async function (dataToSave, tbleName) {
   const currConfig = config();
   const fields = currConfig.tableNames[tbleName].fields;
 
-  const myModel = await createModel.createModel(
-    tbleName,
-    // currConfig.tableNames[tbleName].fields
-    fields
-  );
+  const myModel = await createModel.createModel(tbleName, fields);
 
   const myModelParam = {};
   for (let i = 0; i < fields.length; i++) {
