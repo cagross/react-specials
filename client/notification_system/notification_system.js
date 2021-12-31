@@ -7,12 +7,10 @@
  */
 
 import nodemailer from "nodemailer";
-import mongoose from "mongoose";
 import { apiData } from "../../controllers/module-data.js";
 import { filter } from "../src/module-filter.js";
 import { storeLoc } from "../src/module-store-location.js";
 import { createModel } from "../../models/createModel.js";
-import { config } from "../../src/config/config.js";
 
 // Promise to fetch data from the API.
 const promiseData = Promise.resolve(apiData());
@@ -45,7 +43,6 @@ Promise.all([promiseData, promiseDbConnect]).then(function (values) {
           meatTest
         ).catch(console.error); // Call main() to send an email of items to the user found in the database record.
       }
-      mongoose.connection.close();
     }
   });
 });
@@ -61,8 +58,6 @@ Promise.all([promiseData, promiseDbConnect]).then(function (values) {
  * @param {Object[]} userArray
  */
 async function main(email, name, meatPref, thPrice, userArray) {
-  const currConfig = config();
-  mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
   // Create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
