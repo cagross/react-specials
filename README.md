@@ -10,6 +10,14 @@
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/cagross/react-specials)
 
+<!-- ![PayPal donate button](images-readme/button-paypal.png "Donate on PayPal.") -->
+<!-- <img src="drawing.jpg" alt="drawing" width="200"/> -->
+
+<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="drawing" width="75"/></a>
+
+<!-- <img src="images-readme/button-paypal.png" alt="drawing" width="100%"/> -->
+<!-- <img src="images-readme/button-paypal.png" alt="drawing" width="100%"/> -->
+
   <!-- ![GitHub top language](https://img.shields.io/github/languages/top/cagross/react-specials) -->
 
 </div>
