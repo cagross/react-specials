@@ -13,12 +13,14 @@
 <!-- ![PayPal donate button](images-readme/button-paypal.png "Donate on PayPal.") -->
 <!-- <img src="drawing.jpg" alt="drawing" width="200"/> -->
 
-<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="drawing" width="75"/></a>
+<p float="left">
+<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="75"/></a>
+<a href="https://patreon.com/cagross"><img src="images-readme/button-patreon-800.png" alt="Patreon donate button." width="75"/></a>
+</p>
 
-<!-- <img src="images-readme/button-paypal.png" alt="drawing" width="100%"/> -->
-<!-- <img src="images-readme/button-paypal.png" alt="drawing" width="100%"/> -->
+<!-- <a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="drawing" width="75"/></a> -->
 
-  <!-- ![GitHub top language](https://img.shields.io/github/languages/top/cagross/react-specials) -->
+<!-- <a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-patreon.png" alt="drawing" width="75"/></a> -->
 
 </div>
 
