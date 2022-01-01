@@ -108,7 +108,7 @@ Configuring this component is a little trickier, and admittedly fragile for now.
 
 2. To your database, add a collection named:
 
-`somemodels`
+`users`
 
 3. On your local system, create two environmental variables:
 
