@@ -129,14 +129,17 @@ passport.deserializeUser((id, done) => {
     .then((myModel) => {
       myModel.find({}, function (err, match) {
         console.log("Inside deserialize user find callback.");
-        console.log(
-          `match is of type: ${typeof match} with length ${match.length}`
-        );
+        // console.log(
+        //   `match is of type: ${typeof match} with length ${match.length}`
+        // );
 
         if (err) {
           mongoose.connection.close();
           return console.log("error:  " + err);
         } else {
+          console.log(
+            `match is of type: ${typeof match} with length ${match.length}`
+          );
           const isMatch = (element) => {
             return element.id === id;
           };

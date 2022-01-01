@@ -21,10 +21,11 @@ exports.createModel = async function (tblName, fieldNames) {
   const currConfig = config();
   const tableName = currConfig.tableNames[tblName].singName;
 
-  mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
-
   const db = mongoose.connection;
+  db.on("open", () => console.log("MongoDB connection open"));
   db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+  mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
 
   let TheModel3 =
     mongoose.models[tableName] || mongoose.model(tableName, SomeModelSchema);
