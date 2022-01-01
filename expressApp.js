@@ -38,7 +38,7 @@ const attachCookie = (route, cookieName, cookieValue) => {
 //This function call contains a callback, which is called when a user sends a username/password via POST to the login route.
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    console.log("Inside local strategy callback");
+    console.log("Inside local strategy callback.");
 
     const promiseDbConnect = createModel("users", [
       "name",
@@ -54,7 +54,7 @@ passport.use(
       })
       .then((myModel) => {
         myModel.find({}, function (err, match) {
-          console.log("Inside local strategy callback.");
+          console.log("Find method complete.");
           if (err) {
             mongoose.connection.close();
             return console.log("error:  " + err);

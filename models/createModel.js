@@ -25,9 +25,16 @@ exports.createModel = async function (tblName, fieldNames) {
   db.on("open", () => console.log("MongoDB connection open"));
   db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-  mongoose.connect(currConfig.mongoDBUri, { useNewUrlParser: true });
-
-  let TheModel3 =
-    mongoose.models[tableName] || mongoose.model(tableName, SomeModelSchema);
-  return TheModel3;
+  return mongoose
+    .connect(currConfig.mongoDBUri, { useNewUrlParser: true })
+    .then(() => {
+      let TheModel3 =
+        mongoose.models[tableName] ||
+        mongoose.model(tableName, SomeModelSchema);
+      return TheModel3;
+    })
+    .catch((err) => {
+      console.log("Error creating model.");
+      console.log(err);
+    });
 };
