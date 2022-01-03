@@ -14,9 +14,13 @@
 <!-- <img src="drawing.jpg" alt="drawing" width="200"/> -->
 
 <p float="left">
-<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="75"/></a>
+<!-- <a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="75"/></a>
 <a href="https://patreon.com/cagross"><img src="images-readme/button-patreon-800.png" alt="Patreon donate button." width="75"/></a>
-<a href="https://www.buymeacoffee.com/cagross"><img src="images-readme/button-bmc-75.png" alt="Buy Me A Coffee donate button." width="75"/></a>
+<a href="https://www.buymeacoffee.com/cagross"><img src="images-readme/button-bmc-75.png" alt="Buy Me A Coffee donate button." width="75"/></a> -->
+
+<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="20%" style="max-width: 300px;"/></a>
+<a href="https://patreon.com/cagross"><img src="images-readme/button-patreon-400.png" alt="Patreon donate button." width="20%" style="max-width: 300px;"/></a>
+<a href="https://www.buymeacoffee.com/cagross"><img src="images-readme/button-bmc-300.png" alt="Buy Me A Coffee donate button." width="20%" style="max-width: 300px;"/></a>
 
 </p>
 
