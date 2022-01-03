@@ -4,17 +4,17 @@
  * @author Carl Gross
  */
 
-const { doSave } = require("./module-do-save.js");
-const { saveToDb } = require("./module-save-to-db.js");
-const fetch = require("node-fetch");
-const { unitPrice } = require("./module-unit-price.js");
+import { doSave } from "./module-do-save.js";
+import { saveToDb } from "./module-save-to-db.js";
+import fetch from "node-fetch";
+import { unitPrice } from "./module-unit-price.js";
 
 /**
  * Fetch weekly special data (deli department only) from the Giant Food API.
  * @async
  * @returns {array}
  */
-exports.apiData = function () {
+export const apiData = function () {
   const storeCode = "0233";
   const urlAPIFlyer =
     "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=" +

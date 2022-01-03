@@ -5,7 +5,9 @@
  * @author Carl Gross
  */
 
-var server = require("./expressApp");
+import app from "./expressApp.js";
+const server = app.app;
+
 var port = process.env.PORT || 5555;
 
 server.listen(port, function () {

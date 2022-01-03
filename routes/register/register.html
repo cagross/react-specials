@@ -32,9 +32,12 @@
       <input type="text" name="price" placeholder="e.g. 4.99" /><br /><br />
       <input type="submit" data-testid="mytestid" />
     </form>
-    <script src="register.js"></script>
-    <script>
-      regModule.test();
+    <script src="register.js" type="module"></script>
+    <script type="module">
+      import { regSubmitHandler } from "./register.js";
+      document
+        .querySelector("form")
+        .addEventListener("submit", regSubmitHandler);
     </script>
   </body>
 </html>

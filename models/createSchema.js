@@ -5,7 +5,7 @@
  * @author Carl Gross
  */
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 /**
  * Accepts an array of strings, each representing a field in the user database table. Returns new Mongoose schema based on those fields.
@@ -13,7 +13,7 @@ const mongoose = require("mongoose");
  * @param {array} fields
  * @returns {object}
  */
-exports.createSchema = function (tblName, fields) {
+export function createSchema(tblName, fields) {
   console.log("Inside createSchema.");
 
   const allFieldsTypes = {
@@ -40,16 +40,16 @@ exports.createSchema = function (tblName, fields) {
       },
     },
   };
-
-  const match = (element) => element === property;
   const allFields = allFieldsTypes[tblName].allFields;
   const fieldsTypes = {};
-  for (property in allFields) {
-    if (fields.some(match)) fieldsTypes[property] = allFields[property];
+
+  for (let property in allFields) {
+    if (fields.some((element) => element === property))
+      fieldsTypes[property] = allFields[property];
   }
 
   //Define a schema.
   const Schema = mongoose.Schema;
 
   return new Schema(fieldsTypes);
-};
+}

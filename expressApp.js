@@ -4,21 +4,26 @@
  * @author Carl Gross
  */
 
-const path = require("path");
-const express = require("express");
+import * as path from "path";
+const __dirname = path.resolve();
+import express from "express";
 const app = express();
-const { v4: uuidv4 } = require("uuid");
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const myModule = require("./models/createModel.js");
-const createModel = myModule.createModel;
-const config = require("./src/config/config.js").config;
-const registerController = require("./controllers/registerController");
-const apiData = require("./controllers/module-data.js");
+import { v4 } from "uuid";
+const uuidv4 = v4;
+import session from "express-session";
+import connect from "connect-mongodb-session";
+const MongoDBStore = connect(session);
+import passport from "passport";
+import passportLocal from "passport-local";
+const LocalStrategy = passportLocal.Strategy;
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import * as createModelModule from "./models/createModel.js";
+const createModel = createModelModule.default.createModel;
+import { config } from "./src/config/config.js";
+import * as registerController from "./controllers/registerController.js";
+import * as apiData from "./controllers/module-data.js";
+
 const fetchData = apiData.apiData;
 
 /**
@@ -166,6 +171,7 @@ passport.deserializeUser((id, done) => {
 /* Begin middleware to ensure React app is served at root URL. */
 if (process.env.PORT) app.use(attachCookie("/", "isProd", "true"));
 app.use("/", (req, res, next) => {
+  console.log("Attaching cookie.");
   express.static(path.join(__dirname, "client", "build"))(req, res, next);
 });
 app.use(express.static("public"));
@@ -301,4 +307,6 @@ app.get("/register", (req, res) => {
 
 app.post("/register", express.json(), registerController.register_post);
 
-module.exports = app;
+export default {
+  app: app,
+};

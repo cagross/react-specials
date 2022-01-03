@@ -2,7 +2,7 @@
  * Defines configuration.
  * @returns object
  */
-exports.config = function () {
+export function config() {
   const dbUsername = process.env.SP_DB_USER ? process.env.SP_DB_USER : "";
   const dbPassword = process.env.SP_DB_PASS ? process.env.SP_DB_PASS : "";
 
@@ -48,4 +48,4 @@ exports.config = function () {
       ? process.env.SP_SESSION_SECRET
       : "",
   };
-};
+}

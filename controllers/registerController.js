@@ -5,15 +5,12 @@
  * @author Carl Gross
  */
 
-const { doSave } = require("./module-do-save.js");
-const { saveToDb } = require("./module-save-to-db.js");
-const bcrypt = require("bcrypt");
-const { body, validationResult } = require("express-validator");
+import { doSave } from "./module-do-save.js";
+import { saveToDb } from "./module-save-to-db.js";
+import bcrypt from "bcrypt";
+import { body, validationResult } from "express-validator";
 
-const createModelModule = require("../models/createModel.js");
-const createModel = createModelModule.createModel;
-
-exports.register_post = [
+export const register_post = [
   body("email", "Escaped characters.").escape(),
   body("password", "Escaped characters.").escape(),
   body("firstName", "Escaped characters.").escape(),

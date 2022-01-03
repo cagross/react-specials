@@ -3,10 +3,9 @@
  * @module
  * @author Carl Gross
  */
-const createModel = require("../models/createModel");
-const config = require("../src/config/config.js").config;
-
-exports.doSave = {
+import createModel from "../models/createModel.js";
+import { config } from "../src/config/config.js";
+export const doSave = {
   /**
    * Determines if data is already in database or not.
    * @param {object} data - Data.
@@ -31,7 +30,7 @@ exports.doSave = {
     function printObj(obj, prev) {
       for (let key in obj) {
         let value = obj[key];
-
+        let finalKey;
         if (typeof value === "object" && !(value instanceof Date)) {
           finalKey = prev ? `${prev}.${key}` : `${key}`;
           printObj(value, finalKey);

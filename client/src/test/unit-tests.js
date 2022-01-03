@@ -5,10 +5,7 @@ import { dispPrice } from "../module-display-price.js";
 import { unitPrice } from "../../../controllers/module-unit-price.js";
 import { doSave } from "../../../controllers/module-do-save.js";
 import { saveToDb } from "../../../controllers/module-save-to-db.js";
-import createModel from "../../../models/createModel.js";
-
-// import { apiData } from "../../../controllers/module-data.js";
-// await apiData();
+import * as createModel from "../../../models/createModel.js";
 
 test("Test of save to database.", async function (t) {
   const sampleTbleName = "items";
@@ -36,7 +33,7 @@ test("Test of save to database.", async function (t) {
     return this;
   }
   const createModelStub = sinon
-    .stub(createModel, "createModel")
+    .stub(createModel.default, "createModel")
     .returns(myModelStub);
   let doSaveStub = sinon.stub(doSave, "doSave").returns(true);
 

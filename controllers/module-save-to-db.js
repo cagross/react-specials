@@ -4,15 +4,15 @@
  * @author Carl Gross
  */
 
-const createModel = require("../models/createModel");
-const config = require("../src/config/config.js").config;
+import createModel from "../models/createModel.js";
+import { config } from "../src/config/config.js";
 
 /**
  * Saves data to database.
  * @param {object} dataToSave - Data to save.
  * @param {string} tbleName - Name of database table.
  */
-exports.saveToDb = async function (dataToSave, tbleName) {
+export async function saveToDb(dataToSave, tbleName) {
   console.log("Inside saveToDb");
   const currConfig = config();
   const fields = currConfig.tableNames[tbleName].fields;
@@ -41,4 +41,4 @@ exports.saveToDb = async function (dataToSave, tbleName) {
     console.log(error);
     return false;
   }
-};
+}

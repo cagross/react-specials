@@ -10,7 +10,8 @@ import nodemailer from "nodemailer";
 import { apiData } from "../../controllers/module-data.js";
 import { filter } from "../src/module-filter.js";
 import { storeLoc } from "../src/module-store-location.js";
-import { createModel } from "../../models/createModel.js";
+import * as createModelModule from "../../models/createModel.js";
+const createModel = createModelModule.default.createModel;
 
 // Promise to fetch data from the API.
 const promiseData = Promise.resolve(apiData());

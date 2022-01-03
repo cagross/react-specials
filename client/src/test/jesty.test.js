@@ -4,17 +4,18 @@
  * @author Carl Gross
  */
 
-require("@testing-library/jest-dom/extend-expect");
+import * as fs from "fs";
+import { jest } from "@jest/globals";
+import { regSubmitHandler } from "../../../routes/register/register.js";
+import { screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom/extend-expect";
 window.fetch = () => {};
 
 describe("When registration page submit button is clicked", () => {
-  const fs = require("fs");
   const html = fs.readFileSync("../routes/register/register.html");
 
   document.body.innerHTML = html;
-  const regModule = require("../../../routes/register/register.js");
-  const { screen } = require("@testing-library/dom");
-  const { default: userEvent } = require("@testing-library/user-event");
 
   const testEmail = "testemail@example.com";
   const testPass = "testpass";
@@ -25,30 +26,22 @@ describe("When registration page submit button is clicked", () => {
 
   beforeAll(() => jest.spyOn(window, "fetch"));
 
-  regModule.test();
+  document.querySelector("form").addEventListener("submit", regSubmitHandler);
 
   it("Sends the correct HTTP request.", async () => {
     window.fetch.mockResolvedValueOnce({});
-
-    await userEvent.type(
+    userEvent.type(
       screen.getByPlaceholderText("e.g. johndoe@example.com"),
       testEmail
     );
-    await userEvent.type(
+    userEvent.type(
       screen.getByPlaceholderText("e.g. mysecretpassphrase123!"),
       testPass
     );
-    await userEvent.type(
-      screen.getByPlaceholderText("e.g. John"),
-      testFirstName
-    );
-    await userEvent.type(screen.getByPlaceholderText("e.g. Doe"), testLastName);
-    await userEvent.selectOptions(
-      screen.getByLabelText("Meat Preference"),
-      "Beef"
-    );
-    await userEvent.type(screen.getByPlaceholderText("e.g. 4.99"), testPrice);
-
+    userEvent.type(screen.getByPlaceholderText("e.g. John"), testFirstName);
+    userEvent.type(screen.getByPlaceholderText("e.g. Doe"), testLastName);
+    userEvent.selectOptions(screen.getByLabelText("Meat Preference"), "Beef");
+    userEvent.type(screen.getByPlaceholderText("e.g. 4.99"), testPrice);
     userEvent.click(screen.getByTestId("mytestid"));
     expect(window.fetch).toHaveBeenCalledWith(
       "/register",
