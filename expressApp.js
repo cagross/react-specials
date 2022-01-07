@@ -6,25 +6,28 @@
 
 import * as path from "path";
 const __dirname = path.resolve();
+
 import express from "express";
 const app = express();
+
 import { v4 } from "uuid";
-const uuidv4 = v4;
 import session from "express-session";
 import connect from "connect-mongodb-session";
 const MongoDBStore = connect(session);
+
 import passport from "passport";
 import passportLocal from "passport-local";
 const LocalStrategy = passportLocal.Strategy;
+
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import * as createModelModule from "./models/createModel.js";
-const createModel = createModelModule.default.createModel;
+import createModelModule from "./models/createModel.js";
+const createModel = createModelModule.createModel;
+
 import { config } from "./src/config/config.js";
 import * as registerController from "./controllers/registerController.js";
-import * as apiData from "./controllers/module-data.js";
-
-const fetchData = apiData.apiData;
+import { apiModule } from "./controllers/module-data.js";
+const fetchData = apiModule.apiData;
 
 /**
  * Return a middleware function which sends a cookie to a route.
@@ -194,7 +197,8 @@ app.use(
     genid: (req) => {
       console.log("Inside the session middleware");
       console.log(req.sessionID);
-      return uuidv4(); // use UUIDs for session IDs
+      // return uuidv4(); // use UUIDs for session IDs
+      return v4(); // use UUIDs for session IDs
     },
     store: myMongoStore,
     secret: currConfig.sessionSecret,
