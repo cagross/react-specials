@@ -29,6 +29,9 @@ import * as registerController from "./controllers/registerController.js";
 import { apiModule } from "./controllers/module-data.js";
 const fetchData = apiModule.apiData;
 
+import { loginController } from "./controllers/loginController.js";
+const loginPost = loginController.loginPost;
+
 /**
  * Return a middleware function which sends a cookie to a route.
  * @param {string} route - Route to send cookie.
@@ -224,37 +227,7 @@ app.get("/login", (req, res) => {
   res.send(`You got the login page!\n`);
 });
 app.post("/login", express.json(), (req, res, next) => {
-  console.log("Inside POST /login callback");
-  console.log(req.body);
-  passport.authenticate("local", (err, user, info) => {
-    console.log("Inside passport.authenticate() callback");
-    console.log(
-      `req.session.passport: ${JSON.stringify(req.session.passport)}`
-    );
-    console.log(`req.user: ${JSON.stringify(req.user)}`);
-    if (info) return res.send(info.message);
-    if (err) return next(err);
-    // if (!user) return res.redirect("/login");
-    if (!user)
-      return res
-        .status(400)
-        .json({ error: "Invalid username/password combination." });
-
-    req.login(user, (err) => {
-      console.log("Inside req.login() callback");
-      console.log(
-        `req.session.passport: ${JSON.stringify(req.session.passport)}`
-      );
-      console.log(`req.user: ${JSON.stringify(req.user)}`);
-      if (err) {
-        return next(err);
-      }
-      // return res.send("You were authenticated & logged in!");
-      return res.json({
-        userAuth: true,
-      });
-    });
-  })(req, res, next);
+  loginPost(req, res, next);
 });
 app.get("/profile", (req, res) => {
   console.log("Inside GET /profile callback");

@@ -9,7 +9,50 @@ import * as createModel from "../../../models/createModel.js";
 import { sendMail } from "../../../controllers/module-send-mail.js";
 import { notificationModule } from "../../notification_system/notification_system.js";
 import { apiModule } from "../../../controllers/module-data.js";
+import { loginController } from "../../../controllers/loginController.js";
+import passport from "passport";
 
+test("Tests of login module.", async function (t) {
+  let actual, expected;
+  let authenticateStub;
+  const myObj = { myProp: 555 };
+  const loginStub = sinon.stub();
+  const resMock = {
+      json: sinon.spy(),
+      send: sinon.spy(),
+    },
+    reqMock = {
+      login: loginStub,
+    },
+    nextMock = sinon.stub();
+  const loginPost = loginController.loginPost;
+
+  authenticateStub = sinon.stub(passport, "authenticate").returns(() => {});
+
+  t.comment("Case: user successfully found in database..");
+
+  loginPost(reqMock, resMock, nextMock);
+
+  actual = authenticateStub.calledWith("local", sinon.match.any);
+  expected = true;
+  t.equals(actual, expected, "passport.authenticate called once.");
+
+  authenticateStub.resetHistory();
+  loginStub.resetHistory();
+
+  authenticateStub.yields(false, myObj, undefined);
+
+  loginPost(reqMock, resMock, nextMock);
+
+  actual = loginStub.calledOnceWith(sinon.match(myObj));
+  expected = true;
+  t.equals(actual, expected, "req.login called once with correct params.");
+
+  authenticateStub.reset();
+  loginStub.reset();
+
+  t.end();
+});
 test("Tests of notification system module.", async function (t) {
   let actual, expected;
   const notificationSystem = notificationModule.main;
@@ -212,7 +255,6 @@ const testObj1 = {
   valid_from: "2020-09-18",
   disclaimer_text: null,
 };
-
 let i;
 // Array of test objects that will be passed to unit tests.
 const testArr = [
