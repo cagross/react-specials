@@ -10,12 +10,48 @@ import { sendMail } from "../../../controllers/module-send-mail.js";
 import { notificationModule } from "../../notification_system/notification_system.js";
 import { apiModule } from "../../../controllers/module-data.js";
 import { loginController } from "../../../controllers/loginController.js";
+
 import passport from "passport";
+
+test("Tests of do-save module.", async function (t) {
+  let actual, expected;
+  let findOneStub, createModelStub;
+
+  t.comment("Case: data does not already exist in database..");
+
+  findOneStub = sinon.stub().resolves(null);
+  createModelStub = sinon.stub(createModel.default, "createModel").resolves({
+    findOne: findOneStub,
+  });
+
+  actual = await doSave.doSave({}, "items");
+  expected = true;
+  t.equals(actual, expected, "Returns true.");
+
+  createModelStub.restore();
+  findOneStub.reset();
+
+  t.comment("Case: data already exists in database..");
+
+  findOneStub = sinon.stub().resolves({});
+  createModelStub = sinon.stub(createModel.default, "createModel").resolves({
+    findOne: findOneStub,
+  });
+
+  actual = await doSave.doSave({}, "items");
+  expected = false;
+  t.equals(actual, expected, "Returns false.");
+
+  createModelStub.restore();
+  findOneStub.reset();
+
+  t.end();
+});
 
 test("Tests of login module.", async function (t) {
   let actual, expected;
   let authenticateStub;
-  const myObj = { myProp: 555 };
+  const sampleObj = { myProp: 555 };
   const loginStub = sinon.stub();
   const resMock = {
       json: sinon.spy(),
@@ -40,11 +76,11 @@ test("Tests of login module.", async function (t) {
   authenticateStub.resetHistory();
   loginStub.resetHistory();
 
-  authenticateStub.yields(false, myObj, undefined);
+  authenticateStub.yields(false, sampleObj, undefined);
 
   loginPost(reqMock, resMock, nextMock);
 
-  actual = loginStub.calledOnceWith(sinon.match(myObj));
+  actual = loginStub.calledOnceWith(sinon.match(sampleObj));
   expected = true;
   t.equals(actual, expected, "req.login called once with correct params.");
 
@@ -53,6 +89,7 @@ test("Tests of login module.", async function (t) {
 
   t.end();
 });
+
 test("Tests of notification system module.", async function (t) {
   let actual, expected;
   const notificationSystem = notificationModule.main;
@@ -225,9 +262,9 @@ test("Test of save to database.", async function (t) {
   actual = saveCallCount;
   expected = 1;
   t.equals(actual, expected, "save method called once.");
+
   doSaveStub.restore();
   saveCallCount = 0;
-
   createModelStub.restore();
 
   t.end();
