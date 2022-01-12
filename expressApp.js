@@ -200,7 +200,6 @@ app.use(
     genid: (req) => {
       console.log("Inside the session middleware");
       console.log(req.sessionID);
-      // return uuidv4(); // use UUIDs for session IDs
       return v4(); // use UUIDs for session IDs
     },
     store: myMongoStore,
