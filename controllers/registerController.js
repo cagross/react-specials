@@ -32,30 +32,30 @@ export const register_post = [
     }
 
     const { email, password } = req.body;
-
-    doSave
+    return doSave
       .doSave({ email: req.body.email }, "users")
       .then(() => {
         return bcrypt
           .hash(password, 10)
           .then((hash) => {
             console.log("Hash obtained.");
-            return saveToDb(
-              {
-                email: req.body.email,
-                password: hash,
-                meat: req.body.meatPref,
-                th_price: req.body.price,
-                name: req.body.firstName + " " + req.body.lastName,
-                host: req.headers.host || "not provided",
-                origin: req.headers.origin || "not provided",
-                referer: req.headers.referer || "not provided",
-                platform: req.headers["sec-ch-ua-platform"] || "not provided",
-                userAgent: req.headers["user-agent"] || "not provided",
-                dateCreated: new Date(),
-              },
-              "users"
-            )
+            return saveToDb
+              .saveToDb(
+                {
+                  email: req.body.email,
+                  password: hash,
+                  meat: req.body.meatPref,
+                  th_price: req.body.price,
+                  name: req.body.firstName + " " + req.body.lastName,
+                  host: req.headers.host || "not provided",
+                  origin: req.headers.origin || "not provided",
+                  referer: req.headers.referer || "not provided",
+                  platform: req.headers["sec-ch-ua-platform"] || "not provided",
+                  userAgent: req.headers["user-agent"] || "not provided",
+                  dateCreated: new Date(),
+                },
+                "users"
+              )
               .then((result) => {
                 if (result) {
                   return res.json(
@@ -69,7 +69,7 @@ export const register_post = [
               });
           })
           .catch((err) => {
-            console.log("Error with hashing.");
+            console.log("Error with saving.");
             if (err) {
               console.log(err);
               return res.status(400).json({ error: err });

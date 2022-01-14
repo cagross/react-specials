@@ -5,13 +5,72 @@ import { dispPrice } from "../module-display-price.js";
 import { unitPrice } from "../../../controllers/module-unit-price.js";
 import { doSave } from "../../../controllers/module-do-save.js";
 import { saveToDb } from "../../../controllers/module-save-to-db.js";
+import { register_post } from "../../../controllers/registerController.js";
 import * as createModel from "../../../models/createModel.js";
 import { sendMail } from "../../../controllers/module-send-mail.js";
 import { notificationModule } from "../../notification_system/notification_system.js";
 import { apiModule } from "../../../controllers/module-data.js";
 import { loginController } from "../../../controllers/loginController.js";
-
 import passport from "passport";
+
+const registerHandler = register_post[6];
+
+test("Test of register module.", async function (t) {
+  let actual, expected;
+
+  const doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
+  const saveToDbStub = sinon.stub(saveToDb, "saveToDb").resolves(true);
+
+  const sampleReq = {
+    body: {
+      email: "email@example.com",
+      password: "samplepassword",
+      meatPref: "poultry",
+      price: 4.99,
+      firstName: "Graham",
+      lastName: "McAllister",
+    },
+    headers: {
+      host: "localhost:5555",
+      origin: "http://localhost:5555",
+      referer: "http://localhost:5555/register",
+      "sec-ch-ua-platform": "Windows",
+      "user-agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36",
+    },
+  };
+  const sampleRes = { json: () => {} };
+
+  await registerHandler(sampleReq, sampleRes);
+
+  actual = saveToDbStub.calledWith(
+    sinon.match
+      .has("email", sampleReq.body.email)
+      .and(sinon.match.has("password", sinon.match.string))
+      .and(sinon.match.has("meat", sampleReq.body.meatPref))
+      .and(sinon.match.has("th_price", sampleReq.body.price))
+      .and(
+        sinon.match.has(
+          "name",
+          `${sampleReq.body.firstName} ${sampleReq.body.lastName}`
+        )
+      )
+      .and(sinon.match.has("host", sampleReq.headers.host))
+      .and(sinon.match.has("origin", sampleReq.headers.origin))
+      .and(sinon.match.has("referer", sampleReq.headers.referer))
+      .and(sinon.match.has("platform", sampleReq.headers["sec-ch-ua-platform"]))
+      .and(sinon.match.has("dateCreated", sinon.match.date))
+      .and(sinon.match.has("userAgent", sampleReq.headers["user-agent"]))
+  );
+
+  expected = true;
+  t.equals(actual, expected, "saveToDb called once with correct parameters.");
+
+  doSaveStub.restore();
+  saveToDbStub.restore();
+
+  t.end();
+});
 
 test("Tests of do-save module.", async function (t) {
   let actual, expected;
@@ -245,19 +304,15 @@ test("Test of save to database.", async function (t) {
     .returns(myModelStub);
   let doSaveStub = sinon.stub(doSave, "doSave").returns(true);
 
-  await saveToDb(circInfo, sampleTbleName);
+  const saveResult = await saveToDb.saveToDb(circInfo, sampleTbleName);
+
+  actual = saveResult;
+  expected = true;
+  t.equals(actual, expected, "Returns true.");
 
   actual = createModelStub.calledOnce;
   expected = true;
   t.equals(actual, expected, "createModel called once.");
-
-  doSaveStub.resetHistory();
-  saveCallCount = 0;
-
-  let result = await saveToDb(circInfo, sampleTbleName);
-  actual = result;
-  expected = true;
-  t.equals(actual, expected, "Returns true.");
 
   actual = saveCallCount;
   expected = 1;
