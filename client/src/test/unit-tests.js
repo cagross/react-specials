@@ -112,9 +112,12 @@ test("Tests of login module.", async function (t) {
   let authenticateStub;
   const sampleObj = { myProp: 555 };
   const loginStub = sinon.stub();
+  const resStatusStub = sinon.stub().returns({ json: () => {} });
+
   const resMock = {
       json: sinon.spy(),
       send: sinon.spy(),
+      status: resStatusStub,
     },
     reqMock = {
       login: loginStub,
@@ -124,7 +127,7 @@ test("Tests of login module.", async function (t) {
 
   authenticateStub = sinon.stub(passport, "authenticate").returns(() => {});
 
-  t.comment("Case: user successfully found in database..");
+  t.comment("Case: user successfully found in database.");
 
   loginPost(reqMock, resMock, nextMock);
 
@@ -142,6 +145,24 @@ test("Tests of login module.", async function (t) {
   actual = loginStub.calledOnceWith(sinon.match(sampleObj));
   expected = true;
   t.equals(actual, expected, "req.login called once with correct params.");
+
+  authenticateStub.resetHistory();
+  loginStub.resetHistory();
+
+  t.comment("Case: user not found in database.");
+
+  authenticateStub.yields(false, false, undefined);
+
+  loginPost(reqMock, resMock, nextMock);
+
+  actual = loginStub.notCalled;
+  expected = true;
+  t.equals(actual, expected, "req.login not called.");
+
+  actual = resStatusStub.calledOnce;
+
+  expected = true;
+  t.equals(actual, expected, "res.status called once.");
 
   authenticateStub.reset();
   loginStub.reset();

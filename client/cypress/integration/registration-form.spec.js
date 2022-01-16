@@ -24,9 +24,7 @@ describe("Submitting Registration Form", () => {
     cy.get("#button").click(); // Click on button
 
     cy.wait("@getSearch").its("request.url").should("include", route);
-    cy.get("@getSearch") // yields the same interception object
-      .its("request.body")
-      .should("deep.equal", sampleUser);
+    cy.get("@getSearch").its("request.body").should("deep.equal", sampleUser);
     cy.get("@getSearch").its("request.method").should("equal", method);
     cy.get("@getSearch").its("request.headers").should("include", {
       "content-type": "application/json",
