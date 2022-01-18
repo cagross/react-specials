@@ -23,8 +23,5 @@
   },
   "scripts": {
     "start": "nodemon index.js"
-  },
-  "devDependencies": {
-    "sinon": "^12.0.1"
   }
 }
