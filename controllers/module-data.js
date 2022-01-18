@@ -8,6 +8,7 @@ import { doSave } from "./module-do-save.js";
 import { saveToDb } from "./module-save-to-db.js";
 import fetch from "node-fetch";
 import { unitPrice } from "./module-unit-price.js";
+import { spFetch } from "./module-fetch.js";
 
 export const apiModule = {
   /**
@@ -24,14 +25,14 @@ export const apiModule = {
       "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=" +
       storeCode +
       "&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535";
-    const flyerResponse = await fetch(urlAPIFlyer, fetchParams);
+    const flyerResponse = await spFetch.spFetch(urlAPIFlyer, fetchParams);
     const flyerInfo = await flyerResponse.text();
     console.log("Flyer info obtained.");
     const posFlyerID = flyerInfo.search("current_flyer_id");
     const flyerID = flyerInfo.slice(posFlyerID + 18, posFlyerID + 25);
     const urlAPIData =
       "https://circular.giantfood.com/flyer_data/" + flyerID + "?locale=en-US";
-    const circularResponse = await fetch(urlAPIData, fetchParams);
+    const circularResponse = await spFetch.spFetch(urlAPIData, fetchParams);
     const dataAll = await circularResponse.json();
     console.log("All circular data fetched.");
     //Save circular to database.
@@ -48,7 +49,10 @@ export const apiModule = {
       )
       .then((doSaveResult) => {
         if (doSaveResult)
-          saveToDb({ storeCode: storeCode, all_items: dataAll }, "items");
+          saveToDb.saveToDb(
+            { storeCode: storeCode, all_items: dataAll },
+            "items"
+          );
       })
       .catch((err) => {
         console.log("Error saving circular data.");

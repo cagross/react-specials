@@ -1,8 +1,11 @@
 import test from "tape"; // assign the tape library to the variable "test"
 import sinon from "sinon";
+import fetch from "node-fetch";
 import { storeLoc } from "../module-store-location.js";
 import { dispPrice } from "../module-display-price.js";
 import { unitPrice } from "../../../controllers/module-unit-price.js";
+import { spFetch } from "../../../controllers/module-fetch.js";
+
 import { doSave } from "../../../controllers/module-do-save.js";
 import { saveToDb } from "../../../controllers/module-save-to-db.js";
 import { register_post } from "../../../controllers/registerController.js";
@@ -13,13 +16,53 @@ import { apiModule } from "../../../controllers/module-data.js";
 import { loginController } from "../../../controllers/loginController.js";
 import passport from "passport";
 
-const registerHandler = register_post[6];
+test("Test of data module.", async function (t) {
+  t.comment("Case: circular data does not already exist in database..");
+  let actual, expected;
+  let doSaveStub, saveToDbStub;
+  const sampleResponse = { items: {} };
+
+  saveToDbStub = sinon.stub(saveToDb, "saveToDb");
+  doSaveStub = sinon.stub(doSave, "doSave").resolves(true);
+
+  //Stub call to fetch so it returns the expected values on each call.
+  const spFetchStub = sinon.stub(spFetch, "spFetch");
+  spFetchStub.onFirstCall().returns({
+    text: () => {
+      return "current_flyer_id";
+    },
+  });
+  spFetchStub.onSecondCall().returns({
+    json: () => {
+      return sampleResponse;
+    },
+  });
+
+  await apiModule.apiData({}, "users");
+
+  actual = saveToDbStub.calledOnceWithExactly(
+    { storeCode: "0233", all_items: sampleResponse },
+    "items"
+  );
+  expected = true;
+  t.equals(actual, expected, "saveToDb called once with correct parameters.");
+
+  doSaveStub.restore();
+  saveToDbStub.restore();
+
+  t.end();
+});
 
 test("Test of register module.", async function (t) {
   let actual, expected;
+  let doSaveStub, saveToDbStub;
 
-  const doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
-  const saveToDbStub = sinon.stub(saveToDb, "saveToDb").resolves(true);
+  const registerHandler = register_post[6];
+
+  // const doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
+  doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
+
+  saveToDbStub = sinon.stub(saveToDb, "saveToDb").resolves(true);
 
   const sampleReq = {
     body: {
@@ -305,6 +348,7 @@ test("Test of save to database.", async function (t) {
     },
   };
   let actual, expected;
+  let doSaveStub;
   let saveCallCount = 0;
   class myModelStub {
     constructor() {
@@ -323,7 +367,8 @@ test("Test of save to database.", async function (t) {
   const createModelStub = sinon
     .stub(createModel.default, "createModel")
     .returns(myModelStub);
-  let doSaveStub = sinon.stub(doSave, "doSave").returns(true);
+  // let doSaveStub = sinon.stub(doSave, "doSave").returns(true);
+  doSaveStub = sinon.stub(doSave, "doSave").returns(true);
 
   const saveResult = await saveToDb.saveToDb(circInfo, sampleTbleName);
 
@@ -353,7 +398,7 @@ test("Test of store location function.", function (t) {
     "7235 Arlington Blvd",
     "Falls Church, VA 22042",
   ];
-  t.deepEqual(storeLocRes, storeLoc, "Store address."); // make this test pass by completing the add function!
+  t.deepEqual(storeLocRes, storeLoc, "Store address.");
   t.end();
 });
 

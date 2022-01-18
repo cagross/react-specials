@@ -265,9 +265,6 @@ app.get("/checkauth", (req, res) => {
 });
 
 app.use("/register", (req, res, next) => {
-  // express.static(path.join(__dirname, "..", "server", "routes", "register"))(
-  console.log(111);
-  console.log(__dirname);
   express.static(path.join(__dirname, "routes", "register"))(req, res, next);
 });
 
