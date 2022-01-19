@@ -6,25 +6,31 @@
 
 import * as path from "path";
 const __dirname = path.resolve();
+
 import express from "express";
 const app = express();
+
 import { v4 } from "uuid";
-const uuidv4 = v4;
 import session from "express-session";
 import connect from "connect-mongodb-session";
 const MongoDBStore = connect(session);
+
 import passport from "passport";
 import passportLocal from "passport-local";
 const LocalStrategy = passportLocal.Strategy;
+
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import * as createModelModule from "./models/createModel.js";
-const createModel = createModelModule.default.createModel;
+import createModelModule from "./models/createModel.js";
+const createModel = createModelModule.createModel;
+
 import { config } from "./src/config/config.js";
 import * as registerController from "./controllers/registerController.js";
-import * as apiData from "./controllers/module-data.js";
+import { apiModule } from "./controllers/module-data.js";
+const fetchData = apiModule.apiData;
 
-const fetchData = apiData.apiData;
+import { loginController } from "./controllers/loginController.js";
+const loginPost = loginController.loginPost;
 
 /**
  * Return a middleware function which sends a cookie to a route.
@@ -194,7 +200,7 @@ app.use(
     genid: (req) => {
       console.log("Inside the session middleware");
       console.log(req.sessionID);
-      return uuidv4(); // use UUIDs for session IDs
+      return v4(); // use UUIDs for session IDs
     },
     store: myMongoStore,
     secret: currConfig.sessionSecret,
@@ -214,43 +220,10 @@ app.get("/items", async (req, res) => {
 // create the login get and post routes
 app.get("/login", (req, res) => {
   console.log("Inside GET /login callback function");
-  console.log("req.sessionID");
-
-  console.log(req.sessionID);
   res.send(`You got the login page!\n`);
 });
 app.post("/login", express.json(), (req, res, next) => {
-  console.log("Inside POST /login callback");
-  console.log(req.body);
-  passport.authenticate("local", (err, user, info) => {
-    console.log("Inside passport.authenticate() callback");
-    console.log(
-      `req.session.passport: ${JSON.stringify(req.session.passport)}`
-    );
-    console.log(`req.user: ${JSON.stringify(req.user)}`);
-    if (info) return res.send(info.message);
-    if (err) return next(err);
-    // if (!user) return res.redirect("/login");
-    if (!user)
-      return res
-        .status(400)
-        .json({ error: "Invalid username/password combination." });
-
-    req.login(user, (err) => {
-      console.log("Inside req.login() callback");
-      console.log(
-        `req.session.passport: ${JSON.stringify(req.session.passport)}`
-      );
-      console.log(`req.user: ${JSON.stringify(req.user)}`);
-      if (err) {
-        return next(err);
-      }
-      // return res.send("You were authenticated & logged in!");
-      return res.json({
-        userAuth: true,
-      });
-    });
-  })(req, res, next);
+  loginPost(req, res, next);
 });
 app.get("/profile", (req, res) => {
   console.log("Inside GET /profile callback");
@@ -292,9 +265,6 @@ app.get("/checkauth", (req, res) => {
 });
 
 app.use("/register", (req, res, next) => {
-  // express.static(path.join(__dirname, "..", "server", "routes", "register"))(
-  console.log(111);
-  console.log(__dirname);
   express.static(path.join(__dirname, "routes", "register"))(req, res, next);
 });
 

@@ -1,33 +1,17 @@
-<!-- ![Images of various prepared meat items.](images-readme/sp-readme-banner.png "Grocery Specials screenshot") -->
-
 ![Images of various prepared meat items.](images-readme/sp-readme-banner.jpg "Grocery Specials screenshot")
 
 <h1 align="center"><a name = "header">Grocery Specials Web App</a></h1>
-
 <div align="center">
 
   <!-- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE) -->
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/cagross/react-specials)
 
-<!-- ![PayPal donate button](images-readme/button-paypal.png "Donate on PayPal.") -->
-<!-- <img src="drawing.jpg" alt="drawing" width="200"/> -->
-
 <p float="left">
-<!-- <a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="75"/></a>
-<a href="https://patreon.com/cagross"><img src="images-readme/button-patreon-800.png" alt="Patreon donate button." width="75"/></a>
-<a href="https://www.buymeacoffee.com/cagross"><img src="images-readme/button-bmc-75.png" alt="Buy Me A Coffee donate button." width="75"/></a> -->
-
-<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="20%" style="max-width: 300px;"/></a>
 <a href="https://patreon.com/cagross"><img src="images-readme/button-patreon-400.png" alt="Patreon donate button." width="20%" style="max-width: 300px;"/></a>
+<a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="PayPal donate button." width="20%" style="max-width: 300px;"/></a>
 <a href="https://www.buymeacoffee.com/cagross"><img src="images-readme/button-bmc-300.png" alt="Buy Me A Coffee donate button." width="20%" style="max-width: 300px;"/></a>
-
 </p>
-
-<!-- <a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-paypal.png" alt="drawing" width="75"/></a> -->
-
-<!-- <a href="https://www.paypal.com/donate?business=EM8N9N647HGSU&no_recurring=0&currency_code=USD"><img src="images-readme/button-patreon.png" alt="drawing" width="75"/></a> -->
-
 </div>
 
 This web app automatically reads the current specials in the meat/deli department for one specific grocery store (with more to come). From that, it does two things:
@@ -45,7 +29,8 @@ This is a passion project of mine, built with ReactJS. It is by no means complet
 - [Installation](#installation)
 - [Usage](#usage)
 - [Deploy](#deploy)
-- [Unit Testing](#unit_testing)
+- [Edits](#edits)
+- [Tests](#tests)
 - [To-Do List](#to_do_list)
 - [Authors](#authors)
 
@@ -156,19 +141,23 @@ _Note: For now, the browse component is best viewed on desktop devices. The layo
 
 ### Use the notify component
 
-1. Create a user: To create a user, first start the web server listening on port 5555 (if it is not already doing so). To do that,from your command line navigate to the project's root directory and execute:
+#### First, create a user. To do so, carry out the following steps:
+
+a) Start the web server listening on port 5555 (if it is not already doing so). To do that,from your command line navigate to the project's root directory and execute:
 
 `npm start`
 
 That should complete without issue, with output reading: `Server running on port 5555.`
 
-2. In your browser, navigate to: `http://localhost:5555/register`. Complete and submit the registration form on the page.
+b) In your browser, navigate to: `http://localhost:5555/register`. Complete and submit the registration form on the page. That should complete without error. If so, you will have created a user for yourself.
 
-3. From your command line navigate to the project's root directory and execute:
+#### Next, execute a manual test of the notify component. To do so, carry out the following steps:
+
+a) From your command line navigate to the project's root directory and execute:
 
 `node client/notification_system/notification_system.js`
 
-That should complete without error. After, one email should be sent to your user's email address, listing which items from this week's specials meet the user's criteria (i.e. meat type and threshold price).
+That should complete without error. If so, an email should be sent to your user's email address, listing which items from this week's specials meet the user's criteria (i.e. meat type and threshold price).
 
 For example, let's say you created a user with with the following data:
 
@@ -183,51 +172,89 @@ When you execute the above command from the command line, an email will be sent 
 - meat type is poultry.
 - unit price less than or equal to $7.00 per pound.
 
-_Note: The email will be sent only if this week's specials contain an item that meets your criteria (e.g. poultry sold for less than $7.00/lb)._
+The email will be sent only if this week's specials contain an item that meets your criteria (e.g. poultry sold for less than $7.00/lb). If no items meet that criteria, no email will be sent.
+
+If you receive this email, the manual test of the notify component has passed :-)
+
+#### Finally, (if desired) configure the notify system to run automatically. To do so, carry out the following steps:
+
+There are many ways to ensure the notify component runs automatically. The way I have done it first requires that you first deploy the app the Heroku ( see the [Deploy section](#deploy)), then carry out the following steps:
+
+- Open the [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) for your deployed app, and click 'Add Job.' This will open the Job Editor (see screenshot below). This will execute a particular command on a set schedule. See next steps for configuration.
+
+<img src="images-readme/sp-heroku-scheduler.jpg" alt="Screenshot of Heroku Scheduler Job Editor." title = "Heroku Scheduler Job Editor."/>
+
+- Note that since new circulars are released once a week, the logical schedule for the notify component is to run it once a week. But you are free to run it with any frequentcy you desire. The following configuration will ensure the notify component is automatically run once a week: 12:00 AM Sunday UTC.
+
+- In the Job Editor `Schedule` section, select 'Every day at', then choose `12:00 AM` and `UTC`.
+
+- In the Job Editor `Run Command ` section, enter: `$ if [ "$(date +%u)" = 1 ]; then node client/notification_system/notification_system.js; fi`.
 
 ---
 
 _Note: In its current state, the app fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
 
+## :memo: Edits <a name="edits"></a>
+
+When editing the front-end React app--i.e. any file in the `client/src` folder--note that before you can see those changes in your browser, you'll need to rebuild React. To do that, from your command line navigate to the project's `client` directory and execute:
+
+`npm run build`
+
 ## 🚀 Deploy <a name="deploy"></a>
 
 I have deployed my app to a live server--hosted by Heroku. The browse component of that app can be seen [here](https://gentle-gorge-04163.herokuapp.com/). The notify component is configured to run once a week.
 
-## :memo: Unit Testing <a name = "tests"></a>
+## :heavy_check_mark: Tests <a name = "tests"></a>
 
-Unit tests are a work in progress :smiley: There are unfortunately some unit tests written with [Tape](https://github.com/substack/tape), and others with [Jest](https://jestjs.io/). See below for details.
+Automated tests are a mix of unit tests and end-to-end tests. See below for more information on each.
 
-### Tape Unit Tests
+### Unit Tests
 
-The Tape unit tests are in the file `client/src/test/unit-tests.js`. To execute the unit tests in that file, from your command line navigate to the project's root directory and execute:
+Unit tests are written using the [Tape test runner](https://github.com/substack/tape). They are located in the file `client/src/test/unit-tests.js`. To execute the unit tests in that file, from your command line navigate to the project's root directory and execute:
 
 `node test/unit-tests.js`
 
 After, output should be printed to the console, similar to this screenshot:
 
-<img src="images-readme/sp-unit-test-output.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
+<img src="images-readme/sp-unit-test-output.jpg" alt="Unit test output." title = "Unit test output."/>
 
 Additionally, if you are using VSCode, and have the Run on Save extension enabled, these unit tests will be automatically run whenever a .js file is saved.
 
-### Jest Unit Tests
+### End-To-End Tests
 
-The Jest unit tests are in the file `client/src/test/jesty.test.js`. To execute the unit tests in that file, open the VSCode terminal and navigate to the project's `client` directory. Then execute:
+End-To-End tests are written using the [Cypress test suite](https://www.cypress.io/). Those tests are located in several different files. Each file name ends in `.spec.js`, and they are all located in the `client/cypress/integration` folder. To execute one (or all) of those tests, do the following:
 
-`npm test -- --watch`
+1. Start the web server listening on port 5555. To do that, from your command line navigate to the project's root directory and execute:
 
-After, the unit tests should be executed and output printed to the VSCode terminal, similar to this screenshot:
+`npm start`
 
-<img src="images-readme/sp-jest-unit-test-output.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
+That should complete without issue, with output reading: `Server running on port 5555`.
 
-Furthermore, as long as you keep the VSCode terminal open, these tests will be automatically run whenever a .js file is saved.
+2. From your command line navigate to the project's `client` directory. Then execute:
+
+`npx cypress open --config pluginsFile=false`
+
+After, the Cypress GUI should open, which will list all three test files. You have the option to run each individually, or run them all (see screenshot below).
+
+<img src="images-readme/sp-cypress-gui.jpg" alt="Screenshot of Cypress GUI." title = "Cypress GUI."/>
+
+3. To execute all tests, click the 'Run 3 integration specs' link in the top right. A browser window should open and automatically execute all Cypress tests. They should all complete, and show passing results, as in the screenshot below).
+
+<img src="images-readme/sp-cypress-results.jpg" alt="Screenshot of Cypress GUI." title = "Cypress GUI."/>
+
+4. Unless you stop the Cypress tests (in the Cypress GUI), these tests will be automatically run whenever a .js file is saved.
+
+_Note: If you have made any recent edits to files in the `client/src` folder, be sure to re-build the React app before running the Cypress tests. If not, you may experience unexpected results. See the [Edits section](#edits) for information on how to re-build the React app._
 
 ## 📋 To-Do List (last updated 18 Feb 2021) <a name="to_do_list"></a>
 
 Here is a list of features/fixes I would like to implement soon:
 
-- Increase the number of stores searched by the app.
+- [Incorrect prices displayed for items requiring multiple quantities (fixed).](https://github.com/cagross/react-specials/issues/11).
+- [Some unit prices displaying as 'Unknown'.](https://github.com/cagross/react-specials/issues/10)
+- [Increase the number of stores searched by the app.](https://github.com/cagross/react-specials/issues/15https://github.com/cagross/react-specials/issues/15)
+- [Fix price displays bugs in emails sent in notify component.](https://github.com/cagross/react-specials/issues/12).
 - Browse component: Make fully responsive.
-- Fix price displays bugs in emails sent in notify component. See [here](https://github.com/cagross/react-specials/issues/12).
 
 ## ✍️ Authors <a name = "authors"></a>
 

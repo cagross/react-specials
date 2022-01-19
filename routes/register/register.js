@@ -1,5 +1,5 @@
 /**
- * Form handler for registration form on /register route. Note that export syntax is non-standard, because I'd like this module to be available for use by both Node and the browser ([see here](https://stackoverflow.com/a/3226739/3623908))
+ * Form handler for registration form on /register route.
  * @module
  * @param {*} e
  * @returns
