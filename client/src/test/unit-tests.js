@@ -270,14 +270,49 @@ test("Tests of notification system module.", async function (t) {
   testItems[1].unit_price = "5.00";
   apiDataStub = sinon.stub(apiModule, "apiData").resolves(testItems);
 
+  testOutput[0] =
+    "Hi Carl Gmail,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
+
+  testOutput[1] =
+    "Hi Carl Yahoo,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
+
   await notificationSystem();
 
-  actual = sendMailStub.notCalled;
+  actual = sendMailStub.calledTwice;
   expected = true;
-  t.equals(actual, expected, "sendMail not called.");
+  t.equals(actual, expected, "sendMail called twice.");
+
+  actual = sendMailStub
+    .getCall(0)
+    .calledWithExactly(
+      `Grocery Specials For + ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
+      testOutput[0],
+      testOutput[0],
+      sampleUsers[0].email
+    );
+  expected = true;
+  t.equals(
+    actual,
+    expected,
+    "First call to sendMail passed expected parameters."
+  );
+
+  actual = sendMailStub
+    .getCall(1)
+    .calledWithExactly(
+      `Grocery Specials For + ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
+      testOutput[1],
+      testOutput[1],
+      sampleUsers[1].email
+    );
+  expected = true;
+  t.equals(
+    actual,
+    expected,
+    "Second call to sendMail passed expected parameters."
+  );
 
   sendMailStub.resetHistory();
-  createModelStub.resetHistory();
   apiDataStub.restore();
 
   t.comment("Case: two users with matches found.");
@@ -290,10 +325,10 @@ test("Tests of notification system module.", async function (t) {
   apiDataStub = sinon.stub(apiModule, "apiData").resolves(testItems);
 
   testOutput[0] =
-    "Hi Carl Gmail,<br><br>Based on your selection criteria, we've found some matches this week.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
+    "Hi Carl Gmail,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
 
   testOutput[1] =
-    "Hi Carl Yahoo,<br><br>Based on your selection criteria, we've found some matches this week.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
+    "Hi Carl Yahoo,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
 
   await notificationSystem();
 

@@ -172,8 +172,6 @@ When you execute the above command from the command line, an email will be sent 
 - meat type is poultry.
 - unit price less than or equal to $7.00 per pound.
 
-The email will be sent only if this week's specials contain an item that meets your criteria (e.g. poultry sold for less than $7.00/lb). If no items meet that criteria, no email will be sent.
-
 If you receive this email, the manual test of the notify component has passed :-)
 
 #### Finally, (if desired) configure the notify system to run automatically. To do so, carry out the following steps:

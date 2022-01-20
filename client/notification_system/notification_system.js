@@ -41,6 +41,7 @@ export const notificationModule = {
      * @returns {string}
      */
     const itemMarkup = (items) => {
+      if (!items) return "";
       let markup = "";
       items.forEach((item) => {
         markup = markup.concat("<tr>");
@@ -61,18 +62,16 @@ export const notificationModule = {
       });
       return markup;
     };
-
     for (let i = 0; i < users.length; i++) {
       const matchedItems = priceFilter(
         filter({ currMeat: users[i].meat || "", data: circularItems }),
         users[i].th_price
       );
-      if (matchedItems.length === 0) return;
 
       // This section needs to be cleaned up.  No time right now :-(
       myHtml = "Hi " + users[i].name + ",<br><br>";
       myHtml = myHtml.concat(
-        "Based on your selection criteria, we've found some matches this week." +
+        "Based on your selection criteria, here are this week's matches." +
           "<br><br>"
       );
       myHtml = myHtml.concat("Your selection criteria is:  ");
@@ -96,9 +95,8 @@ export const notificationModule = {
       myHtml = myHtml.concat("</tr>");
       myHtml = myHtml.concat(itemMarkup(matchedItems));
       myHtml = myHtml.concat("</table>");
-
       sendMail.sendMail(
-        `Grocery Specials For + ${matchedItems[0].valid_from} - ${matchedItems[0].valid_to}`,
+        `Grocery Specials For + ${circularItems[0].valid_from} - ${circularItems[0].valid_to}`,
         myHtml,
         myHtml,
         users[i].email
