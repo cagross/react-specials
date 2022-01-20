@@ -220,14 +220,14 @@ test("Tests of notification system module.", async function (t) {
   const sampleUsers = [
     {
       meat: "beef",
-      name: "Carl Gmail",
-      email: "cagross@gmail.com",
+      name: "Graham McAllister",
+      email: "email@example.com",
       th_price: 1.99,
     },
     {
       meat: "all",
-      name: "Carl Yahoo",
-      email: "cag8f@yahoo.com",
+      name: "Arnold Leland",
+      email: "email@domain.com",
       th_price: 4.99,
     },
   ];
@@ -271,10 +271,10 @@ test("Tests of notification system module.", async function (t) {
   apiDataStub = sinon.stub(apiModule, "apiData").resolves(testItems);
 
   testOutput[0] =
-    "Hi Carl Gmail,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
+    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
 
   testOutput[1] =
-    "Hi Carl Yahoo,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
+    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
 
   await notificationSystem();
 
@@ -325,10 +325,10 @@ test("Tests of notification system module.", async function (t) {
   apiDataStub = sinon.stub(apiModule, "apiData").resolves(testItems);
 
   testOutput[0] =
-    "Hi Carl Gmail,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
+    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
 
   testOutput[1] =
-    "Hi Carl Yahoo,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
+    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
 
   await notificationSystem();
 
