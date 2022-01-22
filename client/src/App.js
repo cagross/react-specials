@@ -144,27 +144,6 @@ Results.propTypes = {
 /* End code to send a GET request to the /checkauth route.*/
 
 /**
- * Return the value of a cookie, given the cookie key.
- * @param {string} c_name
- * @returns {string}
- */
-const getCookie = (c_name) => {
-  var c_value = " " + document.cookie;
-  var c_start = c_value.indexOf(" " + c_name + "=");
-  if (c_start === -1) {
-    c_value = null;
-  } else {
-    c_start = c_value.indexOf("=", c_start) + 1;
-    var c_end = c_value.indexOf(";", c_start);
-    if (c_end === -1) {
-      c_end = c_value.length;
-    }
-    c_value = unescape(c_value.substring(c_start, c_end));
-  }
-  return c_value;
-};
-
-/**
  * App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
  * @returns
  */
@@ -179,11 +158,8 @@ function App() {
    * @returns {Object}
    */
   const fetchData = () => {
-    const origin =
-      getCookie("isProd") === "true"
-        ? "https://gentle-gorge-04163.herokuapp.com"
-        : "http://localhost:5555";
-    return fetch(origin + "/items")
+    const origin = window.location.href;
+    return fetch(origin + "items")
       .then((response) => {
         console.log("Items found.");
         return response.json();

@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.c0c7ab6a.css",
-    "main.js": "/static/js/main.cd16802b.js",
+    "main.js": "/static/js/main.988975a0.js",
     "static/media/all-meat-250.jpg": "/static/media/all-meat-250.f6ca237d2eebd2658d05.jpg",
     "static/media/ribs-250.jpg": "/static/media/ribs-250.87ba6dd353710c84a756.jpg",
     "static/media/beef-250.jpg": "/static/media/beef-250.7d5a4b10c8910d34fa98.jpg",
     "static/media/chicken-250.jpg": "/static/media/chicken-250.a1a457f0b409d7d80f19.jpg",
     "index.html": "/index.html",
     "main.c0c7ab6a.css.map": "/static/css/main.c0c7ab6a.css.map",
-    "main.cd16802b.js.map": "/static/js/main.cd16802b.js.map"
+    "main.988975a0.js.map": "/static/js/main.988975a0.js.map"
   },
   "entrypoints": [
     "static/css/main.c0c7ab6a.css",
-    "static/js/main.cd16802b.js"
+    "static/js/main.988975a0.js"
   ]
 }

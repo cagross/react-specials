@@ -32,20 +32,6 @@ const fetchData = apiModule.apiData;
 import { loginController } from "./controllers/loginController.js";
 const loginPost = loginController.loginPost;
 
-/**
- * Return a middleware function which sends a cookie to a route.
- * @param {string} route - Route to send cookie.
- * @param {string} cookieName - Name of cookie.
- * @param {any} cookieValue - Value of cookie.
- * @returns {function}
- */
-const attachCookie = (route, cookieName, cookieValue) => {
-  return function (req, res, next) {
-    if (req.url == route) res.cookie(cookieName, cookieValue);
-    next();
-  };
-};
-
 //This function call contains a callback, which is called when a user sends a username/password via POST to the login route.
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
@@ -175,9 +161,7 @@ passport.deserializeUser((id, done) => {
 });
 
 /* Begin middleware to ensure React app is served at root URL. */
-if (process.env.PORT) app.use(attachCookie("/", "isProd", "true"));
 app.use("/", (req, res, next) => {
-  console.log("Attaching cookie.");
   express.static(path.join(__dirname, "client", "build"))(req, res, next);
 });
 app.use(express.static("public"));
