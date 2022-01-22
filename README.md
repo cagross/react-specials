@@ -198,9 +198,9 @@ When editing the front-end React app--i.e. any file in the `client/src` folder--
 
 `npm run build`
 
-## 🚀 Deploy <a name="deploy"></a>
+## 🚀 Deploy and Demo <a name="deploy"></a>
 
-I have deployed my app to a live server--hosted by Heroku. The browse component of that app can be seen [here](https://gentle-gorge-04163.herokuapp.com/). The notify component is configured to run once a week.
+I have deployed a working demo of this app to a live server--hosted by Heroku. The browse component of that app can be seen [here](https://gentle-gorge-04163.herokuapp.com/). Users can register for an account, and after they will receive an email from the notify component once a week.
 
 ## :heavy_check_mark: Tests <a name = "tests"></a>
 
