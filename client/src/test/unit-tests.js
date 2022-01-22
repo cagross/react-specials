@@ -59,7 +59,6 @@ test("Test of register module.", async function (t) {
 
   const registerHandler = register_post[6];
 
-  // const doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
   doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
 
   saveToDbStub = sinon.stub(saveToDb, "saveToDb").resolves(true);

@@ -21,13 +21,16 @@ describe("Submitting Registration Form", () => {
     cy.get("select").select(sampleUser.meatPref);
     cy.get("input[name=price]").type(sampleUser.price);
 
-    cy.get("#button").click(); // Click on button
+    cy.get("#button").click(); // Click submit button
 
+    //Assert fetch request is made with correct params.
     cy.wait("@getSearch").its("request.url").should("include", route);
     cy.get("@getSearch").its("request.body").should("deep.equal", sampleUser);
     cy.get("@getSearch").its("request.method").should("equal", method);
     cy.get("@getSearch").its("request.headers").should("include", {
       "content-type": "application/json",
     });
+
+    cy.contains("Thank"); //Assert confirmation message is displayed.
   });
 });

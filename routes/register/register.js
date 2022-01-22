@@ -8,6 +8,11 @@ export function regSubmitHandler(e) {
   console.log("Inside registration submit handler.");
   e.preventDefault();
 
+  const confirmText = document.createTextNode(
+    "Thank you for your submission. Your user has been created."
+  );
+  document.getElementById("confirm").appendChild(confirmText);
+
   fetch("/register", {
     method: "POST",
     body: JSON.stringify({
