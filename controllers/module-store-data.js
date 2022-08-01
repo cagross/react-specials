@@ -25,7 +25,7 @@ export const storeData = {
 
     // Temporarily hardcode store data for specific search parameters.
     fetchResult =
-      zip === "22042" && radius === 2
+      zip === "22042" && radius === "2"
         ? {
             stores: [
               {
