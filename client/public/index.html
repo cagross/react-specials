@@ -4,9 +4,6 @@
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
 
-    <!-- <style type="text/css">
-        @import url(../src/assets/animate.css);
-    </style> -->
 
     <meta
       name="viewport"
@@ -32,23 +29,40 @@
       <header class="header">
         <div>Grocery Specials</div>
         <div class="header__desc">
-          Select a type of meat and the page will display which items from your
-          selection are on sale this week.<br />
-          The app currently displays deli/meat specials from one single grocery
-          store, in Arlington, Virginia, USA.<br />
-          For questions, comments, concerns,
+          <!-- <p>Enter a zip code and search radius and search for Giant Food stores in that area. If  stores are found, the page will display which items are on sale this week.</p> -->
+          <p>The zip code and search radius are temporarily locked to specific values.  Click the search button and the app will search for Giant Food stores in the specified area. If stores are found, the page will display which items are on sale this week.</p>
+          <p>After, use the buttons below to filter your results by different categories.</p>
+          <p>For questions, comments, concerns, visit this 
           <a href="https://github.com/cagross/react-specials/tree/master"
-            >visit this repo on GitHub</a
-          >.
+            >GitHub repo</a
+          >.</p>
+          <!-- <p><i>Note: If you are physically located outside of the United States, the search feature may not function properly.</i></p> -->
         </div>
       </header>
-      <main>
+      <section class="search">
+        <form id="searchform" class="search__form">
+          <label for="zip" class="search__label">Zip Code:
+          <input
+            type="text"
+            name="zip"
+            placeholder="e.g. 22042"
+            class="search__txtinput" value="22042" disabled
+          />
+        </label>
+          <label for="radius" class="search__label">Radius (miles):
+          <input
+            type="number"
+            name="radius"
+            placeholder="e.g. 3"
+            class="search__txtinput" value=2 disabled
+          />
+        </label>
+          <input type="submit" id="button" class='search__button' value="Search"/>
+        </form>
+      </section>
+      <main class="main">
         <div id="root"></div>
       </main>
-      <footer id="footer">Footer goes here.</footer>
-    </div>
-    <!-- <script crossorigin src="https://unpkg.com/react-transition-group@2.2/dist/react-transition-group.js"></script> -->
-    <!-- <script crossorigin src="https://unpkg.com/react-transition-group/dist/react-transition-group.js"></script> -->
-    <!-- <script>window.ReactTransitionGroup || document.write('<script crossorigin src="../../../node_modules/react-transition-group/dist/react-transition-group.js"><\/script>')</script> -->
+      <footer class="footer">Footer goes here.</footer>
   </body>
 </html>

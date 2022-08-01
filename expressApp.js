@@ -5,34 +5,32 @@
  */
 
 import * as path from "path";
-const __dirname = path.resolve();
-
 import express from "express";
-const app = express();
-
 import { v4 } from "uuid";
 import session from "express-session";
 import connect from "connect-mongodb-session";
-const MongoDBStore = connect(session);
-
 import passport from "passport";
 import passportLocal from "passport-local";
-const LocalStrategy = passportLocal.Strategy;
-
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import createModelModule from "./models/createModel.js";
+import * as registerController from "./controllers/registerController.js";
+import { loginController } from "./controllers/loginController.js";
+import { config } from "./src/config/config.js";
+import * as itemsController from "./controllers/itemsController.js";
+
+const __dirname = path.resolve();
+const app = express();
+
+const MongoDBStore = connect(session);
+
+const LocalStrategy = passportLocal.Strategy;
+
 const createModel = createModelModule.createModel;
 
-import { config } from "./src/config/config.js";
-import * as registerController from "./controllers/registerController.js";
-import { apiModule } from "./controllers/module-data.js";
-const fetchData = apiModule.apiData;
-
-import { loginController } from "./controllers/loginController.js";
 const loginPost = loginController.loginPost;
 
-//This function call contains a callback, which is called when a user sends a username/password via POST to the login route.
+// This function call contains a callback, which is called when a user sends a username/password to the POST /login route.
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
     console.log("Inside local strategy callback.");
@@ -56,20 +54,14 @@ passport.use(
             mongoose.connection.close();
             return console.log("error:  " + err);
           } else {
-            console.log(
-              `match is of type: ${typeof match} with length ${match.length}`
-            );
             const isMatch = (element) => {
               return element.email === email;
             };
             const myIndex = match.findIndex(isMatch);
             if (myIndex > -1) {
-              console.log("Local strategy returned true. User object is:");
-              console.log(match[myIndex]);
+              console.log("Local strategy returned true.");
               mongoose.connection.close();
               const user = match[myIndex];
-              console.log(`password: ${password}`);
-              console.log(`user.password: ${user.password}`);
               if (!bcrypt.compareSync(password, user.password)) {
                 console.log("Incorrect password for that user.");
                 return done(null, false, {
@@ -89,16 +81,15 @@ passport.use(
         });
       })
       .catch((err) => {
-        console.log(123);
+        console.log("Error with local strategy:");
         console.log(err);
       });
   })
 );
 
 // Tell passport how to serialize the user.
-// This function call defines a callback, which is called after the passport.use() call is successful, i.e. after passport.use() has confirmed the username/password corresponds to a valid user in the database.
+// This function call defines a callback, which is called after the passport.use() call is successful, e.g. after passport.use() has confirmed the username/password corresponds to a valid user in the database.
 // The callback serializes the user's database ID, and then passes it to the next function.
-
 passport.serializeUser((user, done) => {
   console.log(
     "Inside serializeUser callback. User id is saved to the session file store here."
@@ -109,8 +100,6 @@ passport.serializeUser((user, done) => {
 // This function call defines a callback, which is called after the user has already successfully logged in, left the page, and sent a new HTTP request to a route requiring authentication. The session store is then checked to see if it contains the session ID of the HTTP request. If yes, the corresponding user ID is passed to the callback defined below. The callback uses the user ID to lookup the user's data from the user table, then passes it to the next function.
 passport.deserializeUser((id, done) => {
   console.log("Inside deserializeUser callback");
-  console.log(`The user id passport saved in the session file store is: ${id}`);
-
   const promiseDbConnect = createModel("users", [
     "name",
     "email",
@@ -126,25 +115,16 @@ passport.deserializeUser((id, done) => {
     .then((myModel) => {
       myModel.find({}, function (err, match) {
         console.log("Inside deserialize user find callback.");
-        // console.log(
-        //   `match is of type: ${typeof match} with length ${match.length}`
-        // );
-
         if (err) {
           mongoose.connection.close();
           return console.log("error:  " + err);
         } else {
-          console.log(
-            `match is of type: ${typeof match} with length ${match.length}`
-          );
           const isMatch = (element) => {
             return element.id === id;
           };
           const myIndex = match.findIndex(isMatch);
           let myUser;
           if (myIndex > -1) {
-            console.log("Local strategy returned true. User object is:");
-            console.log(match[myIndex]);
             mongoose.connection.close();
             myUser = match[myIndex];
             return done(null, myUser);
@@ -156,6 +136,7 @@ passport.deserializeUser((id, done) => {
       });
     })
     .catch((err) => {
+      console.log("Error with deserialize user:");
       console.log(err);
     });
 });
@@ -174,17 +155,14 @@ const myMongoStore = new MongoDBStore({
   collection: currConfig.sessionStoreCollName,
 });
 myMongoStore.on("error", function (error) {
-  console.log("error 2");
+  console.log("Error with MongoDBStore:");
   console.log(error);
 });
-// Add & configure session middleware.
 // This function call creates a new session, with a unique session ID, and stores it in the session store (created above).
 app.use(
   session({
     genid: (req) => {
-      console.log("Inside the session middleware");
-      console.log(req.sessionID);
-      return v4(); // use UUIDs for session IDs
+      return v4(); // Use UUIDs for session IDs
     },
     store: myMongoStore,
     secret: currConfig.sessionSecret,
@@ -192,16 +170,13 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 //Begin using Passport.
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/items", async (req, res) => {
-  console.log("Inside GET /items callback function");
-  res.send(await fetchData());
-});
+app.post("/items", express.json(), itemsController.items_post);
 
-// create the login get and post routes
 app.get("/login", (req, res) => {
   console.log("Inside GET /login callback function");
   res.send(`You got the login page!\n`);
@@ -213,10 +188,7 @@ app.get("/profile", (req, res) => {
   console.log("Inside GET /profile callback");
   console.log(`User authenticated? ${req.isAuthenticated()}`);
   if (req.isAuthenticated()) {
-    res.send(`
-      You hit the authentication endpoint.\n
-      Your username is: ${req.user.email}.  
-      `);
+    res.send("You hit the authentication endpoint.");
   } else {
     const baseUrl = `${req.protocol}://${req.headers.host}`;
     const myURL = new URL(baseUrl);
@@ -225,13 +197,7 @@ app.get("/profile", (req, res) => {
 });
 app.get("/checkauth", (req, res) => {
   console.log("Inside GET /checkauth callback");
-  console.log(`User authenticated? ${req.isAuthenticated()}`);
   if (req.isAuthenticated()) {
-    // res.send(`
-    //   You hit the authentication endpoint.\n
-    //   Your username is: ${req.user.email}.
-    //   `);
-    // res.send(555);
     res.json({
       user: {
         name: req.user.name,
@@ -254,13 +220,11 @@ app.use("/register", (req, res, next) => {
 
 app.get("/register", (req, res) => {
   console.log("Inside GET /register callback function");
-  console.log("req.sessionID");
-  console.log(req.sessionID);
   res.sendFile(path.join(__dirname, "routes", "register", "register.html"));
 });
 
 app.post("/register", express.json(), registerController.register_post);
 
 export default {
-  app: app,
+  app,
 };

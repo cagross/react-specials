@@ -5,6 +5,10 @@
       {
         "match": "(?<!(node_modules.*))(.js)",
         "cmd": "node client/src/test/unit-tests.js"
+      },
+      {
+        "match": "(?<!(node_modules.*))(.js)",
+        "cmd": "node client/src/test/unit-tests-data.js"
       }
     ]
   },

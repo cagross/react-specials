@@ -14,13 +14,17 @@
 </p>
 </div>
 
-This web app automatically reads the current specials in the meat/deli department for one specific grocery store (with more to come). From that, it does two things:
+This browser-based app allows users to search for grocery stores in a particular area, then fetches the current specials from those stores. After, it does two things:
 
 - Displays the specials on a web page, in a filterable list.
+
+- Calculates and displays the unit cost of each item.
 
 - Allows users to select their favorite items, as well as a threshold price on each item. The app will then email the user once any of those items go on sale for less than their threshold price.
 
 This is a passion project of mine, built with ReactJS. It is by no means complete. See the [To-Do List](#to_do_list) below for future plans.
+
+For a working demo of this app, please visit: https://gentle-gorge-04163.herokuapp.com
 
 ## 📝 Table of Contents
 
@@ -43,7 +47,7 @@ The two components of this app help alleviate these issues:
 - Browse component: Displays the weekly specials for multiple stores in a single list, which is easy to browse, search, etc.
 - Notify component (optional): Automatically emails you when your favorite items go on sale for below a threshold price. For example, you can receive an email whenever ribeye steaks go on sale for less than $5.00/lb.
 
-_Note: Currently, both the browse component and the notify component use the weekly specials from only one specific store. See the footnote in the [Usage section](#usage) for more information._
+_Note: Currently both components use the weekly specials from only one single grocery store chain. See the footnote in the [Usage section](#usage) for more information._
 
 ## :information_source: Technology Stack <a name = "technology_stack"></a>
 
@@ -54,19 +58,20 @@ _Note: Currently, both the browse component and the notify component use the wee
 | ![Images of various prepared meat items.](images-readme/logo-express-100.png "Grocery Specials screenshot") | [Express](https://expressjs.com/)   | Web Server Environment                                                                                             |
 | ![Images of various prepared meat items.](images-readme/logo-mongodb-100.jpg "Grocery Specials screenshot") | [MongoDB](https://www.mongodb.com/) | Database                                                                                                           |
 
-## ⛏️ Installation <a name = "installation"></a>
+## ⛏️ Installation and Configuration <a name = "installation"></a>
 
-This section should help you get a copy of the project up and running on your local machine for development and testing purposes. The instructions are separated into those which setup the app's browse component, and those which setup the app's notify component.
+This section should help you get a copy of the project up and running on your local machine for development and testing purposes. The instructions are separated into those which setup the app's browse component, and those which setup the app's notify component. Neither component is required, i.e. you can configure the browse component for use without configuring the notify component (and vice versa).
 
 ### Prerequisites
 
 - Node.js installed on your system. I'm not sure on the absolute minimum version required, but I can say that to date, the majority of development has been with Node versions 12 and 13.
-- Access to a valid GMail account (or other email account).
+- Access to a valid GMail account (or other email account allowing you to send emails). Required for the notify component only.
 - Ability to create a MongoDB Atlas database (any plan--including the free plan--should be sufficient).
+- If you are physically located outside of the United States, the store search feature may not function properly. You may have to first install a VPN, enable it, and connect to a US-based location.
 
 ### Install the Project
 
-1. Clone: Clone the GitHub project to your local machine. Here are more resources on how to do that:
+1. Clone: Clone this GitHub project to your local machine. Here are more resources on how to do that:
 
 - [Git Basics - Getting a Git Repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository)
 - [`git-clone` documentation](https://git-scm.com/docs/git-clone)
@@ -89,37 +94,54 @@ This should complete without any errors (warnings are OK).
 | ----------------- | ---------------------------------------------------------- |
 | SP_SESSION_SECRET | String of text of your choosing. Length: 20-50 characters. |
 
-### Configure the notify component (optional)
+### Configure the notify component
 
 Configuring this component is a little trickier, and admittedly fragile for now. I want to improve it. But for now, drop me a message if you get stuck.
 
-1. Create a MongoDB database using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). A free plan should suffice. Name the database:
+1. Using a MongoDB plan (a free plan should suffice), create two different MongoDB databases using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). The database names should be:
 
-`sp_back`
+- `sp_back`
+- `connect_mongodb_session_test`
 
-2. To your database, add a collection named:
+2. To your `sp_back` database, add a collection named:
 
 `users`
 
-3. On your local system, create two environmental variables:
+3. Ensure the `users` collection has the following fields and types.
 
-| variable name | variable value                            |
-| ------------- | ----------------------------------------- |
-| SP_DB_USER    | Username for your newly created database. |
-| SP_DB_PASS    | Password for your newly created database. |
+| field name | type       |
+| ---------- | ---------- |
+| name       | String     |
+| email      | String     |
+| meat       | String     |
+| th_price   | Decimal128 |
+| password   | String     |
 
-4. Obtain access to a Gmail account that will allow access from a third party app. To configure a Gmail account to allow access from a third party app, see [these instructions](https://support.google.com/mail/answer/185833?hl=en-GB).
+4. To your `connect_mongodb_session_test` database, add a collection named:
+
+`mySessions`
+
+35 Ensure the `mySessions` collection has the following fields and types.
+
+| field name | type   |
+| ---------- | ------ |
+| expires    | Date   |
+| sessions   | Object |
+
+7. Obtain access to a Gmail account that will allow access from a third party app. To configure a Gmail account to allow access from a third party app, see [these instructions](https://support.google.com/mail/answer/185833?hl=en-GB).
 
 If you cannot setup a Gmail account, it _is_ possible to use a non-Gmail account. But if you do so, you will have to manually make edits to the project file `client/notification_system/notification_system.js`. Specifically, you'll have to edit the object passed to `createTransport()` and ensure it reflect the details of your email provider.
 
 <img src="images-readme/sp-notify-code.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
 
-5.  On your local system, create two environmental variables:
+8.  On your local system, create four environmental variables:
 
-| variable name | variable value                                           |
-| ------------- | -------------------------------------------------------- |
-| SP_EMAIL_USER | Username for your email account.                         |
-| SP_EMAIL_PASS | Password for your email account (or Gmail app password). |
+| variable name | variable value                                             |
+| ------------- | ---------------------------------------------------------- |
+| SP_DB_USER    | _Username for your newly created database._                |
+| SP_DB_PASS    | _Password for your newly created database._                |
+| SP_EMAIL_USER | _Username for your email account._                         |
+| SP_EMAIL_PASS | _Password for your email account (or Gmail app password)._ |
 
 ## 💻 Usage <a name="usage"></a>
 
@@ -133,9 +155,9 @@ That should complete without issue, with output reading: `Server running on port
 
 2. Open your browser to `http://localhost:5555` and it should display the app's browse component. You should see something similar to the screenshot depicted in at the very top of this README ([link here](#header)).
 
-On the screen, all of the items from the deli/meat department should be listed, along with their details, price, and if possible, their unit price.
+On the screen should be a small search form, requiring you to enter a US zip code and a radius (in miles). Once a search is executed, and results are found, all of the items from the deli/meat department should be listed--for all stores in the search area. In addition, each item will also display its details, price, and if possible, unit price.
 
-To filter by different meat types (beef, chicken, or pork), use the radio buttons at the top of the page.
+To filter results by different meat types (beef, chicken, or pork), use the large radio buttons on the page.
 
 _Note: For now, the browse component is best viewed on desktop devices. The layout is quite broken at tablet/mobile screen widths._
 
@@ -167,7 +189,7 @@ For example, let's say you created a user with with the following data:
 | Meat Preference | poultry              |
 | Threshold Price | 7.0                  |
 
-When you execute the above command from the command line, an email will be sent to john.doe@example.com. The email will contain a list of all items from this week's specials that meet all of the following criteria:
+When you execute the above command from the command line, an email will be sent to john.doe@example.com. The email will contain a list of all items from this week's specials that satisfy all of the following criteria:
 
 - meat type is poultry.
 - unit price less than or equal to $7.00 per pound.
@@ -176,7 +198,7 @@ If you receive this email, the manual test of the notify component has passed :-
 
 #### Finally, (if desired) configure the notify system to run automatically. To do so, carry out the following steps:
 
-There are many ways to ensure the notify component runs automatically. The way I have done it first requires that you first deploy the app the Heroku ( see the [Deploy section](#deploy)), then carry out the following steps:
+There are many ways to ensure the notify component runs automatically. The way I have done it requires that you first deploy the app to Heroku (sorry, no instructions yet). Once the app is deployed to Heroku, carry out the following steps:
 
 - Open the [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) for your deployed app, and click 'Add Job.' This will open the Job Editor (see screenshot below). This will execute a particular command on a set schedule. See next steps for configuration.
 
@@ -190,33 +212,35 @@ There are many ways to ensure the notify component runs automatically. The way I
 
 ---
 
-_Note: In its current state, the app fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
+_Note: In its current state, the notify system fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
 
 ## :memo: Edits <a name="edits"></a>
 
-When editing the front-end React app--i.e. any file in the `client/src` folder--note that before you can see those changes in your browser, you'll need to rebuild React. To do that, from your command line navigate to the project's `client` directory and execute:
+- Front-end edits: When editing the front-end React app--i.e. any file in the `client/src` folder--note that before you can see those changes in your browser, you'll need to rebuild the React app. To do that, from your command line navigate to the project's `client` directory and execute:
 
 `npm run build`
 
+- Back-end edits: When editing the back-end files, e.g. most other files--including those in the `controllers`, `models`, `routes`, or `src` folders--note that before your web server can see those changes, you'll need to restart the Express app. To do that, from your command line navigate to the project's root directory and execute `npm start`. If you carried out that step _before_ making your edits, then you should not have to re-execute `npm start`--the server should automatically restart after you saved your edits.
+
 ## 🚀 Deploy and Demo <a name="deploy"></a>
 
-I have deployed a working demo of this app to a live server--hosted by Heroku. The browse component of that app can be seen [here](https://gentle-gorge-04163.herokuapp.com/). Users can register for an account, and after they will receive an email from the notify component once a week.
+I have deployed a working demo of this app to a live server--hosted by Heroku. The app can be viewed in a browser [here](https://gentle-gorge-04163.herokuapp.com/). From there you can use the browse component of the app, as well as register for an account. After registration, users should receive a weekly email from the notify component.
 
-## :heavy_check_mark: Tests <a name = "tests"></a>
+## :heavy_check_mark: Automated Tests <a name = "tests"></a>
 
-Automated tests are a mix of unit tests and end-to-end tests. See below for more information on each.
+The automated tests are currently a mix of unit tests and end-to-end tests. See below for more information on each.
 
 ### Unit Tests
 
-Unit tests are written using the [Tape test runner](https://github.com/substack/tape). They are located in the file `client/src/test/unit-tests.js`. To execute the unit tests in that file, from your command line navigate to the project's root directory and execute:
+Unit tests are written using the [Tape test runner](https://github.com/substack/tape). They are located in the files `client/src/test/unit-tests.js` and `client/src/test/unit-tests-data.js`. To execute the unit tests in each file, from your command line navigate to the project's root directory and execute:
 
-`node test/unit-tests.js`
+`node test/unit-tests.js` or `node test/unit-tests-data.js`
 
 After, output should be printed to the console, similar to this screenshot:
 
 <img src="images-readme/sp-unit-test-output.jpg" alt="Unit test output." title = "Unit test output."/>
 
-Additionally, if you are using VSCode, and have the Run on Save extension enabled, these unit tests will be automatically run whenever a .js file is saved.
+Additionally, if you are using VSCode, and have the Run on Save extension enabled, all unit tests should be automatically run whenever a `.js` file is saved.
 
 ### End-To-End Tests
 
@@ -250,7 +274,6 @@ Here is a list of features/fixes I would like to implement soon:
 
 - [Incorrect prices displayed for items requiring multiple quantities (fixed).](https://github.com/cagross/react-specials/issues/11).
 - [Some unit prices displaying as 'Unknown'.](https://github.com/cagross/react-specials/issues/10)
-- [Increase the number of stores searched by the app.](https://github.com/cagross/react-specials/issues/15https://github.com/cagross/react-specials/issues/15)
 - [Fix price displays bugs in emails sent in notify component.](https://github.com/cagross/react-specials/issues/12).
 - Browse component: Make fully responsive.
 

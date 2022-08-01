@@ -14,14 +14,11 @@
   --price-margin-left: auto;
   --row-display: flex;
   --row-align-items: flex-start;
+  --vertical-margin: 20px 0;
 }
 
 html {
   font-size: 22px;
-  /* font-family: 'Montserrat', sans-serif; */
-}
-body {
-  /* font-family: 'Montserrat', sans-serif; */
 }
 /* This ensures that when an image, or radio button, is clicked, an outline does not appear over it.  */
 :focus {
@@ -45,20 +42,12 @@ body {
 .header {
   border-radius: 15px;
   border: 5px solid #406c1c;
-  margin: 20px 0;
+  margin: var(--vertical-margin);
   color: #333333;
   font-size: 5.5rem;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: "Verdana", "Arial Narrow", Arial, sans-serif;
   text-align: center;
 }
-/* Display header version 2 with this (background image). */
-/* .header {
-    height: 150px;
-    background-image: url("images/header-1-1428-b.jpg");
-    border-radius: 15px;
-    margin-top: 20px;
-    margin-bottom: 20px;    
-} */
 .header__desc {
   font-size: 0.9rem;
   padding: 0 150px 10px 150px;
@@ -67,7 +56,7 @@ body {
 .filter {
   height: 350px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   border: 1px solid #f4eff1;
 }
 
@@ -76,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   font-size: 1.8rem;
 }
 .radio__img {
@@ -259,4 +248,56 @@ body {
 .fade-appear.fade-appear-active {
   opacity: 1;
   transition: opacity 1300ms linear;
+}
+.main {
+  margin: var(--vertical-margin);
+}
+.search {
+  height: 15vh;
+  margin: var(--vertical-margin);
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.search__form {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  margin: 0 50px;
+}
+.search__txtinput {
+  font-size: 1.25rem;
+  padding: 10px 5px;
+  width: 8rem;
+  font-family: "Courier New", Courier, ui-monospace;
+}
+.search__label {
+  font-size: 2rem;
+}
+.search__button {
+  color: #4b081d;
+  border-color: #4b081d;
+  background: transparent;
+  font-size: 2rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border-width: 2px;
+  border-style: solid;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+.search__button:hover {
+  border-radius: 30px;
+}
+.footer {
+  height: 50px;
+  background-color: aliceblue;
+  text-align: right;
+  font-style: italic;
+}
+.noresults {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  background: #1c646c;
 }

@@ -30,6 +30,7 @@ export const saveToDb = {
 
     const modInst = new myModel(myModelParam);
     try {
+      console.log("Saving one circular to db.");
       const saveRes = (await modInst.save()) || {};
       //Return true if save completed successfully.
       if (saveRes === modInst) {

@@ -7,7 +7,6 @@
 
 import React from "react";
 import { CSSTransition } from "react-transition-group"; // Required only for CSS transitions.
-// import './animate.css';// Needed to for the specific CSS transition I'm using ('fade' in this case).
 import "./App.css"; // Import the main CSS file.
 import { useState } from "react"; // This needs to be present in order to use the 'useState' hook.
 import { useEffect } from "react"; // This needs to be present in order to use the 'useEffect' hook.
@@ -20,12 +19,11 @@ import img_ribs from "./images/ribs-250.jpg";
 import logo_giant from "./images/logo-Giant-50.png";
 
 import PropTypes from "prop-types"; // Required to add data type validation on props.
-
 import { filter } from "./module-filter.js";
 import { dispPrice } from "./module-display-price.js";
 
 /**
- * Function to format date.
+ * Format date.
  * @param {String} unform_date
  * @returns {Date}
  */
@@ -44,12 +42,15 @@ function formDate(unform_date) {
  */
 function Results(props) {
   /**
-   *
+   * For one store, filters circular items by meat selection and returns list of HTML elements.
+   * @param {string} meat - Meat selection.
+   * @param {object} items - Circular items from one store.
+   * @returns {Array} - Array of <div> elements.
    */
-  function meatList() {
-    const meatData = filter(props);
+  function meatList(meat, items) {
+    const meatData = filter(meat, items.items);
+
     if (Object.entries(meatData).length) {
-      // Check if the weekly specials array is empty or not.  If it is not empty, execute code.
       return Object.keys(meatData).map(function (key) {
         return (
           <CSSTransition //Ensure each row appears with a CSS fade transition.
@@ -81,13 +82,12 @@ function Results(props) {
                     alt="Logo: Giant Food."
                     src={logo_giant}
                   ></img>
-                  {/* 15/7/19 The store name/address is hard coded here for now.  Once more stores are added, this should be dynamic--read from the API response. */}
                   <div className="row__storaddress">
-                    Giant Food
+                    {items.storeLocation[0]}
                     <br />
-                    7235 Arlington Blvd
+                    {items.storeLocation[1]}
                     <br />
-                    Falls Church, VA 22042
+                    {items.storeLocation[2]}
                   </div>
                 </div>
                 <div className="row__datetext">
@@ -115,51 +115,61 @@ function Results(props) {
             </div>
           </CSSTransition>
         );
-        /* End code to render a row of item information to the page. */
       });
     }
   }
-  console.log("meat changed to " + props.currMeat);
-  return <div>{meatList()}</div>;
+  console.log("Meat selection changed to " + props.currMeat);
+
+  if (typeof props.data === "undefined" || props.data === null)
+    return <div></div>;
+  if (props.data.noStores)
+    return <div class="noresults">No stores found in your search.</div>;
+  if (props.data.error)
+    return <div class="noresults">Error with store search.</div>;
+
+  if (props && Object.keys(props.data).length === 0) return <div></div>;
+
+  //Iterate over each store's circular and return a list of HTML elements.
+  return (
+    <div>
+      {Object.keys(props.data).map((key) =>
+        meatList(props.currMeat, props.data[key])
+      )}
+    </div>
+  );
 }
 
-// Ensure each prop has its type defined.  With these types defined, if code tries to pass a prop with a different type, a JS console error will occur.
+// Ensure each prop has its type defined.
 Results.propTypes = {
   currMeat: PropTypes.string,
-  data: PropTypes.array,
+  data: PropTypes.object,
 };
-
-/* Begin code to send a GET request to the /checkauth route. If logged in, it will return the user object.*/
-// fetch("/checkauth")
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((result) => {
-//     if (result.user) {
-//       console.log("User authenticated.");
-//     } else {
-//       console.log("User not authenticated.");
-//     }
-//   });
-/* End code to send a GET request to the /checkauth route.*/
 
 /**
  * App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
  * @returns
  */
 function App() {
-  /* Use the 'useState' hook to set initial state. */
-  const [data, setData] = useState([]); // Set a piece of state named 'data' to an empty array.  To update that piece of state, run the 'setData()' function.
+  // Use the 'useState' hook to set initial state.
+  const [data, setData] = useState({}); // Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
   const [currentMeat, setMeat] = useState(""); // Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
 
   /**
-   * Call items route on server.
-   * @async
-   * @returns {Object}
+   * Make AJAX call to /items route and return response to browser
+   * @param {string} zip - US zip code.  Center of store search.
+   * @param {number} radius - Radius of store search in miles.
+   * @returns {object} All circular items from all stores found within the zip/radius search parameters.
    */
-  const fetchData = () => {
+  const fetchData = (zip, radius) => {
     const origin = window.location.href;
-    return fetch(origin + "items")
+    const params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ zip: zip, radius: radius }), // body data type must match "Content-Type" header.
+    };
+    return fetch(origin + "items", params)
       .then((response) => {
         console.log("Items found.");
         return response.json();
@@ -173,15 +183,23 @@ function App() {
       });
   };
 
-  /* Execute the 'useEffect' hook to fetch the API data.  Pass an empty array as the second parameter to ensure this is executed only once (on initial page load). */
-  useEffect(() => {
-    (async () => {
-      setData(await fetchData());
-    })();
-  }, []);
+  useEffect(() => {}, []);
+
+  document
+    .querySelector(".search__form")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      setData(
+        await fetchData(
+          document.querySelectorAll(".search__form input")[0].value,
+          document.querySelectorAll(".search__form input")[1].value
+        )
+      );
+    });
 
   /**
-   * Function to ensure the 'meat' piece of state is updated every time the drop-down menu changes, as well as set classes on the radio button elements.
+   * onClick handler for radio buttons.
+   * Update the 'meat' piece of state, as well as set classes on the radio button elements.
    * @param {object} event - Event object.
    */
   function handleInput(event) {
@@ -200,7 +218,6 @@ function App() {
 
   return (
     <div id="content">
-      {/* Add the radio button filter. */}
       <section className="filter">
         <label className="radio" htmlFor="allmeat">
           <img className="radio__img" alt="" src={img_meat}></img>
@@ -261,7 +278,6 @@ function App() {
         <div className="tabhead__price">Unit Price</div>
       </div>
 
-      {/* Insert the list of items. */}
       <section id="items_container">
         <Results currMeat={currentMeat} data={data} />
       </section>
@@ -269,5 +285,4 @@ function App() {
   );
 }
 
-// Export App, so it can be imported by index.js.
 export default App;

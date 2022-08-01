@@ -1,4 +1,5 @@
 /**
+ * Module for notify system.
  * @file
  * @author Carl Gross
  */
@@ -18,25 +19,8 @@ export const notificationModule = {
    * @returns undefined
    */
   main: async () => {
-    const createModel = createModelModule.default.createModel;
-    const circularItems = await apiModule.apiData();
-    const userModel = await createModel("users", [
-      "name",
-      "email",
-      "meat",
-      "th_price",
-    ]);
-    const users = await userModel.find();
-
-    let myHtml;
-
-    let storeMarkup = "";
-    storeLoc.forEach((entry) => {
-      storeMarkup = storeMarkup.concat(entry, "<br>");
-    });
-
     /**
-     * Accepts an array of circular items and returns a string containing HTML markup of those items.
+     * Accepts an array of objects representing circular items, and returns a string containing HTML markup of those items.
      * @param {Object[]} items - Array of circular items.
      * @returns {string}
      */
@@ -62,13 +46,32 @@ export const notificationModule = {
       });
       return markup;
     };
+
+    const createModel = createModelModule.default.createModel;
+    const circularItems = await apiModule.apiData("0233");
+
+    const userModel = await createModel("users", [
+      "name",
+      "email",
+      "meat",
+      "th_price",
+    ]);
+    const users = await userModel.find();
+
+    let myHtml;
+
+    let storeMarkup = "";
+    storeLoc.forEach((entry) => {
+      storeMarkup = storeMarkup.concat(entry, "<br>");
+    });
+
     for (let i = 0; i < users.length; i++) {
       const matchedItems = priceFilter(
-        filter({ currMeat: users[i].meat || "", data: circularItems }),
+        filter(users[i].meat, circularItems),
         users[i].th_price
       );
 
-      // This section needs to be cleaned up.  No time right now :-(
+      // This section needs to be tidied up.  No time right now :-(
       myHtml = "Hi " + users[i].name + ",<br><br>";
       myHtml = myHtml.concat(
         "Based on your selection criteria, here are this week's matches." +

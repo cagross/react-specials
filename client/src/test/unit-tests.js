@@ -1,54 +1,39 @@
-import test from "tape"; // assign the tape library to the variable "test"
-import sinon from "sinon";
-import fetch from "node-fetch";
-import { storeLoc } from "../module-store-location.js";
-import { dispPrice } from "../module-display-price.js";
-import { unitPrice } from "../../../controllers/module-unit-price.js";
-import { spFetch } from "../../../controllers/module-fetch.js";
+/**
+ * Defines unit tests. Uses the Tape test runner.
+ * @file
+ * @author Carl Gross
+ */
 
+import test from "tape";
+import sinon from "sinon";
+import { dispPrice } from "../module-display-price.js";
+import { filter } from "../module-filter.js";
+import { unitPrice } from "../../../controllers/module-unit-price.js";
 import { doSave } from "../../../controllers/module-do-save.js";
 import { saveToDb } from "../../../controllers/module-save-to-db.js";
 import { register_post } from "../../../controllers/registerController.js";
 import * as createModel from "../../../models/createModel.js";
 import { sendMail } from "../../../controllers/module-send-mail.js";
 import { notificationModule } from "../../notification_system/notification_system.js";
-import { apiModule } from "../../../controllers/module-data.js";
 import { loginController } from "../../../controllers/loginController.js";
+import { items_post } from "../../../controllers/itemsController.js";
+import { dataAll } from "../../../controllers/module-data-all.js";
+import { spFetch } from "../../../controllers/module-fetch.js";
 import passport from "passport";
 
-test("Test of data module.", async function (t) {
-  t.comment("Case: circular data does not already exist in database..");
-  let actual, expected;
-  let doSaveStub, saveToDbStub;
-  const sampleResponse = { items: {} };
+test("Test of items module.", async function (t) {
+  const testZip = "22042";
+  const testRadius = 2;
+  const sampleReq = { body: { zip: testZip, radius: testRadius } };
+  const sampleRes = { send: () => {} };
+  const dataAllStub = sinon.stub(dataAll, "dataAll").resolves({ myProp: 555 }); //Ensure at least one property exists in return object.
 
-  saveToDbStub = sinon.stub(saveToDb, "saveToDb");
-  doSaveStub = sinon.stub(doSave, "doSave").resolves(true);
+  await items_post[2](sampleReq, sampleRes);
 
-  //Stub call to fetch so it returns the expected values on each call.
-  const spFetchStub = sinon.stub(spFetch, "spFetch");
-  spFetchStub.onFirstCall().returns({
-    text: () => {
-      return "current_flyer_id";
-    },
-  });
-  spFetchStub.onSecondCall().returns({
-    json: () => {
-      return sampleResponse;
-    },
-  });
-
-  await apiModule.apiData({}, "users");
-
-  actual = saveToDbStub.calledOnceWithExactly(
-    { storeCode: "0233", all_items: sampleResponse },
-    "items"
-  );
-  expected = true;
-  t.equals(actual, expected, "saveToDb called once with correct parameters.");
-
-  doSaveStub.restore();
-  saveToDbStub.restore();
+  const actual = dataAllStub.getCall(0).calledWithExactly(testZip, testRadius);
+  const expected = true;
+  t.equals(actual, expected, "dataAll always called with correct parameters.");
+  dataAllStub.restore();
 
   t.end();
 });
@@ -104,7 +89,6 @@ test("Test of register module.", async function (t) {
       .and(sinon.match.has("dateCreated", sinon.match.date))
       .and(sinon.match.has("userAgent", sampleReq.headers["user-agent"]))
   );
-
   expected = true;
   t.equals(actual, expected, "saveToDb called once with correct parameters.");
 
@@ -214,6 +198,11 @@ test("Tests of login module.", async function (t) {
 
 test("Tests of notification system module.", async function (t) {
   let actual, expected;
+  let sampleResponse1;
+  let fVal1;
+
+  let spFetchStub;
+
   const notificationSystem = notificationModule.main;
 
   const sampleUsers = [
@@ -234,6 +223,7 @@ test("Tests of notification system module.", async function (t) {
     price_text: "/lb",
     valid_from: "Today",
     valid_to: "Tomorrow",
+    category_names: ["Meat"],
   };
   const sampleItems = [
     {
@@ -255,8 +245,10 @@ test("Tests of notification system module.", async function (t) {
     .stub(createModel.default, "createModel")
     .resolves({
       find: () => sampleUsers,
+      findOne: async () => {
+        return true;
+      },
     });
-  let apiDataStub;
   let testItems,
     testOutput = [];
 
@@ -267,13 +259,22 @@ test("Tests of notification system module.", async function (t) {
   testItems[0].unit_price = "8.00";
   testItems[1].current_price = "6.00";
   testItems[1].unit_price = "5.00";
-  apiDataStub = sinon.stub(apiModule, "apiData").resolves(testItems);
+
+  sampleResponse1 = {
+    items: testItems,
+  };
+
+  fVal1 = { ...sampleResponse1 };
+
+  spFetchStub = sinon.stub(spFetch, "spFetch");
+  spFetchStub.onCall(0).returns("current_flyer_id--0123456");
+  spFetchStub.onCall(1).returns(fVal1);
 
   testOutput[0] =
-    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
+    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
 
   testOutput[1] =
-    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
+    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr></table>";
 
   await notificationSystem();
 
@@ -312,7 +313,7 @@ test("Tests of notification system module.", async function (t) {
   );
 
   sendMailStub.resetHistory();
-  apiDataStub.restore();
+  spFetchStub.restore();
 
   t.comment("Case: two users with matches found.");
 
@@ -321,13 +322,22 @@ test("Tests of notification system module.", async function (t) {
   testItems[0].unit_price = "1.00";
   testItems[1].current_price = "3.99";
   testItems[1].unit_price = "3.99";
-  apiDataStub = sinon.stub(apiModule, "apiData").resolves(testItems);
+
+  sampleResponse1 = {
+    items: testItems,
+  };
+
+  fVal1 = { ...sampleResponse1 };
+
+  spFetchStub = sinon.stub(spFetch, "spFetch");
+  spFetchStub.onCall(0).returns("current_flyer_id--0123456");
+  spFetchStub.onCall(1).returns(fVal1);
 
   testOutput[0] =
-    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
+    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
 
   testOutput[1] =
-    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
+    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
 
   await notificationSystem();
 
@@ -367,7 +377,7 @@ test("Tests of notification system module.", async function (t) {
 
   sendMailStub.restore();
   createModelStub.restore();
-  apiDataStub.restore();
+  spFetchStub.restore();
 
   t.end();
 });
@@ -401,7 +411,6 @@ test("Test of save to database.", async function (t) {
   const createModelStub = sinon
     .stub(createModel.default, "createModel")
     .returns(myModelStub);
-  // let doSaveStub = sinon.stub(doSave, "doSave").returns(true);
   doSaveStub = sinon.stub(doSave, "doSave").returns(true);
 
   const saveResult = await saveToDb.saveToDb(circInfo, sampleTbleName);
@@ -425,17 +434,6 @@ test("Test of save to database.", async function (t) {
   t.end();
 });
 
-// This is a trivial test for now.
-test("Test of store location function.", function (t) {
-  const storeLocRes = [
-    "Giant Food",
-    "7235 Arlington Blvd",
-    "Falls Church, VA 22042",
-  ];
-  t.deepEqual(storeLocRes, storeLoc, "Store address.");
-  t.end();
-});
-
 // Item with 'lb' in price description.
 const testObj1 = {
   display_name: "Philly Gourmet Beef Patties",
@@ -443,6 +441,16 @@ const testObj1 = {
   current_price: "12.99",
   pre_price_text: "",
   price_text: "/ea.",
+  valid_to: "2020-09-24",
+  valid_from: "2020-09-18",
+  disclaimer_text: null,
+};
+const testObj2 = {
+  display_name: "Chicken Breast",
+  description: "",
+  current_price: "1.99",
+  pre_price_text: "",
+  price_text: "/lb.",
   valid_to: "2020-09-24",
   valid_from: "2020-09-18",
   disclaimer_text: null,
@@ -563,6 +571,16 @@ const testArr = [
     unit_price: 10,
   },
 ];
+
+test("Tests of filter module.", function (t) {
+  let actual, expected;
+  const sampleItems = [{ ...testObj1 }, { ...testObj2 }];
+  actual = filter("beef", sampleItems);
+  expected = [{ ...testObj1 }];
+  t.deepEquals(actual, expected, "Returns expected result.");
+
+  t.end();
+});
 
 test("Test of display price function.", function (t) {
   let displayedPrice;
