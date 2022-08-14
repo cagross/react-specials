@@ -40,6 +40,10 @@ export function createSchema(tblName, fields) {
       },
     },
   };
+
+  if (!allFieldsTypes.hasOwnProperty(tblName))
+    throw new Error(`${tblName} not defined in schema.`);
+
   const allFields = allFieldsTypes[tblName].allFields;
   const fieldsTypes = {};
 
