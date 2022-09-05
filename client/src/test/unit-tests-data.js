@@ -15,7 +15,7 @@ import { storeData } from "../../../controllers/module-store-data.js";
 
 test("Test of store data module.", async function (t) {
   let actual, expected;
-  actual = await storeData.storeData("22042", 2);
+  actual = await storeData.storeData("22042", "2");
 
   // See module-store-data for this hardcoded data.
   expected = {
@@ -86,7 +86,7 @@ test("Test of data all module.", async function (t) {
   spFetchStub.onCall(2).returns("current_flyer_id--6543210");
   spFetchStub.onCall(3).returns(fVal2);
 
-  actual = await dataAll.dataAll("22042", 2);
+  actual = await dataAll.dataAll("22042", "2");
   expected = {
     "0233": {
       storeLocation: [
@@ -211,7 +211,7 @@ test("Test of data all module.", async function (t) {
   spFetchStub.onCall(5).returns("sampletext");
   spFetchStub.onCall(6).returns(emptyItems);
 
-  const myResult = await dataAll.dataAll("22042", 10);
+  const myResult = await dataAll.dataAll("22042", "10");
   actual = Object.keys(myResult).length;
   expected = maxNumStores;
   t.deepEquals(actual, expected, "Store data capped at three stores.");
