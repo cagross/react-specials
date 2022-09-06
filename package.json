@@ -4,6 +4,9 @@
     "verbose": true
   },
   "type": "module",
+  "engines": {
+    "node": ">=14.x"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
