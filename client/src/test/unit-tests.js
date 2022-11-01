@@ -198,6 +198,9 @@ test("Tests of login module.", async function (t) {
 
 test("Tests of notification system module.", async function (t) {
   let actual, expected;
+
+  t.comment("Test of method: main.");
+
   let sampleResponse1;
   let fVal1;
 
@@ -378,6 +381,28 @@ test("Tests of notification system module.", async function (t) {
   sendMailStub.restore();
   createModelStub.restore();
   spFetchStub.restore();
+
+  t.comment("Test of method: shouldIRun.");
+  const shouldIRun = notificationModule.shouldIRun;
+  let sampleDateCurrent, sampleDateOfLastExecution;
+
+  t.comment("Case: On initialization of setInterval.");
+
+  sampleDateCurrent = new Date("2022-10-30");
+  sampleDateOfLastExecution = undefined;
+
+  actual = shouldIRun(sampleDateCurrent, sampleDateOfLastExecution);
+  expected = true;
+  t.equals(actual, expected, "Returns expected result.");
+
+  t.comment("Case: First iteration of setInterval (on a one day tolerance).");
+
+  sampleDateCurrent = new Date("2022-10-30");
+  sampleDateOfLastExecution = new Date(sampleDateCurrent.getTime() - 86400001);
+
+  actual = shouldIRun(sampleDateCurrent, sampleDateOfLastExecution);
+  expected = true;
+  t.equals(actual, expected, "Returns expected result.");
 
   t.end();
 });

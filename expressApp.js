@@ -18,6 +18,7 @@ import * as registerController from "./controllers/registerController.js";
 import { loginController } from "./controllers/loginController.js";
 import { config } from "./src/config/config.js";
 import * as itemsController from "./controllers/itemsController.js";
+import { notificationModule } from "./client/notification_system/notification_system.js";
 
 const __dirname = path.resolve();
 const app = express();
@@ -224,6 +225,8 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", express.json(), registerController.register_post);
+
+notificationModule.scheduler();
 
 export default {
   app,
