@@ -388,7 +388,8 @@ test("Tests of notification system module.", async function (t) {
 
   t.comment("Case: On initialization of setInterval.");
 
-  sampleDateCurrent = new Date("2022-10-30");
+  sampleDateCurrent = new Date("2022-11-02"); //Date falls on a Wednesday.
+
   sampleDateOfLastExecution = undefined;
 
   actual = shouldIRun(sampleDateCurrent, sampleDateOfLastExecution);
@@ -397,7 +398,7 @@ test("Tests of notification system module.", async function (t) {
 
   t.comment("Case: First iteration of setInterval (on a one day tolerance).");
 
-  sampleDateCurrent = new Date("2022-10-30");
+  sampleDateCurrent = new Date("2022-11-02"); //Date falls on a Wednesday.
   sampleDateOfLastExecution = new Date(sampleDateCurrent.getTime() - 86400001);
 
   actual = shouldIRun(sampleDateCurrent, sampleDateOfLastExecution);
