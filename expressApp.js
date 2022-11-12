@@ -226,6 +226,7 @@ app.get("/register", (req, res) => {
 
 app.post("/register", express.json(), registerController.register_post);
 
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === "production") notificationModule.scheduler();
 
 export default {

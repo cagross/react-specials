@@ -119,8 +119,12 @@ export const notificationModule = {
    */
   shouldIRun: (date1, date2) => {
     console.log(`${new Date()} Checking shouldIRun...`);
-    if (date1.getDay() !== 3) return false;
+    console.log(date1);
+    console.log(date1.getDay());
+    if (date1.getDay() !== 6) return false;
+    console.log(date2);
     if (!date2) return true;
+    console.log(date1 - date2);
     if (date1 - date2 > 86400000) return true; // 1 day = 86400000 ms
     return false;
   },
