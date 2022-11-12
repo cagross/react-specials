@@ -206,7 +206,7 @@ function App() {
     setMeat(event.target.value);
 
     // Add necessary CSS classes to radio button elements, ensuring their animations function as expected.
-    const radButtons = document.getElementsByTagName("input");
+    const radButtons = document.getElementsByClassName(".radio__input");
     for (let i = 0; i < radButtons.length; i++) {
       if (radButtons[i].value === event.target.value) {
         radButtons[i].className = "radio__input animated heartBeat";
