@@ -382,29 +382,6 @@ test("Tests of notification system module.", async function (t) {
   createModelStub.restore();
   spFetchStub.restore();
 
-  t.comment("Test of method: shouldIRun.");
-  const shouldIRun = notificationModule.shouldIRun;
-  let sampleDateCurrent, sampleDateOfLastExecution;
-
-  t.comment("Case: On initialization of setInterval.");
-
-  sampleDateCurrent = new Date("2022-11-02"); //Date falls on a Wednesday.
-
-  sampleDateOfLastExecution = undefined;
-
-  actual = shouldIRun(sampleDateCurrent, sampleDateOfLastExecution);
-  expected = true;
-  t.equals(actual, expected, "Returns expected result.");
-
-  t.comment("Case: First iteration of setInterval (on a one day tolerance).");
-
-  sampleDateCurrent = new Date("2022-11-02"); //Date falls on a Wednesday.
-  sampleDateOfLastExecution = new Date(sampleDateCurrent.getTime() - 86400001);
-
-  actual = shouldIRun(sampleDateCurrent, sampleDateOfLastExecution);
-  expected = true;
-  t.equals(actual, expected, "Returns expected result.");
-
   t.end();
 });
 

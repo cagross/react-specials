@@ -106,43 +106,4 @@ export const notificationModule = {
       );
     }
   },
-
-  /**
-   * Compare two datetime objects.
-   * Return true if any  of the following are met:
-   * --The first date is on a Wednesday and the second date is null/undefined.
-   * --The first date is on a Wednesday and the first date is more than one day after the second date.
-   * Return false otherwise.
-   * @param {object} date1 - Datetime object representing current date.
-   * @param {object} date2 - Datetime object representing previous date.
-   * @returns {boolean}
-   */
-  shouldIRun: (date1, date2) => {
-    console.log(`${new Date()} Checking shouldIRun...`);
-    console.log(date1);
-    console.log(date1.getDay());
-    if (date1.getDay() !== 6) return false;
-    console.log(date2);
-    if (!date2) return true;
-    console.log(date1 - date2);
-    if (date1 - date2 > 86400000) return true; // 1 day = 86400000 ms
-    return false;
-  },
-
-  /**
-   * Check if the notification system should be run.  Check occurs once per hour.
-   * Note: This is not the most rock solid scheduler ever.  For example, if there is an outage all day Wednesday, this scheduler will not auto-resume when the system comes back online on Monday.  It will resume the following Wednesday.
-   * Note: There could be a memory leak associated with this type of setInterval usage. The following link alludes to one, but I did not confirm whether it applied in this case (https://javascript.info/settimeout-setinterval).
-   */
-  scheduler: () => {
-    let dateOfLastExecution;
-    setInterval(() => {
-      const dateCurrent = new Date();
-      if (!notificationModule.shouldIRun(dateCurrent, dateOfLastExecution))
-        return;
-      console.log("Starting notification system.");
-      notificationModule.main();
-      dateOfLastExecution = dateCurrent;
-    }, 3600000); //1 hour = 3600000 ms
-  },
 };
