@@ -226,6 +226,18 @@ app.get("/register", (req, res) => {
 
 app.post("/register", express.json(), registerController.register_post);
 
+app.get("/notificationsystem", (req, res) => {
+  console.log("Inside GET /notificationsystem callback function");
+  notificationModule.main();
+
+  //Unfortunately my app host (cyclic.sh) will suspend the runtime as soon as the response is sent, even if all code has not been executed.  The use of setTimeout here is a way to ensure that all code has been executed before the response is set.  It is admittedly not the most ideal solution. The proper solution would be to properly implement asynchronous functionality across all function calls.
+  setTimeout(() => {
+    return res.send(`Notification system started.`);
+  }, 20000); // 200000 ms = 20 s
+
+  return;
+});
+
 export default {
   app,
 };
