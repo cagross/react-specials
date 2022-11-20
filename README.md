@@ -24,7 +24,7 @@ This browser-based app allows users to search for grocery stores in a particular
 
 This is a passion project of mine, built with ReactJS. It is by no means complete. See the [To-Do List](#to_do_list) below for future plans.
 
-For a working demo of this app, please visit: https://gentle-gorge-04163.herokuapp.com
+For a working demo of this app, please visit: https://groceryspecials.cyclic.app/
 
 ## 📝 Table of Contents
 
@@ -157,6 +157,8 @@ That should complete without issue, with output reading: `Server running on port
 
 On the screen should be a small search form, requiring you to enter a US zip code and a radius (in miles). Once a search is executed, and results are found, all of the items from the deli/meat department should be listed--for all stores in the search area. In addition, each item will also display its details, price, and if possible, unit price.
 
+_Note: Currently changing the zip code/radius has been disabled. Those values are preset to certain values, and the search button will search using those values._
+
 To filter results by different meat types (beef, chicken, or pork), use the large radio buttons on the page.
 
 _Note: For now, the browse component is best viewed on desktop devices. The layout is quite broken at tablet/mobile screen widths._
@@ -198,19 +200,17 @@ If you receive this email, the manual test of the notify component has passed :-
 
 #### Finally, (if desired) configure the notify system to run automatically. To do so, carry out the following steps:
 
-There are many ways to ensure the notify component runs automatically. The way I have done it requires that you first deploy the app to Heroku (sorry, no instructions yet). Once the app is deployed to Heroku, carry out the following steps:
+Since new circulars are released once a week, the logical schedule for the notify component is to run it once a week. But you are free to run it with any frequentcy you desire. The following section can help you setup the notify component to automatically run once a week at 12:00 AM Sunday UTC.
 
-- Open the [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) for your deployed app, and click 'Add Job.' This will open the Job Editor (see screenshot below). This will execute a particular command on a set schedule. See next steps for configuration.
+There are several different ways to ensure the notify component runs automatically. In my case, since I have deployed a working demo of my app to cyclic.sh (see [Deploy](#deploy) section), I have made use of cyclic's Cron feature to automatically run the notify component once a week. To be clear, this applies only to the app deployed to cyclic--it does not apply to my local app. To use this approach, first deploy your app to cyclic.sh, then carry out the following steps:
 
-<img src="images-readme/sp-heroku-scheduler.jpg" alt="Screenshot of Heroku Scheduler Job Editor." title = "Heroku Scheduler Job Editor."/>
+- Open your cyclic dashboard's cron tab and create a new scheduled request. Fill out all fields exactly as they are filled out in the screenshot below, then save.
 
-- Note that since new circulars are released once a week, the logical schedule for the notify component is to run it once a week. But you are free to run it with any frequentcy you desire. The following configuration will ensure the notify component is automatically run once a week: 12:00 AM Sunday UTC.
+## <img src="images-readme/sp-cyclic-cron.jpg" alt="Screenshot of cyclic dashboard's cron tab." title = "cyclic dashboard's cron tab."/>
 
-- In the Job Editor `Schedule` section, select 'Every day at', then choose `12:00 AM` and `UTC`.
+After, your notifiction system should automatically run once a week at midnight UTC.
 
-- In the Job Editor `Run Command ` section, enter: `$ if [ "$(date +%u)" = 1 ]; then node client/notification_system/notification_system.js; fi`.
-
----
+Other app hosting services may offer similar scheduling features. For example, if you deploy your app to Heroku, they have a [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) feature which can execute custom code on a set schedule.
 
 _Note: In its current state, the notify system fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
 
@@ -224,7 +224,7 @@ _Note: In its current state, the notify system fetches weekly specials from one 
 
 ## 🚀 Deploy and Demo <a name="deploy"></a>
 
-I have deployed a working demo of this app to a live server--hosted by Heroku. The app can be viewed in a browser [here](https://gentle-gorge-04163.herokuapp.com/). From there you can use the browse component of the app, as well as register for an account. After registration, users should receive a weekly email from the notify component.
+I have deployed a working demo of this app to a live server. The app can be viewed in a browser [here](https://groceryspecials.cyclic.app/). From there you can use the browse component of the app, as well as register for an account. After registration, users should receive a weekly email from the notify component.
 
 ## :heavy_check_mark: Automated Tests <a name = "tests"></a>
 
@@ -272,7 +272,7 @@ _Note: If you have made any recent edits to files in the `client/src` folder, be
 
 Here is a list of features/fixes I would like to implement soon:
 
-- [Incorrect prices displayed for items requiring multiple quantities (fixed).](https://github.com/cagross/react-specials/issues/11).
+- Incorrect prices displayed for items requiring multiple quantities ([fixed](https://github.com/cagross/react-specials/issues/11)).
 - [Some unit prices displaying as 'Unknown'.](https://github.com/cagross/react-specials/issues/10)
 - [Fix price displays bugs in emails sent in notify component.](https://github.com/cagross/react-specials/issues/12).
 - Browse component: Make fully responsive.
