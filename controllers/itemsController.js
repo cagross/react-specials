@@ -29,8 +29,9 @@ export const items_post = [
 
     const result = await dataAll.dataAll(req.body.zip, req.body.radius);
 
-    if (result && result.error) return res.send({ error: 204 });
-    if (result && Object.keys(result).length === 0)
+    // As of 14/8/22, an error 204 is returned by Giant Food store search API is zero stores are found.
+    if (result?.error && result.error !== 204) return res.send({ error: true });
+    if (result?.error === 204 || (result && Object.keys(result).length === 0))
       return res.send({ noStores: true });
     return res.send(result);
   },

@@ -13,20 +13,20 @@ import { apiModule } from "../../../controllers/module-data.js";
 import { dataAll } from "../../../controllers/module-data-all.js";
 import { storeData } from "../../../controllers/module-store-data.js";
 
-test("Test of store data module.", async function (t) {
-  let actual, expected;
-  actual = await storeData.storeData("22042", "2");
+// test("Test of store data module.", async function (t) {
+//   let actual, expected;
+//   actual = await storeData.storeData("22042", 2);
 
-  // See module-store-data for this hardcoded data.
-  expected = {
-    "0233": ["Giant Food", "7235 Arlington Blvd.", "Falls Church, VA 22042"],
-    "0765": ["Giant Food", "1230 W. Broad St.", "Falls Church, VA 22046"],
-  };
+//   // See module-store-data for this hardcoded data.
+//   expected = {
+//     "0233": ["Giant Food", "7235 Arlington Blvd.", "Falls Church, VA 22042"],
+//     "0765": ["Giant Food", "1230 W. Broad St.", "Falls Church, VA 22046"],
+//   };
 
-  t.deepEquals(actual, expected, "Returns hardcoded data.");
+//   t.deepEquals(actual, expected, "Returns hardcoded data.");
 
-  t.end();
-});
+//   t.end();
+// });
 
 test("Test of data all module.", async function (t) {
   let actual, expected;
@@ -81,10 +81,11 @@ test("Test of data all module.", async function (t) {
 
   storeRet = { ...sampleStores };
 
-  spFetchStub.onCall(0).returns("current_flyer_id--0123456");
-  spFetchStub.onCall(1).returns(fVal1);
-  spFetchStub.onCall(2).returns("current_flyer_id--6543210");
-  spFetchStub.onCall(3).returns(fVal2);
+  spFetchStub.onCall(0).returns(storeRet);
+  spFetchStub.onCall(1).returns("current_flyer_id--0123456");
+  spFetchStub.onCall(2).returns(fVal1);
+  spFetchStub.onCall(3).returns("current_flyer_id--6543210");
+  spFetchStub.onCall(4).returns(fVal2);
 
   actual = await dataAll.dataAll("22042", "2");
   expected = {
@@ -106,6 +107,29 @@ test("Test of data all module.", async function (t) {
     },
   };
   t.deepEquals(actual, expected, "Returns correct value.");
+
+  actual = spFetchStub
+    .getCall(0)
+    .calledWithExactly(
+      `https://giantfood.com/apis/store-locator/locator/v1/stores/GNTL?storeType=GROCERY&q=22042&maxDistance=2&details=true`,
+      {
+        fetchParams: {
+          headers: {
+            "accept-language":
+              "en-GB,en;q=0.9,th-TH;q=0.8,th;q=0.7,en-US;q=0.6",
+            "user-agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36",
+          },
+        },
+        dataType: "json",
+      }
+    );
+  expected = true;
+  t.deepEquals(
+    actual,
+    expected,
+    "spFetch called with once with correct params (store search API)."
+  );
 
   actual = spFetchStub.calledWithExactly(
     "https://circular.giantfood.com/flyers/giantfood?type=2&show_shopping_list_integration=1&postal_code=22204&use_requested_domain=true&store_code=0233&is_store_selection=true&auto_flyer=&sort_by=#!/flyers/giantfood-weekly?flyer_run_id=406535",
@@ -215,6 +239,22 @@ test("Test of data all module.", async function (t) {
   actual = Object.keys(myResult).length;
   expected = maxNumStores;
   t.deepEquals(actual, expected, "Store data capped at three stores.");
+
+  doSaveStub.restore();
+  spFetchStub.restore();
+
+  t.comment("Case: zero stores match search request.");
+
+  storeRet = {}; //Zero stores returned from search.
+
+  doSaveStub = sinon.stub(doSave, "doSave").resolves(false);
+  spFetchStub = sinon.stub(spFetch, "spFetch");
+
+  spFetchStub.onCall(0).returns(storeRet);
+
+  actual = await dataAll.dataAll("90210", 1);
+  expected = {};
+  t.deepEquals(actual, expected, "Returns correct value.");
 
   doSaveStub.restore();
   spFetchStub.restore();

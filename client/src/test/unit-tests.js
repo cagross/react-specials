@@ -33,7 +33,32 @@ test("Test of items module.", async function (t) {
   const actual = dataAllStub.getCall(0).calledWithExactly(testZip, testRadius);
   const expected = true;
   t.equals(actual, expected, "dataAll always called with correct parameters.");
+
   dataAllStub.restore();
+
+  t.end();
+});
+
+test("Tests of items controller.", async function (t) {
+  t.comment("Case: zero stores match search request.");
+  let actual, expected;
+  const sampleReq = { body: { zip: "22042", radius: 1 } };
+  const sampleRes = { send: () => {} };
+  const sampleResponse = {}; //Any object without a 'stores' property.
+  const itemsHandler = items_post[2];
+
+  const spFetchStub = sinon.stub(spFetch, "spFetch");
+  spFetchStub.onCall(0).returns({ sampleResponse });
+
+  const sendStub = sinon.stub(sampleRes, "send");
+
+  await itemsHandler(sampleReq, sampleRes);
+
+  actual = sendStub.calledOnceWithExactly({ noStores: true });
+  expected = true;
+  t.equals(actual, expected, "res.send called once with correct params.");
+
+  spFetchStub.restore();
 
   t.end();
 });

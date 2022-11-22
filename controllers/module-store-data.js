@@ -24,38 +24,47 @@ export const storeData = {
     let fetchResult;
 
     // Temporarily hardcode store data for specific search parameters.
-    fetchResult =
-      zip === "22042" && radius === "2"
-        ? {
-            stores: [
-              {
-                storeNo: "0233",
-                address1: "7235 Arlington Blvd.",
-                city: "Falls Church",
-                state: "VA",
-                zip: "22042",
-              },
-              {
-                storeNo: "0765",
-                address1: "1230 W. Broad St.",
-                city: "Falls Church",
-                state: "VA",
-                zip: "22046",
-              },
-            ],
-          }
-        : await spFetch.spFetch(
-            `https://giantfood.com/apis/store-locator/locator/v1/stores/GNTL?storeType=GROCERY&q=${zip}&maxDistance=${radius}&details=true`,
-            {
-              fetchParams: fetchParams,
-              dataType: "json",
-            }
-          );
+    // fetchResult =
+    //   zip === "22042" && radius === "2"
+    //     ? {
+    //         stores: [
+    //           {
+    //             storeNo: "0233",
+    //             address1: "7235 Arlington Blvd.",
+    //             city: "Falls Church",
+    //             state: "VA",
+    //             zip: "22042",
+    //           },
+    //           {
+    //             storeNo: "0765",
+    //             address1: "1230 W. Broad St.",
+    //             city: "Falls Church",
+    //             state: "VA",
+    //             zip: "22046",
+    //           },
+    //         ],
+    //       }
+    //     : await spFetch.spFetch(
+    //         `https://giantfood.com/apis/store-locator/locator/v1/stores/GNTL?storeType=GROCERY&q=${zip}&maxDistance=${radius}&details=true`,
+    //         {
+    //           fetchParams: fetchParams,
+    //           dataType: "json",
+    //         }
+    //       );
+
+    fetchResult = await spFetch.spFetch(
+      `https://giantfood.com/apis/store-locator/locator/v1/stores/GNTL?storeType=GROCERY&q=${zip}&maxDistance=${radius}&details=true`,
+      {
+        fetchParams: fetchParams,
+        dataType: "json",
+      }
+    );
 
     if (fetchResult.error) return fetchResult;
     let storeNoAndAdd = {};
 
-    //Reduces the return value to a single array with three elements--one for each line of the store address.
+    // Reduces the return value to an object--each property describing a different store. e.g.
+    // {0233: ['Giant Food', '7235 Arlington Blvd.', 'Falls Church, VA 22042'], 0765: ['Giant Food', '1230 W. Broad St.', 'Falls Church, VA 22046']}
     if (fetchResult.stores) {
       storeNoAndAdd = fetchResult.stores.reduce((acc, elem) => {
         acc[elem["storeNo"]] = [
