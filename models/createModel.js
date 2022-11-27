@@ -13,7 +13,7 @@ import { createSchema } from "./createSchema.js";
  *
  * @param {string} tbleName - String indicating which table in database to use for model. Must match the name of an existing table in database.
  * @param {String[]} fieldNames - Array containing name of each field present in the model.
- * @returns {Promise} - Promise object resolving to a new Mongoose model.
+ * @returns {Promise<object>} - Promise object resolving to a new Mongoose model.
  */
 export default {
   createModel: (tblName, fieldNames) => {

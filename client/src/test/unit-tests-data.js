@@ -12,21 +12,108 @@ import { saveToDb } from "../../../controllers/module-save-to-db.js";
 import { apiModule } from "../../../controllers/module-data.js";
 import { dataAll } from "../../../controllers/module-data-all.js";
 import { storeData } from "../../../controllers/module-store-data.js";
+import * as createModel from "../../../models/createModel.js";
 
-// test("Test of store data module.", async function (t) {
-//   let actual, expected;
-//   actual = await storeData.storeData("22042", 2);
+test("Test of store data module.", async function (t) {
+  let actual, expected;
 
-//   // See module-store-data for this hardcoded data.
-//   expected = {
-//     "0233": ["Giant Food", "7235 Arlington Blvd.", "Falls Church, VA 22042"],
-//     "0765": ["Giant Food", "1230 W. Broad St.", "Falls Church, VA 22046"],
-//   };
+  const sampleStoreNo1 = "0233";
+  const sampleStoreNo2 = "0765";
 
-//   t.deepEquals(actual, expected, "Returns hardcoded data.");
+  const sampleAddress1 = "7235 Arlington Blvd.";
+  const sampleCity1 = "Falls Church";
+  const sampleState1 = "VA";
+  const sampleZip1 = "22042";
 
-//   t.end();
-// });
+  const sampleAddress2 = "1230 W. Broad St.";
+  const sampleCity2 = "Falls Church";
+  const sampleState2 = "VA";
+  const sampleZip2 = "22046";
+
+  const sampleStoreData = {
+    stores: [
+      {
+        storeNo: sampleStoreNo1,
+        address1: sampleAddress1,
+        city: sampleCity1,
+        state: sampleState1,
+        zip: sampleZip1,
+      },
+      {
+        storeNo: sampleStoreNo2,
+        address1: sampleAddress2,
+        city: sampleCity2,
+        state: sampleState2,
+        zip: sampleZip2,
+      },
+    ],
+  };
+
+  let spFetchStub;
+
+  t.comment("Case: Giant Food store search API returns valid data.");
+
+  spFetchStub = sinon.stub(spFetch, "spFetch");
+  spFetchStub.onCall(0).returns(sampleStoreData);
+
+  actual = await storeData.storeData("22042", 2);
+  expected = {};
+  expected[sampleStoreNo1] = [
+    "Giant Food",
+    sampleAddress1,
+    `${sampleCity1}, ${sampleState1} ${sampleZip1}`,
+  ];
+  expected[sampleStoreNo2] = [
+    "Giant Food",
+    sampleAddress2,
+    `${sampleCity2}, ${sampleState2} ${sampleZip2}`,
+  ];
+  t.deepEquals(actual, expected, "Returns correct  data.");
+  spFetchStub.restore();
+
+  t.comment("Case: Giant Food store search API returns invalid data.");
+  spFetchStub = sinon.stub(spFetch, "spFetch");
+  spFetchStub.onCall(0).returns({ status: 403 });
+
+  const sampleAltStoreData = {
+    results: [
+      {
+        locations: [
+          {
+            latLng: { lng: 1, lat: 2 },
+          },
+        ],
+      },
+    ],
+  };
+  const findStub = sinon.stub().resolves(sampleStoreData.stores);
+  const createModelStub = sinon
+    .stub(createModel.default, "createModel")
+    .resolves({
+      find: findStub,
+    });
+
+  spFetchStub.onCall(1).returns(sampleAltStoreData);
+
+  actual = await storeData.storeData("22042", 2);
+  expected = {};
+  expected[sampleStoreNo1] = [
+    "Giant Food",
+    sampleAddress1,
+    `${sampleCity1}, ${sampleState1} ${sampleZip1}`,
+  ];
+  expected[sampleStoreNo2] = [
+    "Giant Food",
+    sampleAddress2,
+    `${sampleCity2}, ${sampleState2} ${sampleZip2}`,
+  ];
+  t.deepEquals(actual, expected, "Returns correct  data.");
+
+  spFetchStub.restore();
+  createModelStub.restore();
+
+  t.end();
+});
 
 test("Test of data all module.", async function (t) {
   let actual, expected;
