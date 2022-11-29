@@ -39,6 +39,15 @@ export function createSchema(tblName, fields) {
         dateSaved: Date,
       },
     },
+    stores: {
+      allFields: {
+        storeNo: String,
+        address1: String,
+        city: String,
+        state: String,
+        zip: String,
+      },
+    },
   };
 
   if (!allFieldsTypes.hasOwnProperty(tblName))

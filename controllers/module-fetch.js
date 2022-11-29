@@ -15,14 +15,12 @@ export const spFetch = {
    * @returns
    */
   spFetch: async (url, options) => {
-    // if (options.dataType === "text")
     return fetch(url, options.fetchParams)
       .then((result) => {
+        if (result.status === 403) return { status: 403 }; //Cases in which Giant Food API rejects request due to originating fro outside the US will result in fetch returning result.status 403.
         if (options.dataType === "text") return result.text();
-        if (options.dataType === "json") {
-          if (result.status === 204) return { error: 204 }; //Cases in which invalid zip codes are supplied will return result.status 204 and myRes will be undefined.
-          return result.json();
-        }
+        if (options.dataType === "json") return result.json();
+
         return;
       })
       .catch((err) => {

@@ -47,7 +47,7 @@ The two components of this app help alleviate these issues:
 - Browse component: Displays the weekly specials for multiple stores in a single list, which is easy to browse, search, etc.
 - Notify component (optional): Automatically emails you when your favorite items go on sale for below a threshold price. For example, you can receive an email whenever ribeye steaks go on sale for less than $5.00/lb.
 
-_Note: Currently both components use the weekly specials from only one single grocery store chain. See the footnote in the [Usage section](#usage) for more information._
+_Note: Currently the notify component uses the weekly specials from only one single grocery store chain. See the footnote in the [Usage section](#usage) for more information._
 
 ## :information_source: Technology Stack <a name = "technology_stack"></a>
 
@@ -67,7 +67,6 @@ This section should help you get a copy of the project up and running on your lo
 - Node.js installed on your system. I'm not sure on the absolute minimum version required, but I can say that to date, the majority of development has been with Node versions 12 and 13.
 - Access to a valid GMail account (or other email account allowing you to send emails). Required for the notify component only.
 - Ability to create a MongoDB Atlas database (any plan--including the free plan--should be sufficient).
-- If you are physically located outside of the United States, the store search feature may not function properly. You may have to first install a VPN, enable it, and connect to a US-based location.
 
 ### Install the Project
 
@@ -88,7 +87,7 @@ This should complete without any errors (warnings are OK).
 
 ### Configure the browse component
 
-1. Add environmental variables: On your local system, create one environmental variable:
+1. Add environmental variables: On your local system, create the following environmental variable:
 
 | variable name     | variable value                                             |
 | ----------------- | ---------------------------------------------------------- |
@@ -157,7 +156,7 @@ That should complete without issue, with output reading: `Server running on port
 
 On the screen should be a small search form, requiring you to enter a US zip code and a radius (in miles). Once a search is executed, and results are found, all of the items from the deli/meat department should be listed--for all stores in the search area. In addition, each item will also display its details, price, and if possible, unit price.
 
-_Note: Currently changing the zip code/radius has been disabled. Those values are preset to certain values, and the search button will search using those values._
+_Note: For now, due to performance concerns, the store search feature limits results to three stores._
 
 To filter results by different meat types (beef, chicken, or pork), use the large radio buttons on the page.
 
@@ -214,7 +213,7 @@ Other app hosting services may offer similar scheduling features. For example, i
 
 _Note: In its current state, the notify system fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
 
-## :memo: Edits <a name="edits"></a>
+## :memo: Making Edits <a name="edits"></a>
 
 - Front-end edits: When editing the front-end React app--i.e. any file in the `client/src` folder--note that before you can see those changes in your browser, you'll need to rebuild the React app. To do that, from your command line navigate to the project's `client` directory and execute:
 

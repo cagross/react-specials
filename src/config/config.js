@@ -35,6 +35,10 @@ export function config() {
         "dateCreated",
       ],
     },
+    stores: {
+      singName: "store",
+      fields: ["storeNo", "address1", "city", "state", "zip"],
+    },
   };
 
   return {
