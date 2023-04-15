@@ -14,6 +14,9 @@
 </p>
 </div>
 
+<h2>Note: As of November 2022 I am no longer maintaining this repo, aside from dependency updates. As such, as time goes on, some of these instructions may become incorrect/outdated.</h2>
+<hr>
+
 This browser-based app allows users to search for grocery stores in a particular area, then fetches the current specials from those stores. After, it does two things:
 
 - Displays the specials on a web page, in a filterable list.
@@ -120,20 +123,20 @@ Configuring this component is a little trickier, and admittedly fragile for now.
 
 `mySessions`
 
-35 Ensure the `mySessions` collection has the following fields and types.
+5. Ensure the `mySessions` collection has the following fields and types.
 
 | field name | type   |
 | ---------- | ------ |
 | expires    | Date   |
 | sessions   | Object |
 
-7. Obtain access to a Gmail account that will allow access from a third party app. To configure a Gmail account to allow access from a third party app, see [these instructions](https://support.google.com/mail/answer/185833?hl=en-GB).
+6. Obtain access to a Gmail account that will allow access from a third party app. To configure a Gmail account to allow access from a third party app, see [these instructions](https://support.google.com/mail/answer/185833?hl=en-GB).
 
 If you cannot setup a Gmail account, it _is_ possible to use a non-Gmail account. But if you do so, you will have to manually make edits to the project file `client/notification_system/notification_system.js`. Specifically, you'll have to edit the object passed to `createTransport()` and ensure it reflect the details of your email provider.
 
 <img src="images-readme/sp-notify-code.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
 
-8.  On your local system, create four environmental variables:
+7.  On your local system, create four environmental variables:
 
 | variable name | variable value                                             |
 | ------------- | ---------------------------------------------------------- |
@@ -178,7 +181,7 @@ b) In your browser, navigate to: `http://localhost:5555/register`. Complete and 
 
 a) From your command line navigate to the project's root directory and execute:
 
-`node client/notification_system/notification_system.js`
+`node dev/runNotify.js`
 
 That should complete without error. If so, an email should be sent to your user's email address, listing which items from this week's specials meet the user's criteria (i.e. meat type and threshold price).
 
