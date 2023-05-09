@@ -671,5 +671,18 @@ test("Tests of unit price function.", function (t) {
     "Unit price returns correct value (item with 'lb' in price description.)."
   );
 
+  testItem = {
+    current_price: "10",
+    price_text: "/lb",
+    description: "Organic apples",
+    pre_price_text: "",
+  };
+  testUnitPrice = unitPrice(testItem);
+
+  t.equal(
+    testUnitPrice,
+    "10",
+    "Should return correct value when description does not contain 'lb' or 'oz' but price_text contains 'lb.'"
+  );
   t.end();
 });
