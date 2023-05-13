@@ -8,6 +8,7 @@ import { apiModule } from "../../controllers/module-data.js";
 import { filter } from "../src/module-filter.js";
 import { priceFilter } from "../src/module-price-filter.js";
 import { storeLoc } from "../src/module-store-location.js";
+import { dispPrice } from "../src/module-display-price.js";
 import * as createModelModule from "../../models/createModel.js";
 import { sendMail } from "../../controllers/module-send-mail.js";
 import { emailSubject } from "../../controllers/module-email-subject.js";
@@ -33,14 +34,12 @@ export const notificationModule = {
         markup = markup.concat("<td>", item.display_name, "</td>");
         markup = markup.concat(
           "<td>",
-          Number(item.current_price).toFixed(2),
-          item.price_text,
+          dispPrice(item.current_price, item.price_text),
           "</td>"
         );
         markup = markup.concat(
           "<td>",
-          Number(item.unit_price).toFixed(2),
-          "/lb",
+          dispPrice(item.unit_price, "/lb"),
           "</td>"
         );
         markup = markup.concat("</tr>");

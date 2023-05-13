@@ -364,10 +364,10 @@ test("Tests of notification system module.", async function (t) {
   spFetchStub.onCall(1).returns(fVal1);
 
   testOutput[0] =
-    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr></table>";
+    "Hi Graham McAllister,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  beef<br>Threshold Price:  1.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>$1.00/lb</td><td>$1.00/lb</td></tr></table>";
 
   testOutput[1] =
-    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>1.00/lb</td><td>1.00/lb</td></tr><tr><td>Chicken breast</td><td>3.99/lb</td><td>3.99/lb</td></tr></table>";
+    "Hi Arnold Leland,<br><br>Based on your selection criteria, here are this week's matches.<br><br>Your selection criteria is:  <br><i><bold>Meat Preference:  all<br>Threshold Price:  4.99</bold></i><br><br>The specials are available at this store:<br><i><bold>Giant Food<br>7235 Arlington Blvd.<br>Falls Church, VA 22042<br></bold></i><br><br><table><tr><td>Item Name</td><td>Item Price</td><td>Item Unit Price</td></tr><tr><td>Ribeye steak</td><td>$1.00/lb</td><td>$1.00/lb</td></tr><tr><td>Chicken breast</td><td>$3.99/lb</td><td>$3.99/lb</td></tr></table>";
 
   await notificationSystem();
 
