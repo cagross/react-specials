@@ -19,6 +19,8 @@ import { loginController } from "../../../controllers/loginController.js";
 import { items_post } from "../../../controllers/itemsController.js";
 import { dataAll } from "../../../controllers/module-data-all.js";
 import { spFetch } from "../../../controllers/module-fetch.js";
+import { emailSubject } from "../../../controllers/module-email-subject.js";
+
 import passport from "passport";
 
 test("Test of items module.", async function (t) {
@@ -313,7 +315,7 @@ test("Tests of notification system module.", async function (t) {
   actual = sendMailStub
     .getCall(0)
     .calledWithExactly(
-      `Grocery Specials For + ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
+      `Grocery Specials For ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
       testOutput[0],
       testOutput[0],
       sampleUsers[0].email
@@ -328,7 +330,7 @@ test("Tests of notification system module.", async function (t) {
   actual = sendMailStub
     .getCall(1)
     .calledWithExactly(
-      `Grocery Specials For + ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
+      `Grocery Specials For ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
       testOutput[1],
       testOutput[1],
       sampleUsers[1].email
@@ -376,7 +378,7 @@ test("Tests of notification system module.", async function (t) {
   actual = sendMailStub
     .getCall(0)
     .calledWithExactly(
-      `Grocery Specials For + ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
+      `Grocery Specials For ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
       testOutput[0],
       testOutput[0],
       sampleUsers[0].email
@@ -391,7 +393,7 @@ test("Tests of notification system module.", async function (t) {
   actual = sendMailStub
     .getCall(1)
     .calledWithExactly(
-      `Grocery Specials For + ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
+      `Grocery Specials For ${sampleItem.valid_from} - ${sampleItem.valid_to}`,
       testOutput[1],
       testOutput[1],
       sampleUsers[1].email
@@ -684,5 +686,12 @@ test("Tests of unit price function.", function (t) {
     "10",
     "Should return correct value when description does not contain 'lb' or 'oz' but price_text contains 'lb.'"
   );
+  t.end();
+});
+
+test("Tests of emailSubject function.", (t) => {
+  const actual = emailSubject("2021-06-01", "2021-06-07");
+  const expected = "Grocery Specials For 2021-06-01 - 2021-06-07";
+  t.equal(actual, expected, "Returns expected result.");
   t.end();
 });

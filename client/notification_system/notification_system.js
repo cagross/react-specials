@@ -10,6 +10,7 @@ import { priceFilter } from "../src/module-price-filter.js";
 import { storeLoc } from "../src/module-store-location.js";
 import * as createModelModule from "../../models/createModel.js";
 import { sendMail } from "../../controllers/module-send-mail.js";
+import { emailSubject } from "../../controllers/module-email-subject.js";
 
 export const notificationModule = {
   /**
@@ -99,7 +100,8 @@ export const notificationModule = {
       myHtml = myHtml.concat(itemMarkup(matchedItems));
       myHtml = myHtml.concat("</table>");
       sendMail.sendMail(
-        `Grocery Specials For + ${circularItems[0].valid_from} - ${circularItems[0].valid_to}`,
+        // `Grocery Specials For + ${circularItems[0].valid_from} - ${circularItems[0].valid_to}`,
+        emailSubject(circularItems[0].valid_from, circularItems[0].valid_to),
         myHtml,
         myHtml,
         users[i].email
