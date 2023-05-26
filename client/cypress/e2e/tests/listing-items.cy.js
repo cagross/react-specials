@@ -7,6 +7,7 @@
 describe("Listing Items", () => {
   it("Displays items from the expected stores.", () => {
     cy.visit("/");
+    cy.get('input[type="radio"]').should("have.length", 4);
 
     /* Begin test that should return two stores found in the store search.*/
     cy.get("input[name=zip]").clear();
