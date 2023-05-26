@@ -104,13 +104,10 @@ function Results(props) {
                 </div>
               </div>
               <span className="row__price">
-                {dispPrice(
-                  meatData[key]["current_price"],
-                  meatData[key]["price_text"]
-                )}
+                {dispPrice(meatData[key], false)}
               </span>
               <span className="row__price">
-                {dispPrice(meatData[key]["unit_price"], "/lb")}
+                {dispPrice(meatData[key], true)}
               </span>
             </div>
           </CSSTransition>

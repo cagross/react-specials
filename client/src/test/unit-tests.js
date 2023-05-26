@@ -612,13 +612,10 @@ test("Tests of filter module.", function (t) {
   t.end();
 });
 
-test("Test of display price function.", function (t) {
+test("Tests of dispPrice function.", function (t) {
   let displayedPrice;
   for (i = 0; i < testArr.length; i++) {
-    displayedPrice = dispPrice(
-      testArr[i]["current_price"],
-      testArr[i]["price_text"]
-    );
+    displayedPrice = dispPrice(testArr[i], false);
     if (
       !testArr[i]["current_price"] ||
       testArr[i]["current_price"] === "unknown"
@@ -641,6 +638,26 @@ test("Test of display price function.", function (t) {
       ); // RegEx matches strings of format $3.99 or $3.99/lb.  See here for more info: regexr.com/5ll4e).
     }
   }
+
+  let expected, actual;
+  let sampleItemData, sampleIsUnit;
+  sampleItemData = {
+    unit_price: "unknown",
+  };
+
+  sampleIsUnit = true;
+  actual = dispPrice(sampleItemData, sampleIsUnit);
+  expected = "Unknown";
+  t.equal(actual, expected, "Returns expected value.");
+
+  sampleItemData = {
+    unit_price: null,
+  };
+  sampleIsUnit = true;
+  actual = dispPrice(sampleItemData, sampleIsUnit);
+  expected = "Unknown";
+  t.equal(actual, expected, "Returns expected value.");
+
   t.end();
 });
 

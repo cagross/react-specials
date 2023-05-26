@@ -32,16 +32,8 @@ export const notificationModule = {
       items.forEach((item) => {
         markup = markup.concat("<tr>");
         markup = markup.concat("<td>", item.display_name, "</td>");
-        markup = markup.concat(
-          "<td>",
-          dispPrice(item.current_price, item.price_text),
-          "</td>"
-        );
-        markup = markup.concat(
-          "<td>",
-          dispPrice(item.unit_price, "/lb"),
-          "</td>"
-        );
+        markup = markup.concat("<td>", dispPrice(item, false), "</td>");
+        markup = markup.concat("<td>", dispPrice(item, true), "</td>");
         markup = markup.concat("</tr>");
       });
       return markup;
