@@ -23,7 +23,7 @@ export function unitPrice(item) {
         if (item["pre_price_text"]) {
           const pos_slash = item["pre_price_text"].lastIndexOf("/");
           partial = item["pre_price_text"].slice(0, pos_slash);
-          divisor = partial.match(/\d+/g)[0];
+          divisor = partial.match(/\d+/g)?.[0] || divisor; // There is no '/' found in pre_price_text, make no change to divisor.
         }
 
         const pos_oz = item["description"].search(/oz\./i); // Search for the string 'oz' in the item 'description.'  Return the index in the string.

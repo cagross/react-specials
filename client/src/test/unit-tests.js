@@ -668,18 +668,19 @@ test("Tests of unit price function.", function (t) {
   testItem = {
     display_name: "Perdue Chicken Short Cuts",
     name: "Perdue Chicken Short Cuts",
-    description: "Selected Varieties, 6–9 oz. pkg.",
+    description: "Selected Varieties, 6-9 oz. pkg.",
     current_price: "6.0",
     pre_price_text: "2/",
     valid_to: "2020-09-03",
     valid_from: "2020-08-28",
     disclaimer_text: null,
+    price_text: "/ea.",
   };
   testUnitPrice = unitPrice(testItem);
   t.equal(
     testUnitPrice,
     8,
-    "Unit price returns correct value (item with an additional divisor (e.g. '2 for $3.00')."
+    "Unit price returns correct value (item with an additional divisor e.g. '2 for $3.00')."
   );
 
   testItem = testObj1;
@@ -697,12 +698,25 @@ test("Tests of unit price function.", function (t) {
     pre_price_text: "",
   };
   testUnitPrice = unitPrice(testItem);
-
   t.equal(
     testUnitPrice,
     "10",
     "Should return correct value when description does not contain 'lb' or 'oz' but price_text contains 'lb.'"
   );
+
+  testItem = {
+    description: "Selected Varieties, 6-9 oz. pkg.",
+    current_price: "6.0",
+    price_text: "/ea.",
+    pre_price_text: "Starting at",
+  };
+  testUnitPrice = unitPrice(testItem);
+  t.equal(
+    testUnitPrice,
+    16,
+    "Unit price returns correct value (pre_price_text contains no '/')."
+  );
+
   t.end();
 });
 
