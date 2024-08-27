@@ -27,9 +27,7 @@ This browser-based app allows users to search for grocery stores in a particular
 
 This is a passion project of mine, built with ReactJS. It is by no means complete. See the [To-Do List](#to_do_list) below for future plans.
 
-<!-- For a working demo of this app, please visit: https://groceryspecials.cyclic.app/ -->
-
-A working demo of this app was up and running on cyclic.sh until a few months ago, when they decided to shut down (without any warning to me). I am currently looking for new hosting--please bear with me.
+For a working demo of this app, please visit: https://react-specials-vercel.vercel.app/
 
 ## 📝 Table of Contents
 
@@ -220,6 +218,8 @@ Since new circulars are released once a week, the logical schedule for the notif
 
 The simplest/easiest way to ensure the notify component runs automatically is to find a hosting platform which has a feature to automatically run the notify component on a set schedule. For example, if you deploy your app to Heroku, they have a [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) feature which can execute custom code on a set schedule.
 
+I have very recently migrated my hosting to Vercel, which purports to have a scheduler featuer. Once I get that up and running I will update here.
+
 _Note: In its current state, the notify system fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
 
 ## :memo: Making Edits <a name="edits"></a>
@@ -232,11 +232,7 @@ _Note: In its current state, the notify system fetches weekly specials from one 
 
 ## 🚀 Deploy and Demo <a name="deploy"></a>
 
-<!-- I have deployed a working demo of this app to a live server. The app can be viewed in a browser [here](https://groceryspecials.cyclic.app/). From there you can use the browse component of the app, as well as register for an account. After registration, users should receive a weekly email from the notify component. -->
-
-Up until very recently the app was deployed to and hosted by cyclic.sh. But they recently went defunct (without notice to me), so I am currently looking for new hosting.
-
-Prior to hosting on cyclic.sh, the app was hosted on Heroku without issue. The only reason I migrated off Heroku was because they discontinued their free hosting plan.
+I have deployed a working demo of this app to a live server. The app can be viewed in a browser [here](https://react-specials-vercel.vercel.app/). From there you can use the browse component of the app, as well as register for an account. After registration, users should receive a weekly email from the notify component.
 
 ## :heavy_check_mark: Automated Tests <a name = "tests"></a>
 
