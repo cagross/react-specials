@@ -38,6 +38,7 @@ For a working demo of this app, please visit: https://react-specials-vercel.verc
 - [Deploy](#deploy)
 - [Edits](#edits)
 - [Tests](#tests)
+- [Managing Dependencies](#managing-dependencies)
 - [To-Do List](#to_do_list)
 - [Authors](#authors)
 
@@ -272,9 +273,13 @@ After, the Cypress GUI should open, which will list all three test files. You ha
 
 _Note: If you have made any recent edits to files in the `client/src` folder, be sure to re-build the React app before running the Cypress tests. If not, you may experience unexpected results. See the [Edits section](#edits) for information on how to re-build the React app._
 
+## 📦 Managing Dependencies
+
+For detailed information on the current state of dependencies, please refer to the [Notable Dependency Issues](dependency-updates.md).
+
 ## 📋 To-Do List (last updated 18 Feb 2021) <a name="to_do_list"></a>
 
-Here is a list of features/fixes I would like to implement soon:
+Here is a short list of features/fixes I would like to implement soon:
 
 - Incorrect prices displayed for items requiring multiple quantities ([fixed](https://github.com/cagross/react-specials/issues/11)).
 - [Some unit prices displaying as 'Unknown'.](https://github.com/cagross/react-specials/issues/10)
