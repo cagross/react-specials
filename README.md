@@ -202,23 +202,19 @@ If you receive this email, the manual test of the notify component has passed :-
 
 #### Finally, (if desired) configure the notify system to run automatically. To do so, carry out the following steps:
 
-<!-- Since new circulars are released once a week, the logical schedule for the notify component is to run it once a week. But you are free to run it with any frequentcy you desire. The following section can help you setup the notify component to automatically run once a week at 12:00 AM Sunday UTC.
-
-There are several different ways to ensure the notify component runs automatically. In my case, since I have deployed a working demo of my app to cyclic.sh (see [Deploy](#deploy) section), I have made use of cyclic's Cron feature to automatically run the notify component once a week. To be clear, this applies only to the app deployed to cyclic--it does not apply to my local app. To use this approach, first deploy your app to cyclic.sh, then carry out the following steps:
-
-- Open your cyclic dashboard's cron tab and create a new scheduled request. Fill out all fields exactly as they are filled out in the screenshot below, then save.
-
-## <img src="images-readme/sp-cyclic-cron.jpg" alt="Screenshot of cyclic dashboard's cron tab." title = "cyclic dashboard's cron tab."/>
-
-After, your notification system should automatically run once a week at midnight UTC.
-
-Other app hosting services may offer similar scheduling features. For example, if you deploy your app to Heroku, they have a [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) feature which can execute custom code on a set schedule. -->
-
 Since new circulars are released once a week, the logical schedule for the notify component is to run it once a week. But you are free to run it with any frequentcy you desire. The following section can help you setup the notify component to automatically run on a set schedule.
 
-The simplest/easiest way to ensure the notify component runs automatically is to find a hosting platform which has a feature to automatically run the notify component on a set schedule. For example, if you deploy your app to Heroku, they have a [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) feature which can execute custom code on a set schedule.
+The simplest/easiest way to ensure the notify component runs automatically is to find a hosting platform which has a feature to automatically run the notify component on a set schedule. For example, if you deploy your app to Heroku, they have a [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) feature which can execute custom code on a set schedule. Alternatively you can use a third party NPM package like node-cron to do the same.
 
-I have very recently migrated my hosting to Vercel, which purports to have a scheduler featuer. Once I get that up and running I will update here.
+I have very recently migrated my hosting to Vercel, which has a Cron Jobs feature. I used this feature to ensure the notify component is executed on a weekly schedule. The instructions are below. To be clear, this applies only to the app deployed to Vercel--it does not apply to my local app.
+
+- First deploy your app to Vercel (see [Deploy](#deploy) section).
+
+- Open your project in the Vercel dashboard, then open the Cron Jobs section. Fill out all fields exactly as they are filled out in the screenshot below, then save.
+
+## <img src="images-readme/vercel-cron-600.jpg" alt="Screenshot of Vercel's Cron Jobs sectoin ." title = "Vercel's Cron Jobs section."/>
+
+After, your notification system should automatically run once a week at midnight UTC.
 
 _Note: In its current state, the notify system fetches weekly specials from one specific grocery store: a Giant Food grocery store in Falls Church, VA, USA._
 
