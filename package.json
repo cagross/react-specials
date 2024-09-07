@@ -2,7 +2,7 @@
   "name": "server",
   "type": "module",
   "engines": {
-    "node": ">=14.0.0 <=18.15.0"
+    "node": ">=14.x"
   },
   "version": "1.0.0",
   "main": "index.js",
