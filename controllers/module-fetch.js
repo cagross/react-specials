@@ -3,11 +3,10 @@
  * @module
  * @author Carl Gross
  */
-import fetch from "node-fetch";
 
 export const spFetch = {
   /**
-   * node-fetch wrapper.
+   * Native fetch wrapper.
    * @async
    * @param {*} url
    * @param {*} options
@@ -17,7 +16,7 @@ export const spFetch = {
   spFetch: async (url, options) => {
     return fetch(url, options.fetchParams)
       .then((result) => {
-        if (result.status === 403) return { status: 403 }; //Cases in which Giant Food API rejects request due to originating fro outside the US will result in fetch returning result.status 403.
+        if (result.status === 403) return { status: 403 }; // Cases in which Giant Food API rejects request due to originating from outside the US will result in fetch returning result.status 403.
         if (options.dataType === "text") return result.text();
         if (options.dataType === "json") return result.json();
 
