@@ -10,18 +10,14 @@
     "@vitejs/plugin-react": "^4.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1",
     "react-transition-group": "^4.4.5",
     "vite": "^5.4.3"
   },
   "scripts": {
-    "start-client": "react-scripts start",
     "startall": "npm run build && (cd ../server && npm start)",
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": "react-app"

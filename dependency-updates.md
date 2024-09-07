@@ -27,9 +27,4 @@ None.
 
 _Vulnerabilities_
 
-- `react-scripts`/`resolve-url-loader`/`postcss`:
-
-  - **Details**: `npm audit` reports a vulnerability linked to this chain of dependencies. However, this is a known false positive, as confirmed by the [official react-scripts repository](https://github.com/facebook/create-react-app/issues/10945). This warning can be ignored. There is currently no way to suppress this warning in `npm audit` when run locally, but it can be suppressed in production by moving `react-scripts` from `dependencies` to `devDependencies` in `package.json`.
-
-- `react-scripts`/`resolve-url-loader`/`nth-check`:
-  - **Details**: Another vulnerability reported by `npm audit`, which is linked to the `nth-check` package. The [official post](https://github.com/facebook/create-react-app/issues/13062#issuecomment-1474189236) indicates that the `create-react-app` (CRA) framework, which includes `react-scripts`, is no longer actively maintained by Facebook, and security vulnerabilities are unlikely to be fixed. There are plans to remove CRA entirely and replace it with another framework.
+None.

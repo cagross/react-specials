@@ -1,8 +1,5 @@
 {
   "name": "server",
-  "jest": {
-    "verbose": true
-  },
   "type": "module",
   "engines": {
     "node": ">=14.0.0 <=18.15.0"

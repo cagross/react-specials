@@ -55,12 +55,12 @@ _Note: Currently the notify component uses the weekly specials from only one sin
 
 ## :information_source: Technology Stack <a name = "technology_stack"></a>
 
-|                                                                                    |                                     |                                                                                                                    |
-| ---------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| ![React logo.](images-readme/logo-reactjs-100.png "Grocery Specials screenshot")   | [ReactJS](https://reactjs.org/)     | Web Framework. I used the [Create React App project](https://github.com/facebook/create-react-app) to get started. |
-| ![Node.js logo.](images-readme/logo-nodejs-100.jpg "Grocery Specials screenshot")  | [Node.js](https://nodejs.org/)      | Server Environment                                                                                                 |
-| ![Express logo.](images-readme/logo-express-100.png "Grocery Specials screenshot") | [Express](https://expressjs.com/)   | Web Server Environment                                                                                             |
-| ![MongoDB logo.](images-readme/logo-mongodb-100.jpg "Grocery Specials screenshot") | [MongoDB](https://www.mongodb.com/) | Database                                                                                                           |
+|                                                                                    |                                     |                        |
+| ---------------------------------------------------------------------------------- | ----------------------------------- | ---------------------- |
+| ![React logo.](images-readme/logo-reactjs-100.png "Grocery Specials screenshot")   | [React](https://react.dev/)         | UI Library             |
+| ![Node.js logo.](images-readme/logo-nodejs-100.jpg "Grocery Specials screenshot")  | [Node.js](https://nodejs.org/)      | Server Environment     |
+| ![Express logo.](images-readme/logo-express-100.png "Grocery Specials screenshot") | [Express](https://expressjs.com/)   | Web Server Environment |
+| ![MongoDB logo.](images-readme/logo-mongodb-100.jpg "Grocery Specials screenshot") | [MongoDB](https://www.mongodb.com/) | Database               |
 
 ## ⛏️ Installation and Configuration <a name = "installation"></a>
 

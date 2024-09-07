@@ -5,7 +5,6 @@
  * @author Carl Gross
  */
 
-import React from "react";
 import { CSSTransition } from "react-transition-group"; // Required only for CSS transitions.
 import "./App.css"; // Import the main CSS file.
 import { useState } from "react"; // This needs to be present in order to use the 'useState' hook.
