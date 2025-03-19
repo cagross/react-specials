@@ -7,7 +7,7 @@
   },
   "private": true,
   "dependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-transition-group": "^4.4.5",
@@ -31,8 +31,8 @@
   "devDependencies": {
     "cypress": "^13.14.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "sinon": "^18.0.0",
-    "tape": "^5.8.1"
+    "tape": "^5.9.0"
   }
 }
