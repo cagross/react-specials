@@ -2,7 +2,7 @@
   "name": "server",
   "type": "module",
   "engines": {
-    "node": ">=14.x <=22.x"
+    "node": ">=16.x <=22.x"
   },
   "version": "1.0.0",
   "main": "index.js",
@@ -18,7 +18,7 @@
     "nodemon": "^3.1.9",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "uuid": "^10.0.0"
+    "uuid": "^11.1.0"
   },
   "scripts": {
     "start": "node index.js",
