@@ -167,6 +167,7 @@ function App() {
     };
     return fetch(origin + "items", params)
       .then((response) => {
+        if (response.status === 204) return { noStores: true };
         console.log("Items found.");
         return response.json();
       })

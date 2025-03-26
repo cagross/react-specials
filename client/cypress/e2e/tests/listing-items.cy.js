@@ -24,7 +24,15 @@ describe("Listing Items", () => {
     cy.get("input[name=zip]").type("90210");
     cy.get("input[name=radius]").clear();
     cy.get("input[name=radius]").type(5);
+
+    // Intercept the POST request to /items
+    cy.intercept('POST', '/items').as('itemsRequest');
+
     cy.get("#button").click(); // Click submit button
+
+    // Assert the status code is 204, as it is the semantically correct response for this case.
+    cy.wait("@itemsRequest").its("response.statusCode").should("eq", 204);
+
     cy.get("#items_container").should("contain", "No stores found");
     /* End test that should return zero stores found in the store search.*/
   });

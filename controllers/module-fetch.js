@@ -17,6 +17,7 @@ export const spFetch = {
     return fetch(url, options.fetchParams)
       .then((result) => {
         if (result.status === 403) return { status: 403 }; // Cases in which Giant Food API rejects request due to originating from outside the US will result in fetch returning result.status 403.
+        if (result.status === 204) return { status: 204 }; // Handle no content responses
         if (options.dataType === "text") return result.text();
         if (options.dataType === "json") return result.json();
 

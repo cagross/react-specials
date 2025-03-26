@@ -17,7 +17,7 @@ export const dataAll = {
    */
   dataAll: async (zip, radius) => {
     const storeCodeLoc = await storeData.storeData(zip, radius);
-    if (storeCodeLoc.error) return storeCodeLoc;
+    if (storeCodeLoc.error || storeCodeLoc.status === 204) return storeCodeLoc;
 
     let storeDataAll = {};
 

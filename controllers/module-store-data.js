@@ -62,6 +62,7 @@ export const storeData = {
         dataType: "json",
       }
     );
+    if (fetchResult.status === 204) return { status: 204 };
 
     if (fetchResult.status === 403) {
       console.log(

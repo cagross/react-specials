@@ -43,22 +43,21 @@ test("Test of items module.", async function (t) {
 
 test("Tests of items controller.", async function (t) {
   t.comment("Case: zero stores match search request.");
-  let actual, expected;
   const sampleReq = { body: { zip: "22042", radius: 1 } };
-  const sampleRes = { send: () => {} };
+  const sampleRes = { 
+    send: sinon.stub(),
+    status: sinon.stub().returnsThis()  // makes it chainable like the real res.status()
+  };
   const sampleResponse = {}; //Any object without a 'stores' property.
   const itemsHandler = items_post[2];
 
   const spFetchStub = sinon.stub(spFetch, "spFetch");
   spFetchStub.onCall(0).returns({ sampleResponse });
 
-  const sendStub = sinon.stub(sampleRes, "send");
-
   await itemsHandler(sampleReq, sampleRes);
 
-  actual = sendStub.calledOnceWithExactly({ noStores: true });
-  expected = true;
-  t.equals(actual, expected, "res.send called once with correct params.");
+  t.ok(sampleRes.status.calledOnceWithExactly(204), "status(204) called once");
+  t.ok(sampleRes.send.calledOnceWithExactly(), "send() called once with no params");
 
   spFetchStub.restore();
 

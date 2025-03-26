@@ -31,8 +31,8 @@ export const items_post = [
 
     // As of 14/8/22, an error 204 is returned by Giant Food store search API is zero stores are found.
     if (result?.error && result.error !== 204) return res.send({ error: true });
-    if (result?.error === 204 || (result && Object.keys(result).length === 0))
-      return res.send({ noStores: true });
+    if (result?.status === 204 || (result && Object.keys(result).length === 0))
+      return res.status(204).send();
     return res.send(result);
   },
 ];
