@@ -7,8 +7,7 @@
 
 import { CSSTransition } from "react-transition-group"; // Required only for CSS transitions.
 import "./App.css"; // Import the main CSS file.
-import { useState } from "react"; // This needs to be present in order to use the 'useState' hook.
-import { useEffect } from "react"; // This needs to be present in order to use the 'useEffect' hook.
+import { useState, useEffect, useRef } from "react"; // This needs to be present in order to use the React hooks.
 
 // Import my images.
 import img_meat from "./images/all-meat-250.jpg";
@@ -51,6 +50,7 @@ function Results(props) {
 
     if (Object.entries(meatData).length) {
       return Object.keys(meatData).map(function (key) {
+        const nodeRef = useRef(null);
         return (
           <CSSTransition //Ensure each row appears with a CSS fade transition.
             in={true}
@@ -58,8 +58,9 @@ function Results(props) {
             timeout={1300}
             classNames="fade"
             key={key}
+            nodeRef={nodeRef}
           >
-            <div className="row">
+            <div className="row" ref={nodeRef}>
               <img
                 className="row__thumb"
                 alt={meatData[key]["name"]}
