@@ -15,6 +15,26 @@ describe("Listing Items", () => {
     cy.get("input[name=radius]").clear();
     cy.get("input[name=radius]").type(2);
     cy.get("#button").click(); // Click submit button
+    
+    // Find two different rows and verify they're visible
+    cy.get(".row").each(($row, index) => {
+      if (index === 0) {
+        const firstRow = $row;
+        const firstText = firstRow.find(".row__name").text();
+        
+        cy.get(".row").each(($otherRow, otherIndex) => {
+          if (otherIndex > 0) {
+            const otherText = $otherRow.find(".row__name").text();
+            if (firstText !== otherText) {
+              cy.wrap(firstRow).should("be.visible");
+              cy.wrap($otherRow).should("be.visible");
+              return false;
+            }
+          }
+        });
+      }
+    });
+
     cy.get(".row__storaddress").should("contain", "7235 Arlington Blvd.");
     cy.get(".row__storaddress").should("contain", "1230 W. Broad St.");
     /* End test that should return two stores found in the store search.*/
@@ -25,11 +45,8 @@ describe("Listing Items", () => {
     cy.get("input[name=radius]").clear();
     cy.get("input[name=radius]").type(5);
 
-    // Intercept the POST request to /items
     cy.intercept('POST', '/items').as('itemsRequest');
-
     cy.get("#button").click(); // Click submit button
-
     // Assert the status code is 204, as it is the semantically correct response for this case.
     cy.wait("@itemsRequest").its("response.statusCode").should("eq", 204);
 
