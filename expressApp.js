@@ -6,7 +6,7 @@
 
 import * as path from "path";
 import express from "express";
-import { v4 } from "uuid";
+import { randomUUID } from "crypto";
 import session from "express-session";
 import connect from "connect-mongodb-session";
 import passport from "passport";
@@ -163,7 +163,7 @@ myMongoStore.on("error", function (error) {
 app.use(
   session({
     genid: (req) => {
-      return v4(); // Use UUIDs for session IDs
+      return randomUUID(); // Use Node's built-in UUID generation
     },
     store: myMongoStore,
     secret: currConfig.sessionSecret,
