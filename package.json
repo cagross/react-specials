@@ -2,7 +2,7 @@
   "name": "server",
   "type": "module",
   "engines": {
-    "node": ">=16.x <=22.x"
+    "node": ">=20.x <=22.x"
   },
   "version": "1.0.0",
   "main": "index.js",
