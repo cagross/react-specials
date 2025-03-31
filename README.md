@@ -275,7 +275,7 @@ _Note: If you have made any recent edits to files in the `client/src` folder, be
 
 ## 📦 Managing Dependencies
 
-For detailed information on the current state of dependencies, please refer to the [Notable Dependency Issues](dependency-updates.md).
+For detailed information on the current state of dependencies, please refer to the [Dependency Notes](dependency-notes.md).
 
 ## 📋 To-Do List (last updated 18 Feb 2021) <a name="to_do_list"></a>
 
