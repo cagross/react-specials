@@ -146,10 +146,11 @@ Results.propTypes = {
  * App() is the top level functional component.  It ensures data is fetched from the API on initial page render.  It also renders all content on the page, and defines the onClick functionality for the radio buttons.
  * @returns
  */
-function App() {
-  // Use the 'useState' hook to set initial state.
-  const [data, setData] = useState({}); // Set a piece of state named 'data' to an empty object.  To update that piece of state, run the 'setData()' function.
-  const [currentMeat, setMeat] = useState(""); // Set a piece of state named 'currentMeat' to an empty string.  To update that piece of state, run the 'setMeat()' function.
+const App = () => {
+  const [zip, setZip] = useState("");
+  const [radius, setRadius] = useState("");
+  const [data, setData] = useState({});
+  const [meat, setMeat] = useState("");
 
   /**
    * Make AJAX call to /items route and return response to browser
@@ -181,19 +182,10 @@ function App() {
       });
   };
 
-  useEffect(() => {}, []);
-
-  document
-    .querySelector(".search__form")
-    .addEventListener("submit", async (e) => {
-      e.preventDefault();
-      setData(
-        await fetchData(
-          document.querySelectorAll(".search__form input")[0].value,
-          document.querySelectorAll(".search__form input")[1].value
-        )
-      );
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setData(await fetchData(zip, radius));
+  };
 
   /**
    * onClick handler for radio buttons.
@@ -216,6 +208,39 @@ function App() {
 
   return (
     <div id="content">
+      <section className="search">
+        <form className="search__form" onSubmit={handleSubmit}>
+          <label htmlFor="zip" className="search__label">
+            Zip Code:
+            <input
+              type="text"
+              name="zip"
+              placeholder="e.g. 22042"
+              className="search__txtinput"
+              value={zip}
+              onChange={(e) => setZip(e.target.value)}
+            />
+          </label>
+          <label htmlFor="radius" className="search__label">
+            Radius (miles):
+            <input
+              type="number"
+              name="radius"
+              placeholder="e.g. 3"
+              className="search__txtinput"
+              value={radius}
+              onChange={(e) => setRadius(e.target.value)}
+            />
+          </label>
+          <input
+            type="submit"
+            id="button"
+            className="search__button"
+            value="Search"
+          />
+        </form>
+      </section>
+
       <section className="filter">
         <label className="radio" htmlFor="allmeat">
           <img className="radio__img" alt="" src={img_meat}></img>
@@ -277,10 +302,10 @@ function App() {
       </div>
 
       <section id="items_container">
-        <Results currMeat={currentMeat} data={data} />
+        <Results currMeat={meat} data={data} />
       </section>
     </div>
   );
-}
+};
 
 export default App;

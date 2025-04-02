@@ -269,6 +269,7 @@ html {
   padding: 10px 5px;
   width: 8rem;
   font-family: "Courier New", Courier, ui-monospace;
+  margin-left: 0.5rem;
 }
 .search__label {
   font-size: 2rem;

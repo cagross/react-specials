@@ -15,13 +15,13 @@ describe("Listing Items", () => {
     cy.get("input[name=radius]").clear();
     cy.get("input[name=radius]").type(2);
     cy.get("#button").click(); // Click submit button
-    
+
     // Find two different rows and verify they're visible
     cy.get(".row").each(($row, index) => {
       if (index === 0) {
         const firstRow = $row;
         const firstText = firstRow.find(".row__name").text();
-        
+
         cy.get(".row").each(($otherRow, otherIndex) => {
           if (otherIndex > 0) {
             const otherText = $otherRow.find(".row__name").text();
@@ -40,17 +40,23 @@ describe("Listing Items", () => {
     /* End test that should return two stores found in the store search.*/
 
     /* Begin test that should return zero stores found in the store search.*/
+    cy.intercept("POST", "/items").as("itemsRequest");
+
     cy.get("input[name=zip]").clear();
     cy.get("input[name=zip]").type("90210");
     cy.get("input[name=radius]").clear();
     cy.get("input[name=radius]").type(5);
 
-    cy.intercept('POST', '/items').as('itemsRequest');
     cy.get("#button").click(); // Click submit button
-    // Assert the status code is 204, as it is the semantically correct response for this case.
+
+    // Wait for the first network request, then assert it returns a status code is 204, as it is the semantically correct response for this case.
     cy.wait("@itemsRequest").its("response.statusCode").should("eq", 204);
 
+    //Wait for all network requests to complete, then assert that only one request was made.
+    cy.get("@itemsRequest.all").should("have.length", 1);
+
     cy.get("#items_container").should("contain", "No stores found");
+
     /* End test that should return zero stores found in the store search.*/
   });
 });
