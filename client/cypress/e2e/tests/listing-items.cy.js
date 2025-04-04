@@ -37,6 +37,10 @@ describe("Listing Items", () => {
 
     cy.get(".row__storaddress").should("contain", "7235 Arlington Blvd.");
     cy.get(".row__storaddress").should("contain", "1230 W. Broad St.");
+
+    /* Begin test for radio button visibility after clicking filter */
+    cy.get('input[type="radio"]').eq(1).click();
+    cy.get(".filter").should("be.visible");
     /* End test that should return two stores found in the store search.*/
 
     /* Begin test that should return zero stores found in the store search.*/

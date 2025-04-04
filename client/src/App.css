@@ -241,14 +241,6 @@ html {
   margin-left: var(--price-margin-left);
   font-size: 1.13rem;
 }
-.fade-appear {
-  opacity: 0;
-  z-index: 1;
-}
-.fade-appear.fade-appear-active {
-  opacity: 1;
-  transition: opacity 1300ms linear;
-}
 .main {
   margin: var(--vertical-margin);
 }

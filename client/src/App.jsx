@@ -5,9 +5,8 @@
  * @author Carl Gross
  */
 
-import { CSSTransition } from "react-transition-group"; // Required only for CSS transitions.
 import "./App.css"; // Import the main CSS file.
-import { useState, useEffect, useRef } from "react"; // This needs to be present in order to use the React hooks.
+import { useState } from "react";
 
 // Import my images.
 import img_meat from "./images/all-meat-250.jpg";
@@ -50,67 +49,57 @@ function Results(props) {
 
     if (Object.entries(meatData).length) {
       return Object.keys(meatData).map(function (key) {
-        const nodeRef = useRef(null);
         return (
-          <CSSTransition //Ensure each row appears with a CSS fade transition.
-            in={true}
-            appear={true}
-            timeout={1300}
-            classNames="fade"
-            key={key}
-            nodeRef={nodeRef}
-          >
-            <div className="row" ref={nodeRef}>
-              <img
-                className="row__thumb"
-                alt={meatData[key]["name"]}
-                src={meatData[key]["x_large_image_url"]}
-              ></img>
-              <div className="row__details">
-                <div className="row__name">{meatData[key]["name"]}</div>
-                <div className="row__desc">{meatData[key]["description"]}</div>
+          <div className="row" key={key}>
+            <img
+              className="row__thumb"
+              alt={meatData[key]["name"]}
+              src={meatData[key]["x_large_image_url"]}
+            ></img>
+            <div className="row__details">
+              <div className="row__name">{meatData[key]["name"]}</div>
+              <div className="row__desc">{meatData[key]["description"]}</div>
 
-                <div className="row__disc">
-                  {meatData[key]["disclaimer_text"]}
-                </div>
-                <div className="row__ss">{meatData[key]["sale_story"]}</div>
+              <div className="row__disc">
+                {meatData[key]["disclaimer_text"]}
               </div>
-              <div className="row__dates">
-                <div className="row__storinfo">
-                  <img
-                    className="row__storlogo"
-                    alt="Logo: Giant Food."
-                    src={logo_giant}
-                  ></img>
-                  <div className="row__storaddress">
-                    {items.storeLocation[0]}
-                    <br />
-                    {items.storeLocation[1]}
-                    <br />
-                    {items.storeLocation[2]}
-                  </div>
-                </div>
-                <div className="row__datetext">
-                  <i>
-                    <span className="row__dateprefix">valid:</span>
-                    <time dateTime={meatData[key]["valid_from"]}>
-                      {formDate(meatData[key]["valid_from"])}
-                    </time>{" "}
-                    -{" "}
-                    <time dateTime={meatData[key]["valid_to"]}>
-                      {formDate(meatData[key]["valid_to"])}
-                    </time>
-                  </i>
-                </div>
-              </div>
-              <span className="row__price">
-                {dispPrice(meatData[key], false)}
-              </span>
-              <span className="row__price">
-                {dispPrice(meatData[key], true)}
-              </span>
+              <div className="row__ss">{meatData[key]["sale_story"]}</div>
             </div>
-          </CSSTransition>
+            <div className="row__dates">
+              <div className="row__storinfo">
+                <img
+                  className="row__storlogo"
+                  alt="Logo: Giant Food."
+                  src={logo_giant}
+                ></img>
+                <div className="row__storaddress">
+                  {items.storeLocation[0]}
+                  <br />
+                  {items.storeLocation[1]}
+                  <br />
+                  {items.storeLocation[2]}
+                </div>
+              </div>
+              <div className="row__datetext">
+                <i>
+                  <span className="row__dateprefix">valid:</span>
+                  <time dateTime={meatData[key]["valid_from"]}>
+                    {formDate(meatData[key]["valid_from"])}
+                  </time>{" "}
+                  -{" "}
+                  <time dateTime={meatData[key]["valid_to"]}>
+                    {formDate(meatData[key]["valid_to"])}
+                  </time>
+                </i>
+              </div>
+            </div>
+            <span className="row__price">
+              {dispPrice(meatData[key], false)}
+            </span>
+            <span className="row__price">
+              {dispPrice(meatData[key], true)}
+            </span>
+          </div>
         );
       });
     }

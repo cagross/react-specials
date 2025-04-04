@@ -24,16 +24,7 @@ _Vulnerabilities_
 
 ## React Project Dependencies (`client` Folder)
 
-_Specific Dependency Notes_
-
-- **react-transition-group**:
-  - **Current Status**: Not compatible with React 19 due to the removal of `ReactDOM.findDOMNode`.
-  - **Symptom**: Without the workaround, the app's front-end crashes with a runtime error because `ReactDOM.findDOMNode` is no longer available in React 19.
-  - **Current Workaround**: Custom code modifications in commit e48d346 to handle transitions without using `findDOMNode`.
-  - **Future Considerations**:
-    1. Check [GitHub Issue #918](https://github.com/reactjs/react-transition-group/issues/918) for official React 19 compatibility updates. If a compatible version is released, implement it and remove the workaround code.
-    2. If no compatible version exists and significant time has passed, evaluate replacing the package with alternatives like [react-transition-state](https://github.com/szhsin/react-transition-state). If a replacement is implemented, remove the workaround code.
-    3. If neither option is viable, maintain the current workaround until a solution becomes available.
+None.
 
 _Vulnerabilities_
 
