@@ -96,9 +96,7 @@ function Results(props) {
             <span className="row__price">
               {dispPrice(meatData[key], false)}
             </span>
-            <span className="row__price">
-              {dispPrice(meatData[key], true)}
-            </span>
+            <span className="row__price">{dispPrice(meatData[key], true)}</span>
           </div>
         );
       });
@@ -140,6 +138,9 @@ const App = () => {
   const [radius, setRadius] = useState("");
   const [data, setData] = useState({});
   const [meat, setMeat] = useState("");
+
+  // Define animation class name once for reuse
+  const animationClass = "animated heartBeat";
 
   /**
    * Make AJAX call to /items route and return response to browser
@@ -183,16 +184,6 @@ const App = () => {
    */
   function handleInput(event) {
     setMeat(event.target.value);
-
-    // Add necessary CSS classes to radio button elements, ensuring their animations function as expected.
-    const radButtons = document.getElementsByClassName(".radio__input");
-    for (let i = 0; i < radButtons.length; i++) {
-      if (radButtons[i].value === event.target.value) {
-        radButtons[i].className = "radio__input animated heartBeat";
-      } else {
-        radButtons[i].className = "radio__input";
-      }
-    }
   }
 
   return (
@@ -238,7 +229,7 @@ const App = () => {
             id="allmeat"
             name="meaty"
             value=""
-            className="radio__input"
+            className={`radio__input ${meat === "" ? animationClass : ""}`}
             onChange={handleInput}
             defaultChecked
           />
@@ -251,7 +242,7 @@ const App = () => {
             id="beef"
             name="meaty"
             value="beef"
-            className="radio__input"
+            className={`radio__input ${meat === "beef" ? animationClass : ""}`}
             onChange={handleInput}
           />
           Beef
@@ -263,7 +254,9 @@ const App = () => {
             id="poultry"
             name="meaty"
             value="poultry"
-            className="radio__input"
+            className={`radio__input ${
+              meat === "poultry" ? animationClass : ""
+            }`}
             onChange={handleInput}
           />
           Poultry
@@ -275,7 +268,7 @@ const App = () => {
             id="pork"
             name="meaty"
             value="pork"
-            className="radio__input"
+            className={`radio__input ${meat === "pork" ? animationClass : ""}`}
             onChange={handleInput}
           />
           Pork
@@ -296,5 +289,8 @@ const App = () => {
     </div>
   );
 };
+
+// Add display name to App component
+App.displayName = "App";
 
 export default App;
