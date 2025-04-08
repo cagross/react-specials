@@ -44,9 +44,9 @@ test("Test of items module.", async function (t) {
 test("Tests of items controller.", async function (t) {
   t.comment("Case: zero stores match search request.");
   const sampleReq = { body: { zip: "22042", radius: 1 } };
-  const sampleRes = { 
+  const sampleRes = {
     send: sinon.stub(),
-    status: sinon.stub().returnsThis()  // makes it chainable like the real res.status()
+    status: sinon.stub().returnsThis(), // makes it chainable like the real res.status()
   };
   const sampleResponse = {}; //Any object without a 'stores' property.
   const itemsHandler = items_post[2];
@@ -57,7 +57,10 @@ test("Tests of items controller.", async function (t) {
   await itemsHandler(sampleReq, sampleRes);
 
   t.ok(sampleRes.status.calledOnceWithExactly(204), "status(204) called once");
-  t.ok(sampleRes.send.calledOnceWithExactly(), "send() called once with no params");
+  t.ok(
+    sampleRes.send.calledOnceWithExactly(),
+    "send() called once with no params"
+  );
 
   spFetchStub.restore();
 
@@ -632,9 +635,9 @@ test("Tests of dispPrice function.", function (t) {
       );
       t.match(
         displayedPrice,
-        /^(\$\d+\.\d{2})((\/\w+\.)?)$/,
+        /^((\d+\/)?\$\d+\.\d{2})((\/\w+\.)?)$/,
         "Displayed price is correct format."
-      ); // RegEx matches strings of format $3.99 or $3.99/lb.  See here for more info: regexr.com/5ll4e).
+      ); // RegEx matches strings of format $3.99, $3.99/lb, or 2/$3.99.  See here for more info: regexr.com/5ll4e).
     }
   }
 
@@ -656,6 +659,19 @@ test("Tests of dispPrice function.", function (t) {
   actual = dispPrice(sampleItemData, sampleIsUnit);
   expected = "Unknown";
   t.equal(actual, expected, "Returns expected value.");
+
+  const testItem = {
+    current_price: "10.0",
+    pre_price_text: "5/",
+    price_text: null,
+  };
+  actual = dispPrice(testItem, false);
+  expected = "5/$10.00";
+  t.equal(
+    actual,
+    expected,
+    "When price_text is null and pre_price_text ends with '/', pre_price_text should be prefix and suffix should be empty"
+  );
 
   t.end();
 });
