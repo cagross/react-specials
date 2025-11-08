@@ -10,7 +10,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "connect-mongodb-session": "^5.0.0",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "express-session": "^1.18.2",
     "express-validator": "^7.3.0",
     "mongoose": "^8.19.3",
