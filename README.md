@@ -271,6 +271,10 @@ After, the Cypress GUI should open, which will list all three test files. You ha
 
 4. Unless you stop the Cypress tests (in the Cypress GUI), these tests will be automatically run whenever a .js file is saved.
 
+Alternatively, to run all E2E tests in a headless browser, navigate to the `client` directory from the command line and execute this command:
+
+`npm run cypress:run`
+
 _Note: If you have made any recent edits to files in the `client/src` folder, be sure to re-build the React app before running the Cypress tests. If not, you may experience unexpected results. See the [Edits section](#edits) for information on how to re-build the React app._
 
 ## 📦 Managing Dependencies
