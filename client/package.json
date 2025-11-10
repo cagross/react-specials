@@ -15,7 +15,8 @@
     "startall": "npm run build && (cd .. && npm start)",
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress:run": "cypress run"
   },
   "eslintConfig": {
     "extends": "react-app"
