@@ -41,6 +41,13 @@ export function config() {
     },
   };
 
+  const sessionSecret = process.env.SP_SESSION_SECRET;
+  if (!sessionSecret) {
+    throw new Error(
+      "Missing required environment variable: SP_SESSION_SECRET"
+    );
+  }
+
   return {
     dbUsername: dbUsername,
     dbPassword: dbPassword,
@@ -48,8 +55,6 @@ export function config() {
     sessionStoreDbName: "connect_mongodb_session_test",
     sessionStoreCollName: "mySessions",
     tableNames: tableNames,
-    sessionSecret: process.env.SP_SESSION_SECRET
-      ? process.env.SP_SESSION_SECRET
-      : "",
+    sessionSecret: sessionSecret,
   };
 }
