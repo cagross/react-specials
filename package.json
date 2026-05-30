@@ -10,12 +10,12 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "connect-mongodb-session": "^5.0.0",
-    "express": "^5.1.0",
-    "express-session": "^1.18.2",
-    "express-validator": "^7.3.0",
-    "mongoose": "^8.19.3",
-    "nodemailer": "^7.0.10",
-    "nodemon": "^3.1.10",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "mongoose": "^8.24.0",
+    "nodemailer": "^7.0.13",
+    "nodemon": "^3.1.14",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
   },
