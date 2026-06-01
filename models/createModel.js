@@ -27,7 +27,7 @@ export default {
     db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
     return mongoose
-      .connect(currConfig.mongoDBUri, { useNewUrlParser: true })
+      .connect(currConfig.mongoDBUri)
       .then(() => {
         let TheModel3 =
           mongoose.models[tableName] ||
