@@ -12,6 +12,9 @@ client/node_modules
 client/build
 server/build
 
+# AI prompts and runbooks
+.ai/
+
 # misc
 .DS_Store
 .env.local
