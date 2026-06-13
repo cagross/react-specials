@@ -213,7 +213,7 @@ I have very recently migrated my hosting to Vercel, which has a Cron Jobs featur
 
 - Open your project in the Vercel dashboard, then open the Cron Jobs section. Fill out all fields exactly as they are filled out in the screenshot below, then save.
 
-## <img src="images-readme/vercel-cron-600.jpg" alt="Screenshot of Vercel's Cron Jobs sectoin ." title = "Vercel's Cron Jobs section."/>
+## <img src="images-readme/vercel-cron-600.jpg" alt="Screenshot of Vercel's Cron Jobs section ." title = "Vercel's Cron Jobs section."/>
 
 After, your notification system should automatically run once a week at midnight UTC.
 
