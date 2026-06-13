@@ -8,12 +8,14 @@ import nodemailer from "nodemailer";
 export const sendMail = {
   /**
    * Accepts email address, subject, and body, then creates and sends an email.
+   * @async
    * @param {string} subject - Subject of email.
    * @param {string} myText - Plain text body of eamil.
    * @param {string} myHtml - HTML body of email.
    * @param {string} email - Email address of recipient.
+   * @returns {Promise<void>}
    */
-  sendMail: (subject, myText, myHtml, email) => {
+  sendMail: async (subject, myText, myHtml, email) => {
     console.log("Inside sendMail.");
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -25,25 +27,21 @@ export const sendMail = {
       debug: true, // show debug output
       logger: true, // log information in console
     });
-    transporter.sendMail(
-      {
-        from: '"Carl Gross" <cagross@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: subject, // Subject line
-        text: myText, // plain text body
-        html: myHtml, // html body
-      },
-      (err, info) => {
-        if (info) {
-          console.log("envelope is:");
-          console.log(info.envelope);
-          console.log("messageID is:");
-          console.log(info.messageId);
-        } else {
-          console.log("Error sending email:");
-          console.log(err);
-        }
-      }
-    );
+    try {
+      const info = await transporter.sendMail({
+        from: '"Carl Gross" <cagross@gmail.com>',
+        to: email,
+        subject: subject,
+        text: myText,
+        html: myHtml,
+      });
+      console.log("envelope is:");
+      console.log(info.envelope);
+      console.log("messageID is:");
+      console.log(info.messageId);
+    } catch (err) {
+      console.log("Error sending email:");
+      console.log(err);
+    }
   },
 };

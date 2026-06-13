@@ -90,7 +90,7 @@ export const notificationModule = {
       myHtml = myHtml.concat("</tr>");
       myHtml = myHtml.concat(itemMarkup(matchedItems));
       myHtml = myHtml.concat("</table>");
-      sendMail.sendMail(
+      await sendMail.sendMail(
         // `Grocery Specials For + ${circularItems[0].valid_from} - ${circularItems[0].valid_to}`,
         emailSubject(circularItems[0].valid_from, circularItems[0].valid_to),
         myHtml,
