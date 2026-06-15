@@ -7,11 +7,11 @@ export function config() {
   const dbPassword = process.env.SP_DB_PASS ? process.env.SP_DB_PASS : "";
 
   const mongoDBUri =
-    "mongodb+srv://" +
+    "mongodb://" +
     dbUsername +
     ":" +
     dbPassword +
-    "@cluster0-mycmk.mongodb.net/sp_back?retryWrites=true&w=majority";
+    "@cluster0-shard-00-00.mycmk.mongodb.net:27017,cluster0-shard-00-01.mycmk.mongodb.net:27017,cluster0-shard-00-02.mycmk.mongodb.net:27017/sp_back?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0";
 
   const tableNames = {
     items: {

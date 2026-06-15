@@ -180,9 +180,13 @@ b) In your browser, navigate to: `http://localhost:5555/register`. Complete and 
 
 #### Next, execute a manual test of the notify component. To do so, carry out the following steps:
 
-a) From your command line navigate to the project's root directory and execute:
+a) From your command line navigate to the project's root directory and start the app using `vercel dev`:
 
-`node dev/runNotify.js`
+`vercel dev`
+
+Wait until the server is ready, then in a separate terminal trigger the notification endpoint:
+
+`curl http://localhost:3001/notificationsystem`
 
 That should complete without error. If so, an email should be sent to your user's email address, listing which items from this week's specials meet the user's criteria (i.e. meat type and threshold price).
 
