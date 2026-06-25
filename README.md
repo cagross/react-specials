@@ -101,10 +101,11 @@ This should complete without any errors (warnings are OK).
 
 Configuring this component is a little trickier, and admittedly fragile for now. I want to improve it. But for now, drop me a message if you get stuck.
 
-1. Using a MongoDB plan (a free plan should suffice), create two different MongoDB databases using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). The database names should be:
+1. Using a MongoDB plan (a free plan should suffice), create three MongoDB databases using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas):
 
-- `sp_back`
-- `connect_mongodb_session_test`
+- `sp_back` — production database.
+- `sp_back_test` — used for local development and testing. Its structure mirrors `sp_back`.
+- `connect_mongodb_session_test` — session store, shared between production and local.
 
 2. To your `sp_back` database, add a collection named:
 
@@ -137,14 +138,17 @@ If you cannot setup a Gmail account, it _is_ possible to use a non-Gmail account
 
 <img src="images-readme/sp-notify-code.jpg" alt="Mail server code in notification_system.js." title = "Code to edit in notification_system.js."/>
 
-7.  On your local system, create four environmental variables:
+7.  On your local system, create five environmental variables:
 
 | variable name | variable value                                             |
 | ------------- | ---------------------------------------------------------- |
 | SP_DB_USER    | _Username for your newly created database._                |
 | SP_DB_PASS    | _Password for your newly created database._                |
+| SP_DB_NAME    | `sp_back_test`                                             |
 | SP_EMAIL_USER | _Username for your email account._                         |
 | SP_EMAIL_PASS | _Password for your email account (or Gmail app password)._ |
+
+_Note on database design: Best practice would be to use a local MongoDB installation for testing (fully isolated, no network dependency) and separate Atlas credentials scoped only to `sp_back_test`. Instead, this project uses a remote Atlas database with shared credentials (for simplicity). The session store (`connect_mongodb_session_test`) is shared between local and production — acceptable since it contains only session IDs, not user data._
 
 ## 💻 Usage <a name="usage"></a>
 
@@ -243,7 +247,7 @@ The automated tests are currently a mix of unit tests and end-to-end tests. See 
 
 Unit tests are written using the [Tape test runner](https://github.com/substack/tape). They are located in the files `client/src/test/unit-tests.js` and `client/src/test/unit-tests-data.js`. To execute the unit tests in each file, from your command line navigate to the project's root directory and execute:
 
-`node test/unit-tests.js` or `node test/unit-tests-data.js`
+`node client/src/test/unit-tests.js` or `node client/src/test/unit-tests-data.js`
 
 After, output should be printed to the console, similar to this screenshot:
 
@@ -253,9 +257,9 @@ Additionally, if you are using VSCode, and have the Run on Save extension enable
 
 ### End-To-End Tests
 
-End-To-End tests are written using the [Cypress test suite](https://www.cypress.io/). Those tests are located in several different files. Each file name ends in `.spec.js`, and they are all located in the `client/cypress/integration` folder. To execute one (or all) of those tests, do the following:
+End-To-End tests are written using the [Cypress test suite](https://www.cypress.io/). Those tests are located in the `client/cypress/e2e/tests/` folder. To execute one (or all) of those tests, do the following:
 
-1. Start the web server listening on port 5555. To do that, from your command line navigate to the project's root directory and execute:
+1. Start the web server listening on port 5555. From your command line navigate to the project's root directory and execute:
 
 `npm start`
 
@@ -265,11 +269,11 @@ That should complete without issue, with output reading: `Server running on port
 
 `npx cypress open --config pluginsFile=false`
 
-After, the Cypress GUI should open, which will list all three test files. You have the option to run each individually, or run them all (see screenshot below).
+After, the Cypress GUI should open, which will list all test files. You have the option to run each individually, or run them all (see screenshot below).
 
 <img src="images-readme/sp-cypress-gui.jpg" alt="Screenshot of Cypress GUI." title = "Cypress GUI."/>
 
-3. To execute all tests, click the 'Run 3 integration specs' link in the top right. A browser window should open and automatically execute all Cypress tests. They should all complete, and show passing results, as in the screenshot below).
+3. To execute all tests, click the 'Run 2 integration specs' link in the top right. A browser window should open and automatically execute all Cypress tests. They should all complete, and show passing results, as in the screenshot below).
 
 <img src="images-readme/sp-cypress-results.jpg" alt="Screenshot of Cypress GUI." title = "Cypress GUI."/>
 

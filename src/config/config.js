@@ -6,12 +6,15 @@ export function config() {
   const dbUsername = process.env.SP_DB_USER ? process.env.SP_DB_USER : "";
   const dbPassword = process.env.SP_DB_PASS ? process.env.SP_DB_PASS : "";
 
+  const dbName = process.env.SP_DB_NAME || "sp_back";
   const mongoDBUri =
     "mongodb://" +
     dbUsername +
     ":" +
     dbPassword +
-    "@cluster0-shard-00-00.mycmk.mongodb.net:27017,cluster0-shard-00-01.mycmk.mongodb.net:27017,cluster0-shard-00-02.mycmk.mongodb.net:27017/sp_back?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0";
+    "@cluster0-shard-00-00.mycmk.mongodb.net:27017,cluster0-shard-00-01.mycmk.mongodb.net:27017,cluster0-shard-00-02.mycmk.mongodb.net:27017/" +
+    dbName +
+    "?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0";
 
   const tableNames = {
     items: {
