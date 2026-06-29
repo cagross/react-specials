@@ -7,6 +7,7 @@
 
 import { doSave } from "./module-do-save.js";
 import { saveToDb } from "./module-save-to-db.js";
+import { registrationNotifier } from "./module-registration-notifier.js";
 import bcrypt from "bcrypt";
 import { body, validationResult } from "express-validator";
 
@@ -23,7 +24,7 @@ export const register_post = [
    * @param {object} req - Request object.
    * @param {object} res - Result object.
    */
-  function (req, res) {
+  async function (req, res) {
     console.log("Inside registerController.");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -56,8 +57,9 @@ export const register_post = [
                 },
                 "users"
               )
-              .then((result) => {
+              .then(async (result) => {
                 if (result) {
+                  await registrationNotifier.notify(email);
                   return res.json(
                     `User registered with username ${email}, password ${password}, and has been hashed.`
                   );

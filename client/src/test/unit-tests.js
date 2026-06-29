@@ -12,6 +12,7 @@ import { unitPrice } from "../../../controllers/module-unit-price.js";
 import { doSave } from "../../../controllers/module-do-save.js";
 import { saveToDb } from "../../../controllers/module-save-to-db.js";
 import { register_post } from "../../../controllers/registerController.js";
+import { registrationNotifier } from "../../../controllers/module-registration-notifier.js";
 import * as createModel from "../../../models/createModel.js";
 import { sendMail } from "../../../controllers/module-send-mail.js";
 import { notificationModule } from "../../notification_system/notification_system.js";
@@ -74,8 +75,8 @@ test("Test of register module.", async function (t) {
   const registerHandler = register_post[6];
 
   doSaveStub = sinon.stub(doSave, "doSave").resolves(null);
-
   saveToDbStub = sinon.stub(saveToDb, "saveToDb").resolves(true);
+  const notifierStub = sinon.stub(registrationNotifier, "notify").resolves();
 
   const sampleReq = {
     body: {
@@ -121,8 +122,48 @@ test("Test of register module.", async function (t) {
   expected = true;
   t.equals(actual, expected, "saveToDb called once with correct parameters.");
 
+  actual = notifierStub.calledOnceWithExactly(sampleReq.body.email);
+  expected = true;
+  t.equals(actual, expected, "registrationNotifier.notify called once with correct email.");
+
   doSaveStub.restore();
   saveToDbStub.restore();
+  notifierStub.restore();
+
+  t.end();
+});
+
+test("Test of registration notifier module.", async function (t) {
+  let actual, expected;
+  const testEmail = "email@example.com";
+
+  const sendMailStub = sinon.stub(sendMail, "sendMail").resolves();
+
+  await registrationNotifier.notify(testEmail);
+
+  const args = sendMailStub.getCall(0).args;
+
+  actual = sendMailStub.calledOnce;
+  expected = true;
+  t.equals(actual, expected, "sendMail called once.");
+
+  actual = args[0].toLowerCase().includes("grocery specials");
+  expected = true;
+  t.equals(actual, expected, "Subject contains 'Grocery Specials'.");
+
+  actual = typeof args[1] === "string" && args[1].includes(testEmail) && args[1].length >= testEmail.length + 2;
+  expected = true;
+  t.equals(actual, expected, "Plain text body is a string containing the registered email.");
+
+  actual = typeof args[2] === "string" && args[2].includes(testEmail) && args[2].length >= testEmail.length + 2;
+  expected = true;
+  t.equals(actual, expected, "HTML body is a string containing the registered email.");
+
+  actual = args[3];
+  expected = "cagross@everlooksolutions.com";
+  t.equals(actual, expected, "Recipient is correct.");
+
+  sendMailStub.restore();
 
   t.end();
 });
